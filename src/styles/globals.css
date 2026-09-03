@@ -1,0 +1,217 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-display);
+  --font-title: var(--font-title);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+body {
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/**
+ * Surf House brand tokens.
+ *
+ * Five anchors carry the identity — sand #f6eedd, clay red #d72f23, ink
+ * #141414, driftwood #483d36, sky #56cbf9 — and every other token here is a
+ * tint or shade of one of them, so the palette stays closed. Structured like
+ * the Waveclubs palette so components port between the two projects.
+ *
+ * `tide` is the one non-anchor worth knowing about: sky at full brightness is
+ * far too light to read on sand or shell, so anything that must carry contrast
+ * on a light surface (rings, links, chart-1) uses tide instead.
+ */
+@theme {
+  --color-house-ink: #141414;
+  --color-house-deep: #0a0a0a;
+  --color-house-stone: #483d36;
+  --color-house-muted: #6d5f56;
+  --color-house-dim: #a3978e;
+  --color-house-shell: #fdfaf3;
+  --color-house-sand: #f6eedd;
+  --color-house-clay: #d72f23;
+  --color-house-sky: #56cbf9;
+  --color-house-tide: #1183b4;
+
+  /*
+   * Elevation for the light grounds (shell and sand). Ink-tinted rather than
+   * black so the shadow reads as the same warm palette, and light enough to
+   * lift a card off the page without making it float. `photo` is one step
+   * deeper because a photograph has no border to find its own edge.
+   */
+  --shadow-card:
+    0 1px 2px color-mix(in srgb, var(--color-house-ink) 4%, transparent),
+    0 12px 32px -12px
+      color-mix(in srgb, var(--color-house-ink) 14%, transparent);
+  --shadow-photo:
+    0 2px 4px color-mix(in srgb, var(--color-house-ink) 6%, transparent),
+    0 20px 48px -16px
+      color-mix(in srgb, var(--color-house-ink) 24%, transparent);
+}
+
+/**
+ * "Bay at dusk" — the hero gradient.
+ *
+ * Sunset read from the point: near-black at the top, cold sky blooming from
+ * the lower left, clay red from the lower right. Both blooms are centred past
+ * 110% on the Y axis so only their upper falloff shows, which keeps the top of
+ * the surface dark enough to carry white display type. Sky is bright enough at
+ * full strength to wash out light copy, so it is held at 58% — check any text
+ * you place over the lower third against the rendered pixels.
+ *
+ * Stacked layers, so it lives here rather than as an inline arbitrary
+ * Tailwind value.
+ */
+.bg-bay-dusk {
+  background:
+    radial-gradient(
+      72% 95% at 16% 116%,
+      color-mix(in srgb, var(--color-house-sky) 58%, transparent) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      72% 95% at 86% 114%,
+      color-mix(in srgb, var(--color-house-clay) 62%, transparent) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      58% 68% at 50% 124%,
+      color-mix(in srgb, var(--color-house-clay) 28%, transparent) 0%,
+      transparent 58%
+    ),
+    var(--color-house-deep);
+}
+
+:root {
+  --background: #fdfaf3;
+  --foreground: #141414;
+  --card: #ffffff;
+  --card-foreground: #141414;
+  --popover: #ffffff;
+  --popover-foreground: #141414;
+  --primary: #141414;
+  --primary-foreground: #fdfaf3;
+  --secondary: #f6eedd;
+  --secondary-foreground: #141414;
+  --muted: #f6eedd;
+  --muted-foreground: #6d5f56;
+  --accent: #f6eedd;
+  --accent-foreground: #141414;
+  --destructive: #a91b12;
+  --border: rgba(20, 20, 20, 0.1);
+  --input: #e7dcc4;
+  --ring: #1183b4;
+  --chart-1: #1183b4;
+  --chart-2: #d72f23;
+  --chart-3: #483d36;
+  --chart-4: #56cbf9;
+  --chart-5: #6d5f56;
+  --radius: 0.75rem;
+  --sidebar: #f8f2e4;
+  --sidebar-foreground: #141414;
+  --sidebar-primary: #141414;
+  --sidebar-primary-foreground: #fdfaf3;
+  --sidebar-accent: #f6eedd;
+  --sidebar-accent-foreground: #141414;
+  --sidebar-border: rgba(20, 20, 20, 0.1);
+  --sidebar-ring: #1183b4;
+}
+
+.dark {
+  --background: #141414;
+  --foreground: #f6eedd;
+  --card: #1c1b1a;
+  --card-foreground: #f6eedd;
+  --popover: #232120;
+  --popover-foreground: #f6eedd;
+  --primary: #f6eedd;
+  --primary-foreground: #141414;
+  --secondary: #211f1d;
+  --secondary-foreground: #f6eedd;
+  --muted: #211f1d;
+  --muted-foreground: #a3978e;
+  --accent: #2a2622;
+  --accent-foreground: #f6eedd;
+  --destructive: #ef6a5e;
+  --border: rgba(246, 238, 221, 0.12);
+  --input: #0a0a0a;
+  --ring: #56cbf9;
+  --chart-1: #56cbf9;
+  --chart-2: #e8574a;
+  --chart-3: #8b7a6d;
+  --chart-4: #9fe0fb;
+  --chart-5: #d1c6b4;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #f6eedd;
+  --sidebar-primary: #f6eedd;
+  --sidebar-primary-foreground: #141414;
+  --sidebar-accent: #2a2622;
+  --sidebar-accent-foreground: #f6eedd;
+  --sidebar-border: rgba(246, 238, 221, 0.12);
+  --sidebar-ring: #56cbf9;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+    /* Clears the overlaid header when a #hash link lands on a section. Matches
+       the header's sm height. */
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
