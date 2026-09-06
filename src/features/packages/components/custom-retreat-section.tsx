@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { SectionHeading } from "@/components/shared/section-heading";
 import { buttonVariants } from "@/components/ui/button";
-import { BOOK_HREF } from "@/lib/constants/nav";
+import { BookButton } from "@/features/booking/components/book-button";
 import { cn } from "@/lib/utils/cn";
 
 /** What every night includes before anything is added to it. */
@@ -119,15 +119,9 @@ export function CustomRetreatSection() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
-          <Link
-            href={BOOK_HREF}
-            className={cn(
-              buttonVariants({ variant: "clay" }),
-              "h-12 w-full px-6 text-xs sm:w-auto",
-            )}
-          >
+          <BookButton className="h-12 w-full px-6 text-xs sm:w-auto">
             Build your stay
-          </Link>
+          </BookButton>
           <Link
             href="#is-this-trip-for-me"
             className={cn(

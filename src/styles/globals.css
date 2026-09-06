@@ -92,6 +92,20 @@ body {
     0 2px 4px color-mix(in srgb, var(--color-house-ink) 6%, transparent),
     0 20px 48px -16px
       color-mix(in srgb, var(--color-house-ink) 24%, transparent);
+
+  /*
+   * The reviews wall. Each row holds two copies of its cards and drifts
+   * exactly half its width, so the loop never shows a seam. Slow on
+   * purpose — a card should be readable in passing — and `reverse` sends
+   * the second row the other way so the two do not march in step.
+   */
+  --animate-marquee: marquee 90s linear infinite;
+  --animate-marquee-reverse: marquee 90s linear infinite reverse;
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 /**

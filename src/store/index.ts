@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "@/lib/api/api";
+import bookingReducer from "@/features/booking/bookingSlice";
 import uiReducer from "@/features/ui/uiSlice";
 
 // A fresh store per request keeps server-rendered state from leaking between users.
@@ -8,6 +9,7 @@ export const makeStore = () =>
     reducer: {
       [api.reducerPath]: api.reducer,
       ui: uiReducer,
+      booking: bookingReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(api.middleware),

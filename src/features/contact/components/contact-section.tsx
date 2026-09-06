@@ -1,46 +1,13 @@
-import { CalendarDays, Mail, Phone, Users } from "lucide-react";
+import { CalendarDays, Users } from "lucide-react";
 import Link from "next/link";
 
-import { InstagramIcon } from "@/components/shared/brand-icons";
+import { CONTACT_CHANNELS } from "@/components/shared/contact-channels";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ContactForm } from "@/features/contact/components/contact-form";
 import { BOOK_HREF } from "@/lib/constants/nav";
-import { SITE } from "@/lib/constants/site";
 
 const linkClass =
   "text-house-tide rounded-sm underline underline-offset-4 transition-colors duration-200 hover:text-house-ink focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
-
-const { phone, email, instagram } = SITE.contact;
-
-/**
- * The direct lines, for the reader who would rather not fill in a form.
- *
- * Each row is one link and the whole row is the target, 44px tall. The icon
- * is decorative — the visually hidden prefix names the channel for a screen
- * reader, and the visible text is the thing itself: the number, the handle,
- * the address — so there is nothing to translate before dialling.
- */
-const CHANNELS = [
-  {
-    icon: Phone,
-    prefix: "Call or WhatsApp",
-    label: phone.display,
-    href: `tel:${phone.e164}`,
-  },
-  {
-    icon: InstagramIcon,
-    prefix: "Instagram",
-    label: `@${instagram}`,
-    href: `https://www.instagram.com/${instagram}`,
-    external: true,
-  },
-  {
-    icon: Mail,
-    prefix: "Email",
-    label: email,
-    href: `mailto:${email}`,
-  },
-];
 
 /**
  * The two things that decide whether a message is the right move, so
@@ -96,29 +63,31 @@ export function ContactSection() {
               tap away before any scrolling — most of the people who would
               rather call are reading on one. */}
           <ul className="mt-8 flex flex-col">
-            {CHANNELS.map(({ icon: Icon, prefix, label, href, external }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  {...(external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className="group/channel -mx-2 flex min-h-11 items-center gap-4 rounded-lg px-2 transition-colors duration-200 hover:text-house-tide focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none motion-reduce:transition-none"
-                >
-                  <Icon
-                    aria-hidden
-                    className="text-house-clay size-5 shrink-0"
-                  />
-                  <span className="sr-only">{prefix}: </span>
-                  <span className="text-base underline-offset-4 group-hover/channel:underline">
-                    {label}
-                  </span>
-                  {external && (
-                    <span className="sr-only"> (opens in a new tab)</span>
-                  )}
-                </a>
-              </li>
-            ))}
+            {CONTACT_CHANNELS.map(
+              ({ icon: Icon, prefix, label, href, external }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    {...(external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="group/channel -mx-2 flex min-h-11 items-center gap-4 rounded-lg px-2 transition-colors duration-200 hover:text-house-tide focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none motion-reduce:transition-none"
+                  >
+                    <Icon
+                      aria-hidden
+                      className="text-house-clay size-5 shrink-0"
+                    />
+                    <span className="sr-only">{prefix}: </span>
+                    <span className="text-base underline-offset-4 group-hover/channel:underline">
+                      {label}
+                    </span>
+                    {external && (
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    )}
+                  </a>
+                </li>
+              ),
+            )}
           </ul>
         </div>
 

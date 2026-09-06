@@ -5,11 +5,7 @@ import { Provider } from "react-redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { makeStore } from "@/store";
 
-export default function Providers({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   // Lazy initializer, so each client gets exactly one store and the server
   // builds a fresh one per request.
   const [store] = useState(makeStore);

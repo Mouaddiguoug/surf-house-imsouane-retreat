@@ -1,30 +1,29 @@
 import { CtaButtons } from "@/components/shared/cta-buttons";
 import { HeroVideo } from "@/components/shared/hero-video";
-import { LivingSection } from "@/features/house/components/living-section";
-import { ImsouaneSection } from "@/features/imsouane/components/imsouane-section";
-import { RoomsSection } from "@/features/house/components/rooms-section";
 import { BookStaySection } from "@/features/booking/components/book-stay-section";
 import { HowWeCoachSection } from "@/features/coaching/components/how-we-coach-section";
+import { SurfLevelSection } from "@/features/coaching/components/surf-level-section";
+import { TripFitSection } from "@/features/coaching/components/trip-fit-section";
 import { ContactSection } from "@/features/contact/components/contact-section";
-import { RooftopSection } from "@/features/house/components/rooftop-section";
 import { CustomRetreatSection } from "@/features/packages/components/custom-retreat-section";
 import { FoundationSection } from "@/features/packages/components/foundation-section";
 import { MasterclassSection } from "@/features/packages/components/masterclass-section";
+import { ReviewsSection } from "@/features/reviews/components/reviews-section";
 
 /**
- * Placeholder home page.
+ * The home page.
  *
  * The hero is the full viewport: the bay footage, a scrim, and two columns
  * along the foot — the promise on the left, the mission line and the calls to
  * action on the right. Under it the three packages run cream → ink → sand,
- * then the three house sections run cream → sand → ink, so no two adjacent
- * sections ever share a ground.
+ * then the guest reviews on cream. The house and the village each have
+ * their own page now (`/house`, `/imsouane`); their sections used to sit
+ * here between the packages and the booking.
  *
- * The booking section follows, where every "Book now" on the page lands,
- * then the contact form, then the first coaching section on ink. What comes
- * after is still anchor targets only, so the navbar's deeper links have
- * somewhere real to land; each should be replaced wholesale by its actual
- * section.
+ * The booking section follows on ink, where every "Book now" on the site
+ * lands, then the contact form on sand, then the three coaching sections —
+ * the method on ink, the levels on sand, and the honest "is this for me" on
+ * cream to close the page. No two adjacent sections share a ground.
  */
 export default function HomePage() {
   return (
@@ -102,36 +101,15 @@ export default function HomePage() {
       <MasterclassSection />
       <CustomRetreatSection />
 
-      <RooftopSection />
-      <RoomsSection />
-      <LivingSection />
-
-      <ImsouaneSection />
+      <ReviewsSection />
 
       <BookStaySection />
       <ContactSection />
 
       <HowWeCoachSection />
+      <SurfLevelSection />
 
-      {[
-        { id: "surf-level", title: "What's my surf level" },
-        { id: "is-this-trip-for-me", title: "Is this trip for me" },
-      ].map((section) => (
-        <section
-          key={section.id}
-          id={section.id}
-          className="border-border border-t px-6 py-24 sm:px-10"
-        >
-          <div className="mx-auto w-full max-w-6xl">
-            <h2 className="font-display text-3xl sm:text-4xl">
-              {section.title}
-            </h2>
-            <p className="text-muted-foreground mt-4 font-mono text-xs">
-              Placeholder section.
-            </p>
-          </div>
-        </section>
-      ))}
+      <TripFitSection />
     </main>
   );
 }

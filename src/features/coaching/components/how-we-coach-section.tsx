@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { SectionHeading } from "@/components/shared/section-heading";
 import { buttonVariants } from "@/components/ui/button";
-import { BOOK_HREF } from "@/lib/constants/nav";
+import { BookButton } from "@/features/booking/components/book-button";
 import { cn } from "@/lib/utils/cn";
 
 /**
@@ -42,7 +42,7 @@ const STEPS = [
  * of these that changes on the ground should change here first.
  */
 const FACTS = [
-  { term: "Coach to surfer", detail: "1 : 4 at most" },
+  { term: "Coach to surfer", detail: "1 : 3 at most" },
   { term: "In the water", detail: "Two a day" },
   { term: "On video", detail: "Every session" },
 ];
@@ -119,15 +119,9 @@ export function HowWeCoachSection() {
         </ol>
 
         <div className="mt-14 flex flex-wrap items-center gap-3">
-          <Link
-            href={BOOK_HREF}
-            className={cn(
-              buttonVariants({ variant: "clay" }),
-              "h-12 w-full px-6 text-xs sm:w-auto",
-            )}
-          >
+          <BookButton className="h-12 w-full px-6 text-xs sm:w-auto">
             Book a coached week
-          </Link>
+          </BookButton>
           <Link
             href="#surf-level"
             className={cn(

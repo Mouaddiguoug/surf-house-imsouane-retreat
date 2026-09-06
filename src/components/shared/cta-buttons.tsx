@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
-import { BOOK_HREF, CONTACT_HREF } from "@/lib/constants/nav";
+import { CONTACT_HREF } from "@/lib/constants/nav";
 import { cn } from "@/lib/utils/cn";
 
 /**

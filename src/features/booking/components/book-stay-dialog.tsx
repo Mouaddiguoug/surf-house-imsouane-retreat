@@ -14,16 +14,21 @@ import {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  bookingDialogClosed,
+  bookingDialogOpened,
+} from "@/features/booking/bookingSlice";
 import {
   CLOUDBEDS_IMMERSIVE_SCRIPT_URL,
   CLOUDBEDS_IMMERSIVE_TAG,
   bookingEngineUrl,
 } from "@/features/booking/cloudbeds";
+import { takeBookingOpener } from "@/features/booking/components/book-button";
 import { CLOUDBEDS_PROPERTY_CODE } from "@/lib/constants/env";
 import { CONTACT_HREF } from "@/lib/constants/nav";
 import { cn } from "@/lib/utils/cn";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 type ScriptState = "idle" | "loading" | "ready" | "failed";
 
@@ -33,8 +38,11 @@ const focusRing =
 const SLOW_AFTER_MS = 8000;
 
 /**
- * "Book a stay": a house button that opens the Cloudbeds booking engine in a
- * dialog.
+ * The booking dialog: the Cloudbeds booking engine in a panel.
+ *
+ * Mounted once, in the root layout, and opened from the store by any
+ * `BookButton` on any page — it has no trigger of its own. On close, focus
+ * goes back to whichever button opened it.
  *
  * The engine's script is ~a page's worth of JavaScript, so it is only
  * requested the first time the dialog opens; until it reports ready the body
@@ -44,16 +52,14 @@ const SLOW_AFTER_MS = 8000;
  * away. Escape still closes, except while focus is inside the engine, where
  * it belongs to whatever picker is open in there.
  */
-export function BookStayDialog({
-  children = "Book a stay",
-  className,
-}: {
-  /** The trigger's label. */
-  children?: React.ReactNode;
-  /** Extra classes for the trigger. */
-  className?: string;
-}) {
-  const [open, setOpen] = React.useState(false);
+export function BookStayDialog() {
+  const open = useAppSelector((state) => state.booking.dialogOpen);
+  const dispatch = useAppDispatch();
+  const setOpen = React.useCallback(
+    (next: boolean) =>
+      dispatch(next ? bookingDialogOpened() : bookingDialogClosed()),
+    [dispatch],
+  );
   // True once the dialog has been opened at all — the gate on the script tag.
   const [engaged, setEngaged] = React.useState(false);
   const [script, setScript] = React.useState<ScriptState>("idle");
@@ -61,6 +67,19 @@ export function BookStayDialog({
   // point the spinner gets a way out alongside it.
   const [slow, setSlow] = React.useState(false);
   const engineRef = React.useRef<HTMLElement | null>(null);
+
+  // The script tag is gated on the first open, whichever button does it.
+  // Adjusted during render rather than in an effect: the store flips `open`
+  // from outside, so there is no event handler here to hang it on, and React
+  // re-runs the render immediately with the new state.
+  if (open && !engaged) {
+    setEngaged(true);
+    // Already registered (a hot reload): skip the spinner. `onReady` still
+    // fires, harmlessly, on the script below.
+    setScript(
+      customElements.get(CLOUDBEDS_IMMERSIVE_TAG) ? "ready" : "loading",
+    );
+  }
 
   React.useEffect(() => {
     if (script !== "loading") return;
@@ -83,28 +102,10 @@ export function BookStayDialog({
       return;
     }
     setOpen(next);
-    if (next && !engaged) {
-      setEngaged(true);
-      // Already registered (a second instance, or a hot reload): skip the
-      // spinner. `onReady` still fires, harmlessly, on the script below.
-      setScript(
-        customElements.get(CLOUDBEDS_IMMERSIVE_TAG) ? "ready" : "loading",
-      );
-    }
   }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange} disablePointerDismissal>
-      <DialogTrigger
-        className={cn(
-          buttonVariants({ variant: "clay" }),
-          "h-12 w-full cursor-pointer px-6 text-xs sm:w-auto",
-          className,
-        )}
-      >
-        {children}
-      </DialogTrigger>
-
       {engaged && propertyCode && (
         <Script
           src={CLOUDBEDS_IMMERSIVE_SCRIPT_URL}
@@ -118,6 +119,7 @@ export function BookStayDialog({
         <DialogOverlay className="bg-house-deep/55 duration-300 motion-reduce:animate-none" />
         <DialogPrimitive.Popup
           data-slot="book-stay-popup"
+          finalFocus={takeBookingOpener}
           className={cn(
             "fixed inset-0 z-50 flex flex-col bg-background text-foreground outline-none",
             "sm:top-1/2 sm:left-1/2 sm:h-[min(56rem,calc(100dvh-3rem))] sm:w-[min(72rem,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-3xl sm:shadow-2xl sm:ring-1 sm:ring-foreground/10",

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Geist_Mono, Karla, Sora } from "next/font/google";
 import Providers from "./providers";
+import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { BookStayDialog } from "@/features/booking/components/book-stay-dialog";
 import { SITE } from "@/lib/constants/site";
 import "@/styles/globals.css";
 
@@ -57,6 +59,9 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <Footer />
+          {/* One booking dialog for every "Book" button on every page. */}
+          <BookStayDialog />
         </Providers>
       </body>
     </html>

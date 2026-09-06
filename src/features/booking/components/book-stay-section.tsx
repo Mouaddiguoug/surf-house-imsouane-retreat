@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { SectionHeading } from "@/components/shared/section-heading";
 import { buttonVariants } from "@/components/ui/button";
-import { BookStayDialog } from "@/features/booking/components/book-stay-dialog";
+import { BookButton } from "@/features/booking/components/book-button";
 import { CONTACT_HREF } from "@/lib/constants/nav";
 import { cn } from "@/lib/utils/cn";
 
@@ -34,9 +34,10 @@ const HOW_IT_WORKS = [
  * The booking section — where every "Book now" on the page lands.
  *
  * Ink, after the cream of Imsouane, and the last hard ground before the
- * softer sections that follow. The button opens the engine in place rather
- * than sending the reader off to Cloudbeds' domain, so the house stays around
- * the booking from the first click to the confirmation.
+ * softer sections that follow. The button opens the engine in place — the
+ * same dialog every "Book" button on the site opens — rather than sending
+ * the reader off to Cloudbeds' domain, so the house stays around the booking
+ * from the first click to the confirmation.
  */
 export function BookStaySection() {
   return (
@@ -60,7 +61,9 @@ export function BookStaySection() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <BookStayDialog />
+            <BookButton className="h-12 w-full px-6 text-xs sm:w-auto">
+              Book a stay
+            </BookButton>
             <Link
               href={CONTACT_HREF}
               className={cn(
