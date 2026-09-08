@@ -98,7 +98,7 @@ export function MasterclassSection() {
               Book the Masterclass
             </BookButton>
             <Link
-              href="#surf-level"
+              href="/#surf-level"
               className={cn(
                 buttonVariants({ variant: "shellOutline" }),
                 "h-12 w-full px-6 text-xs sm:w-auto",

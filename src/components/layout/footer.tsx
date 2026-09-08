@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CONTACT_CHANNELS } from "@/components/shared/contact-channels";
 import { BookButton } from "@/features/booking/components/book-button";
 import { PLATFORMS } from "@/features/reviews/data/reviews";
-import { CONTACT_HREF, MENU_GROUPS, NAV_LINKS } from "@/lib/constants/nav";
+import { CONTACT_HREF, MENU_COLUMNS } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
 import { cn } from "@/lib/utils/cn";
 
@@ -25,16 +25,6 @@ const linkClass = cn(
 
 const columnLabelClass =
   "text-house-sky font-mono text-[0.65rem] tracking-[0.18em] uppercase";
-
-/**
- * The primary three, given a column of their own so the footer is a complete
- * map of the site rather than a subset of it. Built from the same constant
- * the navbar reads, so a new page appears in both at once.
- */
-const COLUMNS = [
-  { id: "site", label: "The site", links: NAV_LINKS },
-  ...MENU_GROUPS,
-];
 
 /**
  * Site footer.
@@ -123,7 +113,7 @@ export function Footer() {
             aria-label="Footer"
             className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4"
           >
-            {COLUMNS.map((column) => (
+            {MENU_COLUMNS.map((column) => (
               <div key={column.id}>
                 <h2 className={columnLabelClass}>{column.label}</h2>
                 <ul className="mt-2 flex flex-col">

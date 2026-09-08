@@ -1,7 +1,8 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 import { SectionHeading } from "@/components/shared/section-heading";
+import { cn } from "@/lib/utils/cn";
 import { CONTACT_HREF } from "@/lib/constants/nav";
 
 const focusRing =
@@ -26,7 +27,7 @@ const LEVELS = [
       "Etiquette and staying safe in a busy line-up",
       "First unbroken waves by the end of the week, with a good bank and a bit of luck",
     ],
-    week: { label: "The Foundation", href: "#the-foundation" },
+    week: { label: "The Foundation", href: "/#the-foundation" },
   },
   {
     number: "02",
@@ -41,7 +42,7 @@ const LEVELS = [
     ],
     week: {
       label: "The Foundation, or the Classic Longboard week",
-      href: "#the-foundation",
+      href: "/#the-foundation",
     },
   },
   {
@@ -55,7 +56,7 @@ const LEVELS = [
       "Duck-diving and getting out on bigger days",
       "Equipment for the conditions, from the free quiver",
     ],
-    week: { label: "The Classic Longboard week", href: "#the-masterclass" },
+    week: { label: "The Classic Longboard week", href: "/#the-masterclass" },
   },
   {
     number: "04",
@@ -70,7 +71,7 @@ const LEVELS = [
     ],
     week: {
       label: "The Custom Retreat, coached one-to-one",
-      href: "#the-custom",
+      href: "/#the-custom",
     },
   },
 ];
@@ -82,6 +83,11 @@ const LEVELS = [
  * the Custom Retreat so the two coaching sections read as one family with
  * the packages. Four cards rather than tabs: the reader is meant to skim
  * all four sentences and stop at their own, which tabs would hide.
+ *
+ * Each card folds. The name and the sentence are always out — those are the
+ * test — and the five things a coach works on at that level, plus the week
+ * it points to, open on demand. Closed, the section is four short cards
+ * instead of a wall of twenty bullet points.
  */
 export function SurfLevelSection() {
   return (
@@ -105,51 +111,76 @@ export function SurfLevelSection() {
           </p>
         </div>
 
-        <ol className="mt-12 grid gap-6 md:grid-cols-2">
+        {/* `items-start` so an opened card grows on its own rather than
+            stretching the one beside it to match. */}
+        <ol className="mt-12 grid items-start gap-6 md:grid-cols-2">
           {LEVELS.map((level) => (
             <li
               key={level.number}
-              className="border-house-ink/10 bg-house-shell shadow-card flex flex-col rounded-3xl border p-6 sm:p-8"
+              className="border-house-ink/10 bg-house-shell shadow-card rounded-3xl border p-6 sm:p-8"
             >
-              <p className="text-house-muted font-mono text-xs tracking-[0.18em] uppercase">
-                Level {level.number} · {level.name}
-              </p>
-
-              {/* The test itself. Display type at body-plus size, because it
-                  is the one line on the card that has to be read. */}
-              <blockquote className="font-display mt-4 text-xl leading-snug text-balance sm:text-2xl">
-                &ldquo;{level.quote}&rdquo;
-              </blockquote>
-
-              <p className="text-house-muted mt-6 font-mono text-[0.65rem] tracking-[0.18em] uppercase">
-                What we work on
-              </p>
-              <ul className="mt-3 flex-1 space-y-3">
-                {level.focus.map((item) => (
-                  <li
-                    key={item}
-                    className="text-house-muted border-house-ink/10 border-t pt-3 text-sm leading-relaxed first:border-t-0 first:pt-0"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href={level.week.href}
-                className={`group/week border-house-ink/10 mt-6 flex min-h-11 items-center justify-between gap-4 rounded-sm border-t pt-5 transition-colors duration-200 hover:text-house-tide motion-reduce:transition-none ${focusRing}`}
-              >
-                <span className="text-sm leading-relaxed">
-                  <span className="text-house-muted">Your week: </span>
-                  <span className="underline-offset-4 group-hover/week:underline">
-                    {level.week.label}
+              {/* Native disclosure, as in "Is this trip for me": no script,
+                  keyboard and screen-reader behaviour for free, and the page
+                  prints with every level open. The name and the sentence stay
+                  out here because they are the test — the reader is meant to
+                  skim four of them and stop at their own; only the detail
+                  underneath folds away. */}
+              <details className="group/level details-reveal">
+                <summary
+                  className={cn(
+                    "cursor-pointer list-none [&::-webkit-details-marker]:hidden",
+                    "rounded-sm",
+                    focusRing,
+                  )}
+                >
+                  <span className="text-house-muted font-mono text-xs tracking-[0.18em] uppercase">
+                    Level {level.number} · {level.name}
                   </span>
-                </span>
-                <ArrowRight
-                  aria-hidden
-                  className="text-house-clay size-4 shrink-0 transition-transform duration-200 group-hover/week:translate-x-0.5 motion-reduce:transition-none"
-                />
-              </Link>
+
+                  {/* The test itself. Display type at body-plus size, because
+                      it is the one line on the card that has to be read. */}
+                  <span className="font-display mt-4 block text-xl leading-snug text-balance sm:text-2xl">
+                    &ldquo;{level.quote}&rdquo;
+                  </span>
+
+                  <span className="border-house-ink/10 mt-6 flex min-h-11 items-center justify-between gap-4 border-t pt-4 transition-colors duration-200 group-hover/level:text-house-tide motion-reduce:transition-none">
+                    <span className="text-house-muted font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+                      What we work on
+                    </span>
+                    <ChevronDown
+                      aria-hidden
+                      className="text-house-clay size-5 shrink-0 transition-transform duration-200 group-open/level:rotate-180 motion-reduce:transition-none"
+                    />
+                  </span>
+                </summary>
+
+                <ul className="mt-4 space-y-3">
+                  {level.focus.map((item) => (
+                    <li
+                      key={item}
+                      className="text-house-muted border-house-ink/10 border-t pt-3 text-sm leading-relaxed first:border-t-0 first:pt-0"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  href={level.week.href}
+                  className={`group/week border-house-ink/10 mt-6 flex min-h-11 items-center justify-between gap-4 rounded-sm border-t pt-5 transition-colors duration-200 hover:text-house-tide motion-reduce:transition-none ${focusRing}`}
+                >
+                  <span className="text-sm leading-relaxed">
+                    <span className="text-house-muted">Your week: </span>
+                    <span className="underline-offset-4 group-hover/week:underline">
+                      {level.week.label}
+                    </span>
+                  </span>
+                  <ArrowRight
+                    aria-hidden
+                    className="text-house-clay size-4 shrink-0 transition-transform duration-200 group-hover/week:translate-x-0.5 motion-reduce:transition-none"
+                  />
+                </Link>
+              </details>
             </li>
           ))}
         </ol>

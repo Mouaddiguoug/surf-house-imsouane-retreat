@@ -172,7 +172,7 @@ export function FoundationSection() {
             Book the Foundation
           </BookButton>
           <Link
-            href="#how-we-coach"
+            href="/coaching"
             className={cn(
               buttonVariants({ variant: "ghost" }),
               "h-12 w-full px-4 font-mono text-xs tracking-[0.14em] uppercase sm:w-auto",

@@ -9,7 +9,7 @@ import * as React from "react";
 
 import { CONTACT_CHANNELS } from "@/components/shared/contact-channels";
 import { BookButton } from "@/features/booking/components/book-button";
-import { MENU_GROUPS, NAV_LINKS } from "@/lib/constants/nav";
+import { MENU_COLUMNS, NAV_LINKS } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
 import { cn } from "@/lib/utils/cn";
 
@@ -184,14 +184,18 @@ export function Navbar() {
                   "supports-[-webkit-touch-callout:none]:absolute",
                 )}
               />
-              {/* A sheet from the top, half the screen tall, the full width:
-                  the menu is a map of the site, and a map wants to be read
-                  across rather than down. Swiping up (or dragging the sheet
-                  up) closes it. */}
+              {/* A sheet from the top, the full width: the menu is a map of
+                  the site, and a map wants to be read across rather than
+                  down. Swiping up (or dragging the sheet up) closes it.
+                  Half the screen from sm up, where four columns of links fit
+                  in that much and anything more would be empty space; taller
+                  on a phone, where the same twelve links stack into two
+                  columns and half a screen cannot hold them at a 44px touch
+                  target. */}
               <Drawer.Viewport className="fixed inset-0 z-50 flex items-start justify-stretch">
                 <Drawer.Popup
                   className={cn(
-                    "flex h-[50dvh] min-h-[22rem] w-full flex-col rounded-b-3xl border-b border-border bg-background text-foreground shadow-2xl outline-none",
+                    "flex h-[78dvh] max-h-[44rem] min-h-[22rem] w-full flex-col rounded-b-3xl border-b border-border bg-background text-foreground shadow-2xl outline-none sm:h-[50dvh] sm:max-h-none",
                     "[transform:translateY(var(--drawer-swipe-movement-y))]",
                     "transition-transform duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
                     "data-swiping:duration-0 data-swiping:select-none",
@@ -217,68 +221,54 @@ export function Navbar() {
                     </div>
                   </div>
 
-                  <Drawer.Content className="flex min-h-0 flex-1 touch-auto flex-col overflow-y-auto overscroll-contain px-6 pb-4 sm:px-10 sm:pb-6">
+                  <Drawer.Content className="flex min-h-0 flex-1 touch-auto flex-col px-6 pb-4 sm:px-10 sm:pb-6">
                     <nav
                       aria-label="Menu"
-                      className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-between gap-6 md:gap-8"
+                      className="mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col gap-6 md:gap-8"
                     >
-                      {/* The primary three, only where the bar has hidden
-                          them. On md and up they are already in the bar and
-                          the sheet is the way in to the deeper pages. */}
-                      <ul className="flex flex-col md:hidden">
-                        {NAV_LINKS.map((item) => (
-                          <li key={item.href} className="flex">
-                            {/* A plain link that closes the drawer, rather
-                                than Drawer.Close rendering one: Close is a
-                                button part and would put button semantics on
-                                an anchor. Tapping still dismisses, so the
-                                drawer never sits over the section it just
-                                scrolled to. */}
-                            <Link
-                              href={item.href}
-                              onClick={() => setMenuOpen(false)}
-                              className={cn(
-                                "-mx-3 flex min-h-11 w-full cursor-pointer items-center rounded-xl px-3",
-                                "font-display text-xl",
-                                "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
-                                focusRing,
-                              )}
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-
-                      {/* The deeper pages, as three columns across the
-                          sheet. Hidden below md: half a phone screen holds
-                          the primary three and a button, not twelve links. */}
-                      <div className="hidden grid-cols-3 gap-10 md:grid">
-                        {MENU_GROUPS.map((group) => (
-                          <div key={group.id}>
-                            <p className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase">
-                              {group.label}
-                            </p>
-                            <ul className="mt-3 flex flex-col">
-                              {group.links.map((link) => (
-                                <li key={link.href} className="flex">
-                                  <Link
-                                    href={link.href}
-                                    onClick={() => setMenuOpen(false)}
-                                    className={cn(
-                                      "-mx-3 flex min-h-11 w-full cursor-pointer items-center rounded-xl px-3",
-                                      "font-display text-lg",
-                                      "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
-                                      focusRing,
-                                    )}
-                                  >
-                                    {link.label}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+                      {/* Only the links scroll. On a phone twelve of them
+                          overflow half a screen, and pinning the foot keeps
+                          the number and the one call to action in reach
+                          instead of below the fold. */}
+                      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+                        {/* Every destination the site has, in columns: two
+                          across on a phone, four on a wide sheet. The bar
+                          already shows the primary three from md up, but
+                          repeating them here keeps the sheet a complete map
+                          rather than a partial one. */}
+                        <div className="grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-4 md:gap-10">
+                          {MENU_COLUMNS.map((column) => (
+                            <div key={column.id}>
+                              <p className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase">
+                                {column.label}
+                              </p>
+                              <ul className="mt-2 flex flex-col gap-1 md:mt-3 md:gap-0">
+                                {column.links.map((link) => (
+                                  <li key={link.href} className="flex">
+                                    {/* A plain link that closes the drawer,
+                                      rather than Drawer.Close rendering one:
+                                      Close is a button part and would put
+                                      button semantics on an anchor. Tapping
+                                      still dismisses, so the sheet never sits
+                                      over the section it just scrolled to. */}
+                                    <Link
+                                      href={link.href}
+                                      onClick={() => setMenuOpen(false)}
+                                      className={cn(
+                                        "-mx-3 flex min-h-11 w-full cursor-pointer items-center rounded-xl px-3 py-1.5",
+                                        "font-display text-base leading-snug md:text-lg",
+                                        "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
+                                        focusRing,
+                                      )}
+                                    >
+                                      {link.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
                       </div>
 
                       {/* The foot of the sheet: the direct lines on the left,
@@ -286,7 +276,7 @@ export function Navbar() {
                           the column's justify-between, so the half-screen
                           sheet reads as full rather than as a short menu
                           with a gap under it. */}
-                      <div className="border-border flex flex-col gap-4 border-t pt-3 md:flex-row md:items-center md:justify-between md:pt-5">
+                      <div className="border-border flex shrink-0 flex-col gap-4 border-t pt-3 md:flex-row md:items-center md:justify-between md:pt-5">
                         <ul className="flex flex-row flex-wrap gap-x-5">
                           {CONTACT_CHANNELS.map(
                             ({ icon: Icon, prefix, label, href, external }) => (

@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { SectionHeading } from "@/components/shared/section-heading";
 import { buttonVariants } from "@/components/ui/button";
+import { BookStayBackdrop } from "@/features/booking/components/book-stay-backdrop";
 import { BookButton } from "@/features/booking/components/book-button";
 import { CONTACT_HREF } from "@/lib/constants/nav";
 import { cn } from "@/lib/utils/cn";
@@ -38,14 +39,20 @@ const HOW_IT_WORKS = [
  * same dialog every "Book" button on the site opens — rather than sending
  * the reader off to Cloudbeds' domain, so the house stays around the booking
  * from the first click to the confirmation.
+ *
+ * The house cycles behind it all at a fraction of full strength — the one
+ * section on the page that shows the place rather than describing it, kept
+ * quiet enough that the copy over it never has to fight for contrast.
  */
 export function BookStaySection() {
   return (
     <section
       id="book"
-      className="bg-house-ink text-house-sand px-6 py-24 sm:px-10 sm:py-32"
+      className="bg-house-ink text-house-sand relative overflow-hidden px-6 py-24 sm:px-10 sm:py-32"
     >
-      <div className="mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+      <BookStayBackdrop />
+
+      <div className="relative mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
         <div>
           <SectionHeading
             eyebrow="Book · Imsouane"

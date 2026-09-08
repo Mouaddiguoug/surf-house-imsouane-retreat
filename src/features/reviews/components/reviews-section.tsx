@@ -130,7 +130,6 @@ export function ReviewsSection() {
       className="border-border bg-background border-t overflow-hidden py-24 sm:py-32"
     >
       <div className="mx-auto w-full max-w-6xl px-6 text-center sm:px-10">
-        
         <h2 className="font-display mt-4 text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-5xl">
           What guests say
         </h2>

@@ -150,7 +150,7 @@ export function TripFitSection() {
             {QUESTIONS.map(({ question, answer }) => (
               <details
                 key={question}
-                className="group/faq border-border border-b"
+                className="group/faq details-reveal border-border border-b"
               >
                 <summary
                   className={cn(

@@ -1,7 +1,6 @@
 import { CtaButtons } from "@/components/shared/cta-buttons";
 import { HeroVideo } from "@/components/shared/hero-video";
 import { BookStaySection } from "@/features/booking/components/book-stay-section";
-import { HowWeCoachSection } from "@/features/coaching/components/how-we-coach-section";
 import { SurfLevelSection } from "@/features/coaching/components/surf-level-section";
 import { TripFitSection } from "@/features/coaching/components/trip-fit-section";
 import { ContactSection } from "@/features/contact/components/contact-section";
@@ -16,14 +15,14 @@ import { ReviewsSection } from "@/features/reviews/components/reviews-section";
  * The hero is the full viewport: the bay footage, a scrim, and two columns
  * along the foot — the promise on the left, the mission line and the calls to
  * action on the right. Under it the three packages run cream → ink → sand,
- * then the guest reviews on cream. The house and the village each have
- * their own page now (`/house`, `/imsouane`); their sections used to sit
- * here between the packages and the booking.
+ * then the guest reviews on cream. The house, the village and the coaching
+ * method each have their own page now (`/house`, `/imsouane`, `/coaching`);
+ * their sections used to sit here.
  *
- * The booking section follows on ink, where every "Book now" on the site
- * lands, then the contact form on sand, then the three coaching sections —
- * the method on ink, the levels on sand, and the honest "is this for me" on
- * cream to close the page. No two adjacent sections share a ground.
+ * What is left reads as one funnel: the offer, then the proof, then the two
+ * sections that qualify the reader — the levels on sand and the honest "is
+ * this for me" on cream — and only then the booking on ink and the contact
+ * form on sand. No two adjacent sections share a ground.
  */
 export default function HomePage() {
   return (
@@ -103,13 +102,11 @@ export default function HomePage() {
 
       <ReviewsSection />
 
+      <SurfLevelSection />
+      <TripFitSection />
+
       <BookStaySection />
       <ContactSection />
-
-      <HowWeCoachSection />
-      <SurfLevelSection />
-
-      <TripFitSection />
     </main>
   );
 }

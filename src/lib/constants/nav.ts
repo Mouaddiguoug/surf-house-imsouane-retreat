@@ -47,12 +47,22 @@ export const MENU_GROUPS = [
     id: "coaching",
     label: "Coaching",
     links: [
-      { href: "/#how-we-coach", label: "How We Coach" },
+      { href: "/coaching", label: "How We Coach" },
       { href: "/#surf-level", label: "What's My Surf Level" },
       { href: "/#is-this-trip-for-me", label: "Is This Trip For Me" },
     ],
   },
 ] as const;
+
+/**
+ * The menu, as columns: the three primary destinations followed by the
+ * deeper groups. The sheet behind the burger and the footer both render
+ * this, so a new page appears in both at once and neither can drift.
+ */
+export const MENU_COLUMNS = [
+  { id: "site", label: "The site", links: NAV_LINKS },
+  ...MENU_GROUPS,
+];
 
 /**
  * The booking section, for inline text links ("dates live in the calendar").

@@ -123,7 +123,7 @@ export function CustomRetreatSection() {
             Build your stay
           </BookButton>
           <Link
-            href="#is-this-trip-for-me"
+            href="/#is-this-trip-for-me"
             className={cn(
               buttonVariants({ variant: "ghost" }),
               "text-house-ink hover:bg-house-ink/5 h-12 w-full px-4 font-mono text-xs tracking-[0.14em] uppercase sm:w-auto",
