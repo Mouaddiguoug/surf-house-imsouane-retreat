@@ -15,6 +15,41 @@ export const CLOUDBEDS_IMMERSIVE_SCRIPT_URL =
 export const CLOUDBEDS_IMMERSIVE_TAG = "cb-immersive-experience";
 
 /**
+ * CSS for the embedded engine, added to the document the way Cloudbeds'
+ * customization guide asks: the custom CSS field in the PMS does not reach the
+ * Immersive Experience, and the tag carries `data-cb-immersive-experience-root`
+ * so their own tooling can tell it apart from the site's styles.
+ *
+ * The embed lays itself out against the *viewport*, not against whatever
+ * element it is placed in: the landing hero is sized in `dvh`, and the date
+ * picker is a `position: fixed` popover in a portal appended to the end of
+ * `<body>`, anchored to the viewport and out of reach of any container we
+ * could give it. That is where Cloudbeds' rule comes from — standard mode must
+ * not sit inside a container with a fixed or maximum height — and it is why
+ * the booking dialog is the whole viewport rather than a centred panel.
+ *
+ * The full viewport alone leaves one thing unfixed. The embed centres the
+ * search card in a 700px hero, where the hosted engine pins it 80px from the
+ * hero's top; measured against the live engine that puts the card 367px down,
+ * and the 493px date picker then fits neither above it nor below it, so it
+ * lands at `top: -14px` — its weekday row cut off by the top of the screen.
+ * Capping the hero lifts the card enough for the picker to open downwards: it
+ * measures fully inside the viewport at 1440×900 (221–714) and at 1280×712
+ * (196–689). The padding keeps the engine's own language and currency controls
+ * clear of the dialog's close button.
+ */
+export const CLOUDBEDS_IMMERSIVE_CSS = `
+:is(#cb-bookingengine, .cb-bookingengine-root) .cb-landing-page {
+  height: min(700px, 26dvh) !important;
+  min-height: 0 !important;
+}
+
+:is(#cb-bookingengine, .cb-bookingengine-root) .cb-header {
+  padding-inline-end: 3.75rem;
+}
+`;
+
+/**
  * The hosted booking engine — the same flow the embed renders, on Cloudbeds'
  * own domain. Used as the way out when the script fails to load.
  */

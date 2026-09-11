@@ -20,6 +20,7 @@ import {
   bookingDialogOpened,
 } from "@/features/booking/bookingSlice";
 import {
+  CLOUDBEDS_IMMERSIVE_CSS,
   CLOUDBEDS_IMMERSIVE_SCRIPT_URL,
   CLOUDBEDS_IMMERSIVE_TAG,
   bookingEngineUrl,
@@ -38,11 +39,17 @@ const focusRing =
 const SLOW_AFTER_MS = 8000;
 
 /**
- * The booking dialog: the Cloudbeds booking engine in a panel.
+ * The booking dialog: the Cloudbeds booking engine, taking over the screen.
  *
  * Mounted once, in the root layout, and opened from the store by any
  * `BookButton` on any page — it has no trigger of its own. On close, focus
  * goes back to whichever button opened it.
+ *
+ * It fills the viewport rather than sitting in a centred panel, and that is
+ * the engine's requirement rather than a taste: standard mode sizes itself in
+ * `dvh` and hangs its date picker off the end of `<body>` in a fixed-position
+ * portal, so anything short of the whole viewport leaves the picker measuring
+ * one box and the reader looking at another. See `CLOUDBEDS_IMMERSIVE_CSS`.
  *
  * The engine's script is ~a page's worth of JavaScript, so it is only
  * requested the first time the dialog opens; until it reports ready the body
@@ -107,12 +114,20 @@ export function BookStayDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange} disablePointerDismissal>
       {engaged && propertyCode && (
-        <Script
-          src={CLOUDBEDS_IMMERSIVE_SCRIPT_URL}
-          strategy="afterInteractive"
-          onReady={() => setScript("ready")}
-          onError={() => setScript("failed")}
-        />
+        <>
+          <Script
+            src={CLOUDBEDS_IMMERSIVE_SCRIPT_URL}
+            strategy="afterInteractive"
+            onReady={() => setScript("ready")}
+            onError={() => setScript("failed")}
+          />
+          {/* Cloudbeds' documented hook for styling the embed from the host
+              page. It ships with the engine rather than from the global
+              stylesheet, so nothing is sent to a reader who never books. */}
+          <style data-cb-immersive-experience-root="">
+            {CLOUDBEDS_IMMERSIVE_CSS}
+          </style>
+        </>
       )}
 
       <DialogPortal>
@@ -122,31 +137,32 @@ export function BookStayDialog() {
           finalFocus={takeBookingOpener}
           className={cn(
             "fixed inset-0 z-50 flex flex-col bg-background text-foreground outline-none",
-            "sm:top-1/2 sm:left-1/2 sm:h-[min(56rem,calc(100dvh-3rem))] sm:w-[min(72rem,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-3xl sm:shadow-2xl sm:ring-1 sm:ring-foreground/10",
             "duration-300 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom-4 data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom-4",
             "motion-reduce:animate-none",
           )}
         >
-          <header className="flex shrink-0 items-center justify-between gap-4 border-b border-border py-3 pr-3 pl-5">
-            <div className="min-w-0">
-              <DialogTitle className="font-mono text-xs leading-none tracking-[0.18em] text-foreground uppercase">
-                Book a stay
-              </DialogTitle>
-              <DialogDescription className="mt-1.5 truncate text-xs">
-                live availability and secure payment.
-              </DialogDescription>
-            </div>
-            <DialogClose
-              aria-label="Close booking"
-              className={cn(
-                "inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-xl",
-                "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
-                focusRing,
-              )}
-            >
-              <X aria-hidden className="size-5" />
-            </DialogClose>
-          </header>
+          {/* Nothing of ours sits in the flow above the engine: every pixel
+              of chrome here pushes its search card further down the viewport,
+              and the date picker measures its room from there. So the title is
+              read rather than drawn, and the close floats over the engine's own
+              header — which the engine stylesheet pads to keep its language and
+              currency controls out from under it. */}
+          <DialogTitle className="sr-only">Book a stay</DialogTitle>
+          <DialogDescription className="sr-only">
+            Live availability and secure payment.
+          </DialogDescription>
+
+          <DialogClose
+            aria-label="Close booking"
+            className={cn(
+              "absolute top-3 right-3 z-20 inline-flex size-11 cursor-pointer items-center justify-center rounded-xl",
+              "bg-background/85 shadow-sm ring-1 ring-foreground/10 backdrop-blur-sm",
+              "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
+              focusRing,
+            )}
+          >
+            <X aria-hidden className="size-5" />
+          </DialogClose>
 
           {/* The engine sets its own heights; this is the one scroll
               container so the page underneath stays locked while the panel
@@ -227,7 +243,7 @@ export function BookStayDialog() {
                     property-code={propertyCode}
                     hide-custom-header="yes"
                     hide-custom-footer="yes"
-                    className="block min-h-full"
+                    className="block w-full"
                   />
                 )}
               </>
