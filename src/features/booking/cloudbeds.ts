@@ -35,13 +35,24 @@ export const CLOUDBEDS_IMMERSIVE_TAG = "cb-immersive-experience";
  * lands at `top: -14px` — its weekday row cut off by the top of the screen.
  * Capping the hero lifts the card enough for the picker to open downwards: it
  * measures fully inside the viewport at 1440×900 (221–714) and at 1280×712
- * (196–689). The padding keeps the engine's own language and currency controls
- * clear of the dialog's close button.
+ * (196–689).
+ *
+ * The cap stops at 1024px, because that is where the engine's search card
+ * stops being a single row. Below it the card stacks into four and stands
+ * 322px tall, which a capped hero is too short to hold — it spills over the
+ * section beneath it — and there is nothing to win by capping anyway: at phone
+ * widths the date picker is not a popover at all but a sheet over the whole
+ * screen, and at 768px it already opens with room to spare.
+ *
+ * The padding keeps the engine's own language and currency controls clear of
+ * the dialog's close button, at every width.
  */
 export const CLOUDBEDS_IMMERSIVE_CSS = `
-:is(#cb-bookingengine, .cb-bookingengine-root) .cb-landing-page {
-  height: min(700px, 26dvh) !important;
-  min-height: 0 !important;
+@media (min-width: 1024px) {
+  :is(#cb-bookingengine, .cb-bookingengine-root) .cb-landing-page {
+    height: min(700px, 26dvh) !important;
+    min-height: 0 !important;
+  }
 }
 
 :is(#cb-bookingengine, .cb-bookingengine-root) .cb-header {
