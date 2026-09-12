@@ -27,14 +27,18 @@ import { ReviewsSection } from "@/features/reviews/components/reviews-section";
 export default function HomePage() {
   return (
     <main id="main" className="flex flex-1 flex-col">
+      {/* Pinned, so the page rises over the bay rather than the bay sliding
+          away under it. Sticky rather than fixed: it stays a flow element, so
+          the hero still occupies its own screen at the top and needs no spacer
+          standing in for it. See `.hero-depart-media` in `globals.css`. */}
       <section
         id="surf"
-        className="bg-bay-dusk relative h-dvh w-full overflow-hidden"
+        className="bg-bay-dusk sticky top-0 h-dvh w-full overflow-hidden"
       >
         <HeroVideo
           src="/assets/background_hero.mp4"
           poster="/assets/background_hero_poster.jpg"
-          className="absolute inset-0"
+          className="hero-depart-media absolute inset-0"
         />
 
         {/* Weighted to the two ends again now the copy sits along the foot:
@@ -46,7 +50,7 @@ export default function HomePage() {
           className="from-house-deep/75 via-house-deep/15 to-house-deep/85 absolute inset-0 bg-gradient-to-b via-45%"
         />
 
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-14 sm:px-10 sm:pb-20">
+        <div className="hero-depart-copy absolute inset-x-0 bottom-0 px-6 pb-14 sm:px-10 sm:pb-20">
           {/* Two columns along the foot, but only once there is room for both
               to keep a readable measure. Below lg they stack and run left, and
               `items-end` sits the two blocks on a shared baseline rather than
@@ -96,17 +100,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <FoundationSection />
-      <MasterclassSection />
-      <CustomRetreatSection />
+      {/* The sheet that rises over the hero. It carries the ground colour
+          itself, so a section that ever ships without one shows cream rather
+          than the footage, and the upward shadow gives the edge somewhere to
+          land as it crosses the frame. */}
+      <div className="bg-background relative z-10 shadow-rise">
+        <FoundationSection />
+        <MasterclassSection />
+        <CustomRetreatSection />
 
-      <ReviewsSection />
+        <ReviewsSection />
 
-      <SurfLevelSection />
-      <TripFitSection />
+        <SurfLevelSection />
+        <TripFitSection />
 
-      <BookStaySection />
-      <ContactSection />
+        <BookStaySection />
+        <ContactSection />
+      </div>
     </main>
   );
 }

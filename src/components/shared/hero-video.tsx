@@ -24,6 +24,13 @@ type HeroVideoProps = {
  *
  * `aria-hidden` and `tabIndex={-1}`: it carries no information and offers no
  * controls, so it should not appear in the accessibility tree or tab order.
+ *
+ * It also stops once the page has covered it. The hero it sits in is pinned to
+ * the top of the viewport, so scrolling never takes it out of view the way it
+ * would an ordinary hero — as far as the browser is concerned the video is
+ * always on screen, and it goes on decoding every frame for the whole length
+ * of the page. A screen of scroll is the cue that there is nothing left to
+ * see.
  */
 export function HeroVideo({ src, poster, className }: HeroVideoProps) {
   const ref = React.useRef<HTMLVideoElement>(null);
@@ -34,10 +41,27 @@ export function HeroVideo({ src, poster, className }: HeroVideoProps) {
 
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+    // What the video was last told to do. `scroll` fires far more often than
+    // the answer changes, and re-issuing `play()` on a playing video is work
+    // for nothing.
+    let applied: "still" | "covered" | "playing" | null = null;
+
     const sync = () => {
-      if (query.matches) {
+      const next = query.matches
+        ? "still"
+        : window.scrollY > window.innerHeight
+          ? "covered"
+          : "playing";
+      if (next === applied) return;
+      applied = next;
+
+      if (next === "still") {
         video.pause();
         video.currentTime = 0;
+        return;
+      }
+      if (next === "covered") {
+        video.pause();
         return;
       }
       video.muted = true;
@@ -48,7 +72,11 @@ export function HeroVideo({ src, poster, className }: HeroVideoProps) {
 
     sync();
     query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
+    window.addEventListener("scroll", sync, { passive: true });
+    return () => {
+      query.removeEventListener("change", sync);
+      window.removeEventListener("scroll", sync);
+    };
   }, []);
 
   return (

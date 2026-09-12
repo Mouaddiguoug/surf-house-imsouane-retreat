@@ -94,6 +94,14 @@ body {
       color-mix(in srgb, var(--color-house-ink) 24%, transparent);
 
   /*
+   * The edge where the page rises over the pinned hero. Cast upward, and
+   * deeper than the other two because it falls on moving footage rather than
+   * on a flat ground — anything lighter reads as a seam instead of a lift.
+   */
+  --shadow-rise: 0 -2rem 3rem -1.5rem
+    color-mix(in srgb, var(--color-house-deep) 55%, transparent);
+
+  /*
    * The reviews wall. Each row holds two copies of its cards and drifts
    * exactly half its width, so the loop never shows a seam. Slow on
    * purpose — a card should be readable in passing — and `reverse` sends
@@ -218,6 +226,75 @@ body {
   .details-reveal[open]::details-content {
     block-size: auto;
     opacity: 1;
+  }
+}
+
+/**
+ * The hero's departure.
+ *
+ * The bay does not scroll away — the page rises over it. The hero is pinned to
+ * the top of the viewport and the first section slides up across it, and that
+ * is the parallax itself: the footage travels at nothing while the page
+ * travels at one. Two things move on top of that and no more. The frame drifts
+ * up and pushes in, so the water reads as far off rather than merely stopped;
+ * the copy lifts and dissolves ahead of the rising edge. The scale is what
+ * keeps the drift honest — at 1.12 the frame grows 6% past each edge, which
+ * covers the 5% it then travels up.
+ *
+ * The copy travels at exactly the speed of the rising edge, and that is the
+ * one measurement here that cannot be loosened. It sits along the foot of the
+ * hero and the sheet rises from the foot, so anything slower is overtaken
+ * within a tenth of a screen and sheared in half mid-paragraph. Moving it one
+ * for one keeps it the same distance ahead the whole way up, which buys the
+ * room to fade it over half a screen instead of blinking it out. The footage
+ * behind it is the only thing lagging, which is the point: the parallax is the
+ * gap between the two.
+ *
+ * Driven by the scroll timeline rather than a scroll handler: nothing measures
+ * layout, nothing runs on the main thread, and there is no listener to
+ * throttle. Both guards carry weight. A browser without `animation-timeline`
+ * keeps the pin and skips the drift, which still reads as deliberate, and a
+ * reader who has asked for less motion gets the pin alone — the one piece of
+ * this that is ordinary scrolling.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-depart-media,
+    .hero-depart-copy {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root block);
+    }
+
+    .hero-depart-media {
+      animation-name: hero-media-depart;
+      animation-range: 0 100dvh;
+    }
+
+    .hero-depart-copy {
+      animation-name: hero-copy-depart;
+      animation-range: 0 50dvh;
+    }
+  }
+
+  @keyframes hero-media-depart {
+    to {
+      transform: translateY(-5%) scale(1.12);
+    }
+  }
+
+  @keyframes hero-copy-depart {
+    /* Gone before the end of the travel, so the tail is not a ghost of a
+       paragraph crawling up the frame. */
+    70% {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 0;
+      transform: translateY(-50dvh);
+    }
   }
 }
 
