@@ -32,9 +32,17 @@ export type PackageSummary = {
   /** Two lines at most: the card is a way in, not a summary of the week. */
   summary: string;
   facts: PackageFact[];
-  /** The package's photograph, at the head of its card. */
+  /** The package's photograph, at the head of its card and of its page. */
   image: string;
   imageAlt: string;
+  /**
+   * Where the hero should hold the frame, as a CSS `object-position`.
+   *
+   * The hero crops a 3:2 photograph to roughly 2.7:1, so a third of its height
+   * goes — and centring the *frame* is not the same as centring the *subject*.
+   * Only set this where the middle of the picture is not the point of it.
+   */
+  imagePosition?: string;
   /**
    * The specialist week inverts to ink, the way its own section always has —
    * it is a different proposition and it should not look like the other two.
@@ -66,6 +74,9 @@ export const PACKAGES: PackageSummary[] = [
     image: "/assets/surf_1.jpg",
     imageAlt:
       "A surfer trimming down the face of a clean right-hander at Imsouane while the rest of the group waits in the lineup.",
+    // The surfer rides high in this frame: centred, the crop leaves him up
+    // against the top edge. A third of the way down puts him mid-band.
+    imagePosition: "50% 33%",
     cta: "See the week",
     bookLabel: "Book the Foundation",
     secondary: { href: "/coaching", label: "How we coach" },

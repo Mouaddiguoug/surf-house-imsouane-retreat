@@ -107,7 +107,8 @@ export function PackageHero({
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          style={{ objectPosition: entry.imagePosition ?? "50% 50%" }}
+          className="object-cover"
         />
         <div className={fadeVariants({ tone })} />
       </div>
@@ -115,8 +116,6 @@ export function PackageHero({
       {/* Starts far enough down that the title lands where the frame has
           already become the page. */}
       <div className="relative mx-auto w-full max-w-6xl pt-[min(40dvh,19rem)]">
-       
-
         <h1 className="font-display mt-4 text-4xl leading-[1.05] text-balance sm:text-5xl lg:text-6xl">
           {entry.title}
         </h1>
