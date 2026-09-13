@@ -35,6 +35,13 @@ type SectionHeadingProps = {
   eyebrow: string;
   title: string;
   subtitle: string;
+  /**
+   * The heading level. `h2` everywhere a section is one of several on a page,
+   * which is nearly everywhere — and `h1` on the package pages, where the
+   * section *is* the page and there is no hero above it to carry one. Changes
+   * nothing about how it looks; the size is in the classes, not the tag.
+   */
+  as?: "h1" | "h2";
   className?: string;
 } & VariantProps<typeof eyebrowVariants>;
 
@@ -43,13 +50,14 @@ function SectionHeading({
   title,
   subtitle,
   tone = "light",
+  as: Heading = "h2",
   className,
 }: SectionHeadingProps) {
   return (
     <div data-slot="section-heading" className={cn("flex flex-col", className)}>
-      <h2 className="font-display mt-4 text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-5xl">
+      <Heading className="font-display mt-4 text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-5xl">
         {title}
-      </h2>
+      </Heading>
       <p className={cn(subtitleVariants({ tone }), "mt-3")}>{subtitle}</p>
     </div>
   );

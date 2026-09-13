@@ -27,7 +27,7 @@ const LEVELS = [
       "Etiquette and staying safe in a busy line-up",
       "First unbroken waves by the end of the week, with a good bank and a bit of luck",
     ],
-    week: { label: "The Foundation", href: "/#the-foundation" },
+    week: { label: "The Foundation", href: "/packages/the-foundation" },
   },
   {
     number: "02",
@@ -42,7 +42,7 @@ const LEVELS = [
     ],
     week: {
       label: "The Foundation, or the Classic Longboard week",
-      href: "/#the-foundation",
+      href: "/packages/the-foundation",
     },
   },
   {
@@ -56,7 +56,7 @@ const LEVELS = [
       "Duck-diving and getting out on bigger days",
       "Equipment for the conditions, from the free quiver",
     ],
-    week: { label: "The Classic Longboard week", href: "/#the-masterclass" },
+    week: { label: "The Classic Longboard week", href: "/packages/the-masterclass" },
   },
   {
     number: "04",
@@ -71,7 +71,7 @@ const LEVELS = [
     ],
     week: {
       label: "The Custom Retreat, coached one-to-one",
-      href: "/#the-custom",
+      href: "/packages/the-custom-retreat",
     },
   },
 ];

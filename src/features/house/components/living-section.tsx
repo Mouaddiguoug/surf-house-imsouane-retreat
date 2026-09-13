@@ -89,7 +89,7 @@ export function LivingSection() {
             Book a stay
           </BookButton>
           <Link
-            href="/#the-foundation"
+            href="/packages/the-foundation"
             className={cn(
               buttonVariants({ variant: "shellOutline" }),
               "h-12 w-full px-6 text-xs sm:w-auto",

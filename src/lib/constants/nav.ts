@@ -29,9 +29,9 @@ export const MENU_GROUPS = [
     id: "packages",
     label: "Packages",
     links: [
-      { href: "/#the-foundation", label: "The Foundation" },
-      { href: "/#the-masterclass", label: "The Masterclass" },
-      { href: "/#the-custom", label: "The Custom Retreat" },
+      { href: "/packages/the-foundation", label: "The Foundation" },
+      { href: "/packages/the-masterclass", label: "The Masterclass" },
+      { href: "/packages/the-custom-retreat", label: "The Custom Retreat" },
     ],
   },
   {

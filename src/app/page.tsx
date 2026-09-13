@@ -4,9 +4,7 @@ import { BookStaySection } from "@/features/booking/components/book-stay-section
 import { SurfLevelSection } from "@/features/coaching/components/surf-level-section";
 import { TripFitSection } from "@/features/coaching/components/trip-fit-section";
 import { ContactSection } from "@/features/contact/components/contact-section";
-import { CustomRetreatSection } from "@/features/packages/components/custom-retreat-section";
-import { FoundationSection } from "@/features/packages/components/foundation-section";
-import { MasterclassSection } from "@/features/packages/components/masterclass-section";
+import { PackagesSection } from "@/features/packages/components/packages-section";
 import { ReviewsSection } from "@/features/reviews/components/reviews-section";
 
 /**
@@ -14,15 +12,19 @@ import { ReviewsSection } from "@/features/reviews/components/reviews-section";
  *
  * The hero is the full viewport: the bay footage, a scrim, and two columns
  * along the foot — the promise on the left, the mission line and the calls to
- * action on the right. Under it the three packages run cream → ink → sand,
- * then the guest reviews on cream. The house, the village and the coaching
+ * action on the right. Under it the three packages are three cards on sand —
+ * each one a way in to its own page, rather than three long sections run end
+ * to end here — then the guest reviews on cream. The house, the village and the coaching
  * method each have their own page now (`/house`, `/imsouane`, `/coaching`);
  * their sections used to sit here.
  *
- * What is left reads as one funnel: the offer, then the proof, then the two
- * sections that qualify the reader — the levels on sand and the honest "is
- * this for me" on cream — and only then the booking on ink and the contact
- * form on sand. No two adjacent sections share a ground.
+ * What is left reads as one funnel: the offer, then the proof, then the ask.
+ * Booking follows the reviews directly and takes the ink — a reader who has
+ * just read what other guests said is as convinced as this page will make
+ * them, and the two qualifying sections after it are there for the reader who
+ * is not: the levels on sand, the honest "is this for me" on cream, and the
+ * contact form on sand for anyone who would rather write than book. No two
+ * adjacent sections share a ground.
  */
 export default function HomePage() {
   return (
@@ -105,16 +107,13 @@ export default function HomePage() {
           than the footage, and the upward shadow gives the edge somewhere to
           land as it crosses the frame. */}
       <div className="bg-background relative z-10 shadow-rise">
-        <FoundationSection />
-        <MasterclassSection />
-        <CustomRetreatSection />
+        <PackagesSection />
 
         <ReviewsSection />
+        <BookStaySection />
 
         <SurfLevelSection />
         <TripFitSection />
-
-        <BookStaySection />
         <ContactSection />
       </div>
     </main>
