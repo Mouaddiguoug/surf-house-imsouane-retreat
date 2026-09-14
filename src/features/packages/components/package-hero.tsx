@@ -41,17 +41,6 @@ const fadeVariants = cva("absolute inset-0", {
   defaultVariants: { tone: "cream" },
 });
 
-const eyebrowVariants = cva("font-mono text-xs tracking-[0.18em] uppercase", {
-  variants: {
-    tone: {
-      cream: "text-house-clay",
-      sand: "text-house-clay",
-      ink: "text-house-sky",
-    },
-  },
-  defaultVariants: { tone: "cream" },
-});
-
 const quietVariants = cva("", {
   variants: {
     tone: {
@@ -73,6 +62,14 @@ const ruleVariants = cva("", {
   },
   defaultVariants: { tone: "cream" },
 });
+
+/**
+ * The entrance every hero on the site makes: a second-long fade with a short
+ * rise, held invisible until its own delay so a late block never flashes
+ * before it moves. `fill-mode-both` is the half of that people forget.
+ */
+const ENTER =
+  "animate-in fade-in fill-mode-both duration-1000 motion-reduce:animate-none";
 
 type PackageHeroProps = {
   package: PackageSummary;
@@ -99,7 +96,14 @@ export function PackageHero({
           copy needs to clear. */}
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-[min(62dvh,30rem)]"
+        className={cn(
+          "absolute inset-x-0 top-0 h-[min(62dvh,30rem)]",
+          // Fades up and settles from a hair over size. The fade rides on the
+          // same layer, so the two arrive as one picture rather than a
+          // gradient landing on a photograph.
+          ENTER,
+          "zoom-in-105 ease-out",
+        )}
       >
         <Image
           src={entry.image}
@@ -116,7 +120,13 @@ export function PackageHero({
       {/* Starts far enough down that the title lands where the frame has
           already become the page. */}
       <div className="relative mx-auto w-full max-w-6xl pt-[min(40dvh,19rem)]">
-        <h1 className="font-display mt-4 text-4xl leading-[1.05] text-balance sm:text-5xl lg:text-6xl">
+        <h1
+          className={cn(
+            "font-display mt-4 text-4xl leading-[1.05] text-balance sm:text-5xl lg:text-6xl",
+            ENTER,
+            "slide-in-from-bottom-6",
+          )}
+        >
           {entry.title}
         </h1>
 
@@ -124,37 +134,50 @@ export function PackageHero({
           className={cn(
             quietVariants({ tone }),
             "font-display mt-3 text-lg sm:text-xl",
+            ENTER,
+            "slide-in-from-bottom-4 delay-150",
           )}
         >
           {entry.subtitle}
         </p>
 
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-pretty">
+        <p
+          className={cn(
+            "mt-6 max-w-xl text-base leading-relaxed text-pretty",
+            ENTER,
+            "slide-in-from-bottom-4 delay-300",
+          )}
+        >
           {lede}
         </p>
 
-        {children}
+        {/* Extras and facts arrive together, last: they are the small print
+            of the opening and should not compete with the title for the
+            first second. */}
+        <div className={cn(ENTER, "delay-500")}>
+          {children}
 
-        <dl
-          className={cn(
-            ruleVariants({ tone }),
-            "mt-10 grid grid-cols-3 gap-4 border-t pt-6 sm:max-w-2xl",
-          )}
-        >
-          {entry.facts.map((fact) => (
-            <div key={fact.term}>
-              <dt
-                className={cn(
-                  quietVariants({ tone }),
-                  "font-mono text-[0.65rem] tracking-[0.18em] uppercase",
-                )}
-              >
-                {fact.term}
-              </dt>
-              <dd className="mt-1 text-sm">{fact.detail}</dd>
-            </div>
-          ))}
-        </dl>
+          <dl
+            className={cn(
+              ruleVariants({ tone }),
+              "mt-10 grid grid-cols-3 gap-4 border-t pt-6 sm:max-w-2xl",
+            )}
+          >
+            {entry.facts.map((fact) => (
+              <div key={fact.term}>
+                <dt
+                  className={cn(
+                    quietVariants({ tone }),
+                    "font-mono text-[0.65rem] tracking-[0.18em] uppercase",
+                  )}
+                >
+                  {fact.term}
+                </dt>
+                <dd className="mt-1 text-sm">{fact.detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
     </section>
   );
