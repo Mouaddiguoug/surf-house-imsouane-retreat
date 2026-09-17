@@ -4,14 +4,15 @@ import { FoundationPackage } from "@/features/packages/components/foundation-pac
 import { PackageBooking } from "@/features/packages/components/package-booking";
 import { OtherPackagesSection } from "@/features/packages/components/other-packages-section";
 import { packageBySlug } from "@/features/packages/data/packages";
-import { SITE } from "@/lib/constants/site";
 
 const PACKAGE = packageBySlug("the-foundation");
 
 export const metadata: Metadata = {
-  title: `The Foundation — ${SITE.name}`,
+  title: "Beginner Surf Camp in Imsouane — 7-Night Surf & Yoga Week",
   description:
-    "Surf, Roots & Reset: an academy week for beginners and improvers. Five coached days on the ISA method, the village around you, and enough recovery to paddle out again tomorrow.",
+    "The Foundation: a seven-night surf and yoga week in Imsouane for beginners and improvers. Five coached days on the ISA method, full board, and the village around you.",
+  alternates: { canonical: "/packages/the-foundation" },
+  openGraph: { url: "/packages/the-foundation" },
 };
 
 /**

@@ -4,14 +4,15 @@ import { CustomRetreatPackage } from "@/features/packages/components/custom-retr
 import { PackageBooking } from "@/features/packages/components/package-booking";
 import { OtherPackagesSection } from "@/features/packages/components/other-packages-section";
 import { packageBySlug } from "@/features/packages/data/packages";
-import { SITE } from "@/lib/constants/site";
 
 const PACKAGE = packageBySlug("the-custom-retreat");
 
 export const metadata: Metadata = {
-  title: `The Custom Retreat — ${SITE.name}`,
+  title: "Surf House Stay in Imsouane — Bed, Breakfast & Board",
   description:
-    "Bed, breakfast and board from two nights, arriving any day — then build the rest yourself from the ocean, wellness and adventure modules.",
+    "The Custom Retreat: a room, breakfast and a board at the surf house in Imsouane from two nights, arriving any day — then add coaching, yoga and adventure as you like.",
+  alternates: { canonical: "/packages/the-custom-retreat" },
+  openGraph: { url: "/packages/the-custom-retreat" },
 };
 
 /**

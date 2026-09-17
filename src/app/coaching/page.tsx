@@ -5,12 +5,13 @@ import {
   CoachingHero,
 } from "@/features/coaching/components/coaching-hero";
 import { HowWeCoachSection } from "@/features/coaching/components/how-we-coach-section";
-import { SITE } from "@/lib/constants/site";
 
 export const metadata: Metadata = {
-  title: `How we coach — ${SITE.name}`,
+  title: "Surf Coaching in Imsouane — How We Teach",
   description:
     "One goal per surfer, a coach in the water who knows your name, small groups sorted by level, and every session filmed and reviewed after dinner.",
+  alternates: { canonical: "/coaching" },
+  openGraph: { url: "/coaching" },
 };
 
 /**

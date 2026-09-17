@@ -4,14 +4,15 @@ import { MasterclassPackage } from "@/features/packages/components/masterclass-p
 import { PackageBooking } from "@/features/packages/components/package-booking";
 import { OtherPackagesSection } from "@/features/packages/components/other-packages-section";
 import { packageBySlug } from "@/features/packages/data/packages";
-import { SITE } from "@/lib/constants/site";
 
 const PACKAGE = packageBySlug("the-masterclass");
 
 export const metadata: Metadata = {
-  title: `The Masterclass — ${SITE.name}`,
+  title: "Longboard Surf Week in Imsouane — The Masterclass",
   description:
-    "Classic Longboard: seven nights on a single fin at Imsouane, for surfers who can already read a green wave. Daily video analysis, surf skate, and the walk to the nose.",
+    "Classic Longboard: seven nights on a single fin at Imsouane, Morocco's longest right, for surfers who can already read a green wave. Daily video analysis and the walk to the nose.",
+  alternates: { canonical: "/packages/the-masterclass" },
+  openGraph: { url: "/packages/the-masterclass" },
 };
 
 /**

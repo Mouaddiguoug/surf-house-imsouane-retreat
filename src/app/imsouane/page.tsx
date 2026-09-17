@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 
 import { ImsouaneHero } from "@/features/imsouane/components/imsouane-hero";
 import { ImsouaneSection } from "@/features/imsouane/components/imsouane-section";
-import { SITE } from "@/lib/constants/site";
 
 export const metadata: Metadata = {
-  title: `Imsouane — ${SITE.name}`,
+  title: "Imsouane, Morocco — The Bay, the Waves & the Village",
   description:
-    "A fishing village on Morocco's Atlantic coast with two right-hand point breaks, two hours north of Agadir — and where the house sits in it.",
+    "A fishing village on Morocco's Atlantic coast with two right-hand point breaks and the country's longest wave, two hours north of Agadir — and where the house sits in it.",
+  alternates: { canonical: "/imsouane" },
+  openGraph: { url: "/imsouane" },
 };
 
 /**

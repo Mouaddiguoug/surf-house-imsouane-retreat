@@ -3,12 +3,13 @@ import type { Metadata } from "next";
 import { LivingSection } from "@/features/house/components/living-section";
 import { RoomsSection } from "@/features/house/components/rooms-section";
 import { RooftopSection } from "@/features/house/components/rooftop-section";
-import { SITE } from "@/lib/constants/site";
 
 export const metadata: Metadata = {
-  title: `The house — ${SITE.name}`,
+  title: "The House — Rooms & Rooftop over Imsouane Bay",
   description:
-    "The rooftop over the bay, the sea-facing rooms, and the living space where the week happens — the house behind the surf.",
+    "Sea-facing rooms, a rooftop over the bay and the living space where the week happens: the surf house behind the surfing, in Imsouane, Morocco.",
+  alternates: { canonical: "/house" },
+  openGraph: { url: "/house" },
 };
 
 /**

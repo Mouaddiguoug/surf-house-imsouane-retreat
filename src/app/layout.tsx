@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Geist_Mono, Karla, Sora } from "next/font/google";
 import Providers from "./providers";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { StructuredData } from "@/components/shared/structured-data";
 import { BookStayDialog } from "@/features/booking/components/book-stay-dialog";
 import { SITE } from "@/lib/constants/site";
 import "@/styles/globals.css";
@@ -36,9 +37,43 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/**
+ * Site-wide metadata. Every page inherits this and overrides `title`,
+ * `description`, `alternates.canonical` and `openGraph` for its own URL.
+ *
+ * `metadataBase` is what turns every relative path below — canonicals, share
+ * images, the sitemap — into the real domain rather than whichever host the
+ * request came in on. Without it a Vercel preview and the live site would
+ * each tell Google they were canonical.
+ *
+ * The default title carries the search terms the home page is meant to win
+ * ("surf house", "Imsouane", "surf and yoga retreat", "Morocco"); the
+ * template puts the name after each inner page's own subject, where Google
+ * truncates last.
+ */
 export const metadata: Metadata = {
-  title: `${SITE.name} — ${SITE.locality}, Morocco`,
-  description: SITE.tagline,
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: `${SITE.name} — Surf & Yoga Retreat in Imsouane, Morocco`,
+    template: `%s | ${SITE.name}`,
+  },
+  description:
+    "A surf house on the bay at Imsouane, Morocco's longest right-hand wave. Coached surf weeks for beginners and longboarders, yoga, full board, and rooms over the sea.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    locale: "en_GB",
+    url: "/",
+  },
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
+  // Search Console ownership. Paste the token Google gives you into
+  // `.env.local` as NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION; the tag is only
+  // rendered when it is set.
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export default function RootLayout({
@@ -56,6 +91,7 @@ export default function RootLayout({
           hydrates, which React reports as a mismatch. This suppresses that one
           element's own attributes only — children are still fully checked. */}
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
+        <StructuredData />
         <Providers>
           <Navbar />
           {children}
