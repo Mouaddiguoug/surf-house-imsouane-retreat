@@ -41,7 +41,7 @@ export function CoachingHero() {
   return (
     <section className="bg-house-ink text-house-sand relative flex min-h-[40rem] items-end overflow-hidden sm:min-h-[44rem] lg:min-h-[min(88dvh,48rem)] lg:items-center">
       <Image
-        src="/assets/surf_4.jpg"
+        src="/assets/surf_3.jpg"
         alt="A surfer lying on a longboard in the flat water off Imsouane at first light, looking back over her shoulder for the next set, with the village stacked along the cliff behind her."
         fill
         priority

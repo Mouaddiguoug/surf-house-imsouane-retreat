@@ -53,8 +53,8 @@ export function Footer() {
               <Image
                 src="/assets/logo_white.png"
                 alt=""
-                width={5169}
-                height={5170}
+                width={512}
+                height={512}
                 sizes="72px"
                 loading="eager"
                 className="h-14 w-auto object-contain object-left"

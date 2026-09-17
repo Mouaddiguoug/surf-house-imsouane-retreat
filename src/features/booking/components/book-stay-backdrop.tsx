@@ -43,6 +43,12 @@ const SLIDES = [1, 2, 3, 4, 5, 6, 7].map((n) => `/assets/book-a-stay/${n}.jpg`);
  * before it can paint, and a reader who has asked for less motion keeps the
  * first frame alone and never downloads the other six.
  *
+ * None of them is `priority`, the first included. The section sits some
+ * 3,000px below the fold, and a preload there is not a head start — it is
+ * a 1920px image competing with the hero for the first connection. Lazy
+ * loading begins well over a screen before the section arrives, which is
+ * more than a cross-fade needs.
+ *
  * Decorative throughout: `aria-hidden`, empty alt text, and no pointer
  * events, because every one of these views is described in words elsewhere
  * on the page.
@@ -87,7 +93,6 @@ export function BookStayBackdrop({ className }: { className?: string }) {
           alt=""
           fill
           sizes="100vw"
-          priority={i === 0}
           style={{
             opacity: i === index ? OPACITY : 0,
             transitionDuration: `${FADE_MS}ms`,

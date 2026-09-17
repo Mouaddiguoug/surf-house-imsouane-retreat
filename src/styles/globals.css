@@ -114,6 +114,31 @@ body {
       transform: translateX(-50%);
     }
   }
+
+  /*
+   * The scroll cue: a short bright segment running down a faint line, the
+   * way a page runs down under a scroll. It starts above the line and ends
+   * below it, so it is born and dies out of sight rather than snapping. The
+   * opacity ramps are there for the same reason — a hard-edged bar arriving
+   * from nowhere reads as a glitch, one fading in reads as movement.
+   */
+  --animate-scroll-cue: scroll-cue 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  @keyframes scroll-cue {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(250%);
+      opacity: 0;
+    }
+  }
 }
 
 /**
@@ -260,7 +285,8 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
     .hero-depart-media,
-    .hero-depart-copy {
+    .hero-depart-copy,
+    .hero-depart-cue {
       animation-duration: auto;
       animation-timing-function: linear;
       animation-fill-mode: both;
@@ -276,11 +302,27 @@ body {
       animation-name: hero-copy-depart;
       animation-range: 0 50dvh;
     }
+
+    /* The cue has done its job the moment the reader scrolls at all, so it
+       goes first and fastest — well ahead of the copy. `visibility` on the
+       last frame is what takes it out of the tab order and off the pointer
+       once it is gone, since opacity alone leaves an invisible link there. */
+    .hero-depart-cue {
+      animation-name: hero-cue-depart;
+      animation-range: 0 12dvh;
+    }
   }
 
   @keyframes hero-media-depart {
     to {
       transform: translateY(-5%) scale(1.12);
+    }
+  }
+
+  @keyframes hero-cue-depart {
+    to {
+      opacity: 0;
+      visibility: hidden;
     }
   }
 
