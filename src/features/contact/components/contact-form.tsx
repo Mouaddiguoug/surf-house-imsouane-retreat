@@ -117,7 +117,7 @@ export function ContactForm({ className }: { className?: string }) {
           <Input
             id="enquiry-first-name"
             autoComplete="given-name"
-            placeholder="Amina"
+            placeholder="John"
             aria-invalid={!!errors.firstName}
             aria-describedby={
               errors.firstName ? "enquiry-first-name-error" : undefined
@@ -138,7 +138,7 @@ export function ContactForm({ className }: { className?: string }) {
           <Input
             id="enquiry-last-name"
             autoComplete="family-name"
-            placeholder="Benali"
+            placeholder="Doe"
             aria-invalid={!!errors.lastName}
             aria-describedby={
               errors.lastName ? "enquiry-last-name-error" : undefined
