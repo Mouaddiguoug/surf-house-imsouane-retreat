@@ -10,9 +10,10 @@
  * anywhere else as a navigation home that lands on the section.
  */
 export const NAV_LINKS = [
+    { href: "/imsouane", label: "Imsouane" },
   { href: "/#surf", label: "Surf" },
   { href: "/house", label: "House" },
-  { href: "/imsouane", label: "Imsouane" },
+
 ] as const;
 
 /**

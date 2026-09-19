@@ -10,7 +10,7 @@ const PACKAGE = packageBySlug("the-foundation");
 export const metadata: Metadata = {
   title: "Beginner Surf Camp in Imsouane — 7-Night Surf & Yoga Week",
   description:
-    "The Foundation: a seven-night surf and yoga week in Imsouane for beginners and improvers. Five coached days on the ISA method, full board, and the village around you.",
+    "The Foundation: a seven-night surf and yoga week in Imsouane for beginners and Intermediates. Five coached days on the ISA method, full board, and the village around you.",
   alternates: { canonical: "/packages/the-foundation" },
   openGraph: { url: "/packages/the-foundation" },
 };

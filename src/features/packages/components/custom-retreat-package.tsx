@@ -1,5 +1,6 @@
 import { Compass, Waves, Wind } from "lucide-react";
 
+import { PackageDay } from "@/features/packages/components/package-day";
 import { PackageHero } from "@/features/packages/components/package-hero";
 import { packageBySlug } from "@/features/packages/data/packages";
 
@@ -10,6 +11,38 @@ const BASE = [
   "Your room — premium dorm bed or private",
   "Surf-Fuel breakfasts",
   "Terraces, chill-out zones, fast Wi-Fi for the work you brought",
+];
+
+/**
+ * One way a day goes. Parts of the day rather than the clock: the house sets
+ * no hours for this package, and a timetable would say otherwise.
+ */
+const DAY = [
+  {
+    time: "Morning",
+    title: "Breakfast, whenever you surface",
+    body: "Surf-Fuel, on the terrace, included. The one fixed thing in the day, and it is not fixed to an hour.",
+  },
+  {
+    time: "Late morning",
+    title: "The quiver, or a drop-in session",
+    body: "Take a board from the rack and go, or join an academy session when a place is free and surf with a coach for the morning.",
+  },
+  {
+    time: "Midday",
+    title: "The work you brought",
+    body: "Fast Wi-Fi, a chill-out zone with a view of the bay, and nobody asking when you will be done.",
+  },
+  {
+    time: "Afternoon",
+    title: "A class, a massage, or the dunes",
+    body: "Yoga by the class. The recovery room. Or out of the house entirely — sandboarding the Timlaline dunes at sunset, or the cliffs by horse or quad.",
+  },
+  {
+    time: "Evening",
+    title: "The communal dinner",
+    body: "A ticket from the book buys a seat at the long table with whoever is in the house that week.",
+  },
 ];
 
 const MODULES = [
@@ -123,6 +156,15 @@ export function CustomRetreatPackage() {
           </div>
         </div>
       </section>
+
+      <PackageDay
+        id="a-day-you-might-build"
+        tone="cream"
+        heading="A day you might build"
+        intro="There is no timetable, which is the point. This is one way a day here goes — parts of the day rather than hours, because you set the hours."
+        entries={DAY}
+        note="Everything past breakfast is a module, bookable by the session or by the day, for as much or as little of the stay as you want."
+      />
     </>
   );
 }

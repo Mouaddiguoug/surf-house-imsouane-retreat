@@ -1,5 +1,6 @@
 import { BookOpen, Footprints, Video } from "lucide-react";
 
+import { PackageDay } from "@/features/packages/components/package-day";
 import { PackageHero } from "@/features/packages/components/package-hero";
 import { packageBySlug } from "@/features/packages/data/packages";
 
@@ -7,6 +8,50 @@ const PACKAGE = packageBySlug("the-masterclass");
 
 /** The moves the week is built around, in the order they are taught. */
 const GOALS = ["Trim", "Cross-step", "Hang five", "Hang ten"];
+
+/** A day on the log. The surfing moves with the tide; the drills do not. */
+const DAY = [
+  {
+    time: "07:30",
+    title: "Balance and flexibility",
+    body: "The morning yoga is built for the nose ride rather than for power: ankles, hips, and the stillness a cross-step needs.",
+  },
+  {
+    time: "08:30",
+    title: "Breakfast, kept light",
+    body: "Anti-inflammatory and easy on the walk out — there is a nine-six under your arm and the point is a long way.",
+  },
+  {
+    time: "10:00",
+    title: "The session on the point",
+    body: "Long, patient rights and the coach in the water. Trim first, then the walk, then the nose — in that order, and filmed from the beach.",
+  },
+  {
+    time: "13:00",
+    title: "Lunch",
+    body: "Back at the house, boards rinsed, the morning's clips already copying across for the evening.",
+  },
+  {
+    time: "15:00",
+    title: "Surf skate on the tarmac",
+    body: "The footwork, drilled where it can be repeated a hundred times: so the cross-step is already in the legs by the time you carry the board down.",
+  },
+  {
+    time: "17:00",
+    title: "Golden hour",
+    body: "Free surf if the tide has come round, or the terrace and the sunset if it has not. Nobody is timed.",
+  },
+  {
+    time: "19:30",
+    title: "Dinner",
+    body: "Full board, together, the day's waves argued over.",
+  },
+  {
+    time: "20:30",
+    title: "Video analysis and theory",
+    body: "Your rides on the screen, one at a time. Then where the longboard came from, what a single fin actually does, and what your outline is doing under you.",
+  },
+];
 
 const METHOD = [
   {
@@ -84,22 +129,14 @@ export function MasterclassPackage() {
         </div>
       </section>
 
-      <section
-        id="the-rhythm"
-        className="bg-house-sand text-house-ink px-6 py-20 sm:px-10 sm:py-28"
-      >
-        <div className="mx-auto w-full max-w-6xl">
-          <h2 className="font-display text-3xl leading-[1.1] text-balance sm:text-4xl">
-            The rhythm of the week
-          </h2>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-pretty">
-            The week runs on the same rhythm as the Foundation — Sunday to
-            Friday, Wednesday off — with yoga built around balance and
-            flexibility rather than power, and light anti-inflammatory food for
-            the long walks out to the point with a nine-six under your arm.
-          </p>
-        </div>
-      </section>
+      <PackageDay
+        id="a-typical-day"
+        tone="sand"
+        heading="What a day looks like"
+        intro="The same rhythm as the Foundation — Sunday to Friday, Wednesday off — with the afternoons and evenings given to the log."
+        entries={DAY}
+        note="The point works on the tide, so the session moves and the day is built around it. The clock here is a typical one, not a promise."
+      />
     </>
   );
 }

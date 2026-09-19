@@ -63,11 +63,11 @@ export const PACKAGES: PackageSummary[] = [
     index: "01",
     name: "The Foundation",
     title: "Surf, Roots & Reset",
-    subtitle: "An academy week for beginners and improvers.",
+    subtitle: "An academy week for beginners and Intermediates.",
     summary:
       "Five coached days on the ISA method that change how you read the ocean, held up by the village around you.",
     facts: [
-      { term: "Level", detail: "Beginner & improver" },
+      { term: "Level", detail: "Beginner & Intermediate" },
       { term: "Format", detail: "7 nights, fixed dates" },
       { term: "Arrival", detail: "Saturday or Sunday" },
     ],
