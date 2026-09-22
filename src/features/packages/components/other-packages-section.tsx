@@ -42,11 +42,7 @@ export function OtherPackagesSection({
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {others.map((entry) => (
-            <PackageCard
-              key={entry.slug}
-              package={entry}
-              ground={ground === "sand" ? "shell" : "sand"}
-            />
+            <PackageCard key={entry.slug} package={entry} />
           ))}
         </div>
       </div>

@@ -1,17 +1,11 @@
 import { Compass, Waves, Wind } from "lucide-react";
 
 import { PackageDay } from "@/features/packages/components/package-day";
+import { PackageFeature } from "@/features/packages/components/package-feature";
 import { PackageHero } from "@/features/packages/components/package-hero";
 import { packageBySlug } from "@/features/packages/data/packages";
 
 const PACKAGE = packageBySlug("the-custom-retreat");
-
-/** What every night includes before anything is added to it. */
-const BASE = [
-  "Your room — premium dorm bed or private",
-  "Surf-Fuel breakfasts",
-  "Terraces, chill-out zones, fast Wi-Fi for the work you brought",
-];
 
 /**
  * One way a day goes. Parts of the day rather than the clock: the house sets
@@ -78,12 +72,13 @@ const MODULES = [
 /**
  * Package 03, as the body of its own page.
  *
- * The other two sell a fixed week and open on a photograph. This one sells the
- * freedom to assemble your own, so the modules are its picture and the frame
- * stays a watermark behind the opening. The base and the modules are two
- * sections rather than two anonymous blocks, because they answer two different
- * questions — what you get for turning up, and what you can add — and a reader
- * deciding between them should be able to find either one from the outline.
+ * The base and the modules answer two different questions — what you get for
+ * turning up, and what you can add — and a reader deciding between them
+ * should be able to find either from the outline. The base was a row of three
+ * one-line cards; it is three sections now, a photograph apiece, because the
+ * room, the breakfast and the house are the whole of what this package
+ * promises before anything is added to it, and a single line each undersold
+ * all three.
  */
 export function CustomRetreatPackage() {
   return (
@@ -95,30 +90,50 @@ export function CustomRetreatPackage() {
         lede="Your stay, your rules. For nomads working the morning, couples on their own clock, and independent surfers who want the house and the quiver without the timetable."
       />
 
-      <section
-        id="always-included"
-        className="bg-background px-6 py-20 sm:px-10 sm:py-28"
-      >
-        <div className="mx-auto w-full max-w-6xl">
-          <h2 className="font-display text-3xl leading-[1.1] text-balance sm:text-4xl">
-            Always included
-          </h2>
-          <p className="text-muted-foreground mt-3 max-w-xl text-base leading-relaxed text-pretty">
-            Every night comes with this much, before you add anything to it.
-          </p>
+      <PackageFeature
+        id="your-room"
+        tone="cream"
+        side="left"
+        eyebrow="Always included · The room"
+        title="A bed that is yours for as long as you want it"
+        body="A premium dorm bed or a private room, from two nights, arriving any day of the week. No fixed changeover, no Saturday-to-Saturday: the room is the only thing you have to book, and everything else on this page is optional."
+        frames={[
+          {
+            src: "/assets/book_a_stay_1.JPG",
+            alt: "A private room at the house: a made double bed, a painted mural along one wall, and light coming through the curtains from the sea-facing window.",
+          },
+        ]}
+      />
 
-          <ul className="mt-12 grid gap-4 sm:grid-cols-3">
-            {BASE.map((item) => (
-              <li
-                key={item}
-                className="bg-house-sand text-house-ink shadow-card rounded-2xl p-6 text-sm leading-relaxed"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <PackageFeature
+        id="breakfast"
+        tone="sand"
+        side="right"
+        eyebrow="Always included · Breakfast"
+        title="Surf-Fuel, whenever you surface"
+        body="The same breakfast the coached weeks eat — local protein, slow carbohydrates, fruit, and the superfoods that grow here — without the timetable that comes with them. It is the one fixed thing in the day, and it is not fixed to an hour."
+        frames={[
+          {
+            src: "/assets/surf_fuel.jpg",
+            alt: "Guests at the long table inside the house over breakfast, a surfboard leaning in the foreground and the house dog underfoot.",
+          },
+        ]}
+      />
+
+      <PackageFeature
+        id="the-house-itself"
+        tone="cream"
+        side="left"
+        eyebrow="Always included · The house"
+        title="Terraces, shade, and Wi-Fi that holds"
+        body="The rooftop over the bay, the chill-out zones, and a connection fast enough for the work you brought. Nobody asks when you will be done, and the point is a two-minute walk away for when you are."
+        frames={[
+          {
+            src: "/assets/rooftop.JPG",
+            alt: "The rooftop terrace at dusk: low seating and rugs around a table, the village rooftops and the bay stretching out beyond.",
+          },
+        ]}
+      />
 
       <section
         id="build-the-rest"
@@ -159,7 +174,6 @@ export function CustomRetreatPackage() {
 
       <PackageDay
         id="a-day-you-might-build"
-        tone="cream"
         heading="A day you might build"
         intro="There is no timetable, which is the point. This is one way a day here goes — parts of the day rather than hours, because you set the hours."
         entries={DAY}

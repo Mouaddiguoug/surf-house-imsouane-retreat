@@ -100,35 +100,6 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-
-        {/* The cue to scroll. A link rather than an ornament, so it also does
-            the thing it is asking for. Three layers, one animation each: the
-            outer fades out on scroll, the link fades in after the copy has
-            landed, the segment inside the line loops. Hidden on phones — the
-            foot there holds the stacked copy with 56px under it, and the cue
-            stands 62px tall. From `sm` the padding is 80px and it fits. */}
-        <div className="hero-depart-cue absolute bottom-4 left-1/2 hidden -translate-x-1/2 sm:block">
-          <a
-            href="#packages"
-            aria-label="Scroll down to the packages"
-            className={
-              "text-house-shell/80 flex flex-col items-center gap-3 rounded-sm " +
-              "transition-colors duration-200 hover:text-house-shell motion-reduce:transition-none " +
-              "focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 " +
-              "animate-in fade-in fill-mode-both delay-1000 duration-1000 motion-reduce:animate-none"
-            }
-          >
-            <span className="font-mono text-[0.6rem] tracking-[0.22em] uppercase">
-              Scroll
-            </span>
-            <span
-              aria-hidden
-              className="bg-house-shell/25 relative block h-10 w-px overflow-hidden"
-            >
-              <span className="animate-scroll-cue bg-house-shell absolute inset-x-0 top-0 block h-4 motion-reduce:animate-none" />
-            </span>
-          </a>
-        </div>
       </section>
 
       {/* The sheet that rises over the hero. It carries the ground colour

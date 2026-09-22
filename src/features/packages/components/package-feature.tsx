@@ -23,29 +23,11 @@ const sectionVariants = cva("", {
   defaultVariants: { tone: "cream", layout: "framed" },
 });
 
-const quietVariants = cva("", {
-  variants: {
-    tone: { cream: "text-muted-foreground", sand: "text-house-muted" },
-  },
-  defaultVariants: { tone: "cream" },
-});
-
-const ruleVariants = cva("", {
-  variants: {
-    tone: { cream: "border-border", sand: "border-house-ink/15" },
-  },
-  defaultVariants: { tone: "cream" },
-});
-
 type PackageFeatureProps = {
   id: string;
   eyebrow: string;
   title: string;
   body: string;
-  /** Three or four short facts under the copy — "Five sessions", "Dynamic at 07:30". */
-  facts?: string[];
-  /** The small print, in mono, after the facts. */
-  note?: string;
   /**
    * One landscape frame, or two portrait frames side by side. Two tall frames
    * together take the same footprint as one wide one, so the column stays
@@ -126,8 +108,6 @@ export function PackageFeature({
   eyebrow,
   title,
   body,
-  facts,
-  note,
   frames,
   side = "left",
   tone,
@@ -144,8 +124,6 @@ export function PackageFeature({
         {title}
       </h2>
       <p className="mt-5 text-base leading-relaxed text-pretty">{body}</p>
-
-    
     </div>
   );
 

@@ -43,11 +43,6 @@ export type PackageSummary = {
    * Only set this where the middle of the picture is not the point of it.
    */
   imagePosition?: string;
-  /**
-   * The specialist week inverts to ink, the way its own section always has —
-   * it is a different proposition and it should not look like the other two.
-   */
-  invert?: boolean;
   /** The card's own call to action. Only two of the three are weeks. */
   cta: string;
   /** What the book button says on this package's page. */
@@ -98,7 +93,6 @@ export const PACKAGES: PackageSummary[] = [
     image: "/assets/surf_2.jpg",
     imageAlt:
       "A surfer carrying a white single-fin longboard across wet sand lit gold by the low sun.",
-    invert: true,
     cta: "See the week",
     bookLabel: "Book the Masterclass",
     secondary: { href: "/#surf-level", label: "What's my surf level" },

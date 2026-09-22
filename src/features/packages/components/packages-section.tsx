@@ -43,7 +43,6 @@ export function PackagesSection() {
             <PackageCard
               key={entry.slug}
               package={entry}
-              ground="shell"
               className={
                 index === PACKAGES.length - 1
                   ? "sm:col-span-2 lg:col-span-1"

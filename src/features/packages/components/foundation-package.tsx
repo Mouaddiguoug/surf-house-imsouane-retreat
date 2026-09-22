@@ -88,10 +88,11 @@ const DAY = [
  * is — the week and the inclusions sat inside it as anonymous lists, and a
  * reader scanning the page had one signpost for the whole thing. Each part now
  * opens with its own heading and its own ground, so the page can be skimmed
- * the way a page is: the offer, a day of it hour by hour with the week
- * beside it, then the three things it comes with — each given a photograph
- * and a section of its own, because "three cards in a row" was the size of
- * the layout, not the size of what they were.
+ * the way a page is: the offer, then the three things it comes with — each
+ * given a photograph and a section of its own, because "three cards in a
+ * row" was the size of the layout, not the size of what they were — and
+ * then a day of it hour by hour, with the week beside it, once the reader
+ * knows what the day is made of.
  */
 export function FoundationPackage() {
   return (
@@ -103,28 +104,13 @@ export function FoundationPackage() {
         lede="More than a surf school. Five coached days on the ISA method that change how you read the ocean, held up by the village around you and by enough recovery to paddle out again tomorrow."
       />
 
-      <PackageDay
-        id="a-typical-day"
-        tone="sand"
-        heading="What a day looks like"
-        intro="Five of these, with Wednesday off in the middle. The surfing moves with the tide; the rest of the day holds still around it."
-        entries={DAY}
-        arc={{ label: "The week", entries: WEEK }}
-        note="Session times are set the evening before, once the coaches have read the next day's tide. The clock here is a typical one, not a promise."
-      />
-
       <PackageFeature
         id="the-yoga"
-        tone="cream"
+        tone="sand"
         side="left"
         eyebrow="Included · Yoga"
         title="Five sessions, two kinds"
         body="Dynamic in the morning, on the rooftop over the bay before it is busy: the practice that switches the body on — shoulders, hips, the paddling muscles. Restorative Yin in the evening, for the shoulders and lower back. The first is what gets you into the water; the second is what lets you paddle out again tomorrow."
-        facts={[
-          "Five sessions across the week",
-          "Dynamic, 07:30, rooftop",
-          "Yin, 18:00, after the surfing",
-        ]}
         frames={[
           {
             src: "/assets/yoga_session.jpg",
@@ -135,16 +121,11 @@ export function FoundationPackage() {
 
       <PackageFeature
         id="surf-fuel"
-        tone="sand"
+        tone="cream"
         side="right"
         eyebrow="Included · Surf-Fuel"
         title="Full board, built for the water"
         body="Three meals a day, every day, built around performance and recovery rather than around a menu: local protein, slow carbohydrates, and the superfoods that grow here. Breakfast is eaten on the terrace with the day's first look at the waves; dinner is eaten together, with the day's clips on the screen after."
-        facts={[
-          "Breakfast, lunch and dinner",
-          "Local protein, slow carbs",
-          "Eaten together, at the long table",
-        ]}
         frames={[
           {
             src: "/assets/surf_fuel.jpg",
@@ -155,18 +136,12 @@ export function FoundationPackage() {
 
       <PackageFeature
         id="the-village"
-        tone="cream"
+        tone="sand"
         layout="bleed"
         side="left"
         eyebrow="Included · The village"
         title="The village, not the postcard"
         body="Tuesday you walk to the auction with the chef to haggle for the evening's fish. Wednesday is a Berber souk in the hills, or argan and a tagine with the women of the village. None of it is a tour: it is how the house already does its week, and you come along."
-        facts={[
-          "Tuesday: the fish auction",
-          "Wednesday: the souk, or argan and a tagine",
-          "On foot, with the people who live here",
-        ]}
-        note="Add on: sandboarding the Timlaline dunes at sunset, or the cliffs on horseback or by quad."
         frames={[
           {
             src: "/assets/auction_1.jpg",
@@ -177,6 +152,15 @@ export function FoundationPackage() {
             alt: "The point at Imsouane from the cliff path, the village and the harbour wall on the far headland across grey water.",
           },
         ]}
+      />
+
+      <PackageDay
+        id="a-typical-day"
+        heading="What a day looks like"
+        intro="Five of these, with Wednesday off in the middle. The surfing moves with the tide; the rest of the day holds still around it."
+        entries={DAY}
+        arc={{ label: "The week", entries: WEEK }}
+        note="Session times are set the evening before, once the coaches have read the next day's tide. The clock here is a typical one, not a promise."
       />
     </>
   );
