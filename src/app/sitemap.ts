@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { PACKAGES } from "@/features/packages/data/packages";
+import { LEGAL_LINKS } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
 
 /**
@@ -27,5 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/house", 0.8, "monthly"),
     page("/coaching", 0.8, "monthly"),
     page("/imsouane", 0.7, "yearly"),
+    ...LEGAL_LINKS.map((link) => page(link.href, 0.3, "yearly")),
   ];
 }

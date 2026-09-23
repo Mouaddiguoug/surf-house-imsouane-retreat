@@ -10,10 +10,9 @@
  * anywhere else as a navigation home that lands on the section.
  */
 export const NAV_LINKS = [
-    { href: "/imsouane", label: "Imsouane" },
+  { href: "/imsouane", label: "Imsouane" },
   { href: "/#surf", label: "Surf" },
   { href: "/house", label: "House" },
-
 ] as const;
 
 /**
@@ -71,6 +70,16 @@ export const MENU_COLUMNS = [
  * the booking dialog in place instead of scrolling to the section.
  */
 export const BOOK_HREF = "/#book";
+
+/**
+ * The four pages a card network expects to find from any page of a site that
+ * takes payments — the reason they live in the footer rather than the menu.
+ */
+export const LEGAL_LINKS = [
+  { href: "/legal/terms", label: "Terms & Conditions" },
+  { href: "/legal/refunds", label: "Cancellation & Refunds" },
+  { href: "/legal/privacy", label: "Privacy Policy" },
+] as const;
 
 /** Where every "Get in touch" call to action points. */
 export const CONTACT_HREF = "/#contact";

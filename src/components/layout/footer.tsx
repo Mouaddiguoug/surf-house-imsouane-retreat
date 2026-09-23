@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CONTACT_CHANNELS } from "@/components/shared/contact-channels";
 import { BookButton } from "@/features/booking/components/book-button";
 import { PLATFORMS } from "@/features/reviews/data/reviews";
-import { CONTACT_HREF, MENU_COLUMNS } from "@/lib/constants/nav";
+import { CONTACT_HREF, LEGAL_LINKS, MENU_COLUMNS } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
 import { cn } from "@/lib/utils/cn";
 
@@ -181,7 +181,48 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-house-sand/15 text-house-sand/60 mt-10 flex flex-col gap-2 border-t pt-6 font-mono text-xs sm:flex-row sm:items-center sm:justify-between">
+        {/* The legal row. These four have to be reachable from every page of
+            a site that takes card payments, which is why they sit here rather
+            than in the menu — and why they are given their own rule instead
+            of being folded into the copyright line. */}
+        <div className="border-house-sand/15 mt-10 flex flex-col gap-6 border-t pt-6 lg:flex-row lg:items-center lg:justify-between">
+          <nav aria-label="Legal">
+            <ul className="-mx-2 flex flex-wrap items-center gap-x-4">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(linkClass, "font-mono text-xs")}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* The cards the booking engine takes, named rather than drawn:
+              the brand marks are trademarks with their own usage rules, and a
+              wordmark in the house's own type says the same thing without
+              borrowing one. */}
+          <div className="flex items-center gap-3">
+            <span className="text-house-sand/50 font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+              We accept
+            </span>
+            <ul className="flex flex-wrap items-center gap-2">
+              {["Visa", "Mastercard", "Amex"].map((card) => (
+                <li
+                  key={card}
+                  className="border-house-sand/25 text-house-sand/75 rounded-md border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.12em] uppercase"
+                >
+                  {card}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-house-sand/15 text-house-sand/60 mt-6 flex flex-col gap-2 border-t pt-6 font-mono text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {SITE.name}. All rights reserved.
           </p>
