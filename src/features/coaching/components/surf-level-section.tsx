@@ -56,7 +56,10 @@ const LEVELS = [
       "Duck-diving and getting out on bigger days",
       "Equipment for the conditions, from the free quiver",
     ],
-    week: { label: "The Classic Longboard week", href: "/packages/the-masterclass" },
+    week: {
+      label: "The Classic Longboard week",
+      href: "/packages/the-masterclass",
+    },
   },
   {
     number: "04",

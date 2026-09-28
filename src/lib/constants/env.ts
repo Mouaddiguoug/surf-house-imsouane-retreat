@@ -19,13 +19,3 @@ export const API_URL =
 export const MAP_STYLE_URL =
   process.env.NEXT_PUBLIC_MAP_STYLE_URL ??
   "https://tiles.openfreemap.org/styles/positron";
-
-/**
- * Cloudbeds Booking Engine property code — the six-character alphanumeric id
- * at the end of the booking engine URL (`hotels.cloudbeds.com/reservation/…`),
- * shown under Booking Engine → Summary in the Cloudbeds console. Empty means
- * the booking dialog falls back to a "we're finishing set-up" notice rather
- * than mounting the widget against no property.
- */
-export const CLOUDBEDS_PROPERTY_CODE =
-  process.env.NEXT_PUBLIC_CLOUDBEDS_PROPERTY_CODE ?? "";

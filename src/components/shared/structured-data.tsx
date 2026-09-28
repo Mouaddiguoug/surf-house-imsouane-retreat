@@ -16,7 +16,7 @@ import { SITE } from "@/lib/constants/site";
  * two different businesses.
  *
  * The packages ride along as `makesOffer` without prices. Prices live in
- * Cloudbeds and change by season; a stale number in structured data is a
+ * the booking engine and change by season; a stale number in structured data is a
  * policy violation, a missing one is merely a missing rich result.
  */
 export function StructuredData() {

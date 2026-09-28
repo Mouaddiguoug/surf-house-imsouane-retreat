@@ -34,7 +34,10 @@ export function PackageBooking({
         </div>
 
         <div className="flex shrink-0 flex-wrap items-center gap-3">
-          <BookButton className="h-12 w-full px-6 text-xs sm:w-auto">
+          <BookButton
+            packageSlug={entry.slug}
+            className="h-12 w-full px-6 text-xs sm:w-auto"
+          >
             {entry.bookLabel}
           </BookButton>
           <Link

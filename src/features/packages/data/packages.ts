@@ -49,6 +49,19 @@ export type PackageSummary = {
   bookLabel: string;
   /** The page's one link out, beside the book button. */
   secondary: { href: string; label: string };
+  /**
+   * The lowest published price on each rate plan, in euros.
+   *
+   * "From", because it is the premium-dorm bed: a private room costs more,
+   * and the engine prices the room once dates are chosen. The weeks are
+   * priced per stay, the Custom Retreat per night, which is why the unit
+   * travels with the number instead of being assumed.
+   */
+  rates: {
+    unit: "week" | "night";
+    nonRefundable: number;
+    semiFlexible: number;
+  };
 };
 
 export const PACKAGES: PackageSummary[] = [
@@ -75,6 +88,7 @@ export const PACKAGES: PackageSummary[] = [
     cta: "See the week",
     bookLabel: "Book the Foundation",
     secondary: { href: "/coaching", label: "How we coach" },
+    rates: { unit: "week", nonRefundable: 435.6, semiFlexible: 485 },
   },
   {
     slug: "the-masterclass",
@@ -96,6 +110,7 @@ export const PACKAGES: PackageSummary[] = [
     cta: "See the week",
     bookLabel: "Book the Masterclass",
     secondary: { href: "/#surf-level", label: "What's my surf level" },
+    rates: { unit: "week", nonRefundable: 483.45, semiFlexible: 540 },
   },
   {
     slug: "the-custom-retreat",
@@ -125,6 +140,7 @@ export const PACKAGES: PackageSummary[] = [
     cta: "See what you can build",
     bookLabel: "Build your stay",
     secondary: { href: "/#is-this-trip-for-me", label: "Is this trip for me" },
+    rates: { unit: "night", nonRefundable: 35, semiFlexible: 40 },
   },
 ];
 
@@ -144,4 +160,15 @@ export function packageBySlug(slug: string): PackageSummary {
 /** The other two, for the foot of a package's own page. */
 export function otherPackages(slug: string) {
   return PACKAGES.filter((entry) => entry.slug !== slug);
+}
+
+/**
+ * A euro amount as the booking engine quotes it.
+ *
+ * Some rates land on whole euros and some carry centimes, and neither should
+ * be dressed as the other: 540 reads as "€540", while 435.6 has to reach the
+ * page as "€435.60" rather than the "€435.6" a plain number would print.
+ */
+export function formatPrice(amount: number): string {
+  return Number.isInteger(amount) ? String(amount) : amount.toFixed(2);
 }

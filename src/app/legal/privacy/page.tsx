@@ -36,9 +36,8 @@ export default function PrivacyPage() {
       </p>
       <h3>When you book</h3>
       <p>
-        Bookings are handled by Cloudbeds, our property management and booking
-        system. What you enter there — your name, contact details, dates, stay
-        preferences and payment — is processed by Cloudbeds and its payment
+        Bookings are handled by Bookinglayer, our booking system. What you enter there — your name, contact details, dates, stay
+        preferences and payment — is processed by Bookinglayer and its payment
         provider on our behalf. Card details are entered inside their
         PCI-compliant environment; they do not pass through this website and we
         never hold them.
@@ -70,10 +69,10 @@ export default function PrivacyPage() {
 
       <h2>Who else processes it</h2>
       <dl>
-        <dt>Cloudbeds</dt>
+        <dt>Bookinglayer</dt>
         <dd>
-          Booking engine and property management system, including payment
-          processing through its PCI-compliant provider.
+          Booking engine, including payment processing through its
+          PCI-compliant provider.
         </dd>
         <dt>Vercel</dt>
         <dd>Hosting for this website, including server logs.</dd>

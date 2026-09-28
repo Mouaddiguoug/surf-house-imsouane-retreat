@@ -22,7 +22,7 @@ const HOW_IT_WORKS = [
   {
     icon: ShieldCheck,
     title: "Secure payment",
-    body: "Card payment runs inside Cloudbeds, PCI-compliant; your card details never touch this site.",
+    body: "Card payment runs inside Bookinglayer, PCI-compliant; your card details never touch this site.",
   },
   {
     icon: MailCheck,
@@ -37,8 +37,9 @@ const HOW_IT_WORKS = [
  * Ink, after the cream of Imsouane, and the last hard ground before the
  * softer sections that follow. The button opens the engine in place — the
  * same dialog every "Book" button on the site opens — rather than sending
- * the reader off to Cloudbeds' domain, so the house stays around the booking
- * from the first click to the confirmation.
+ * the reader straight out to the booking engine: the week and the rate plan
+ * are chosen here, in the house's own words, and only then is the reader
+ * handed over for dates and payment.
  *
  * The house cycles behind it all at a fraction of full strength — the one
  * section on the page that shows the place rather than describing it, kept

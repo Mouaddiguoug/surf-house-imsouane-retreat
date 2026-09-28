@@ -4,7 +4,7 @@
  * Everything here is a commitment to a customer and, for the commercial
  * terms, a commitment Stripe checks against the booking engine: the
  * cancellation policy shown on the site has to match the policy attached to
- * the Cloudbeds rate plans, word for word. The terms below are transcribed
+ * the Bookinglayer rate plans, word for word. The terms below are transcribed
  * from the house's own rate-plan document rather than invented; what only the
  * house can supply is still `null`, and the pages render a visible marker
  * where one is missing. A wrong number here is worse than an obvious gap —
@@ -14,7 +14,7 @@ export type Pending = null;
 
 /**
  * The two rate plans the booking engine sells, and the terms attached to
- * each. Their names and conditions must match the Cloudbeds policies
+ * each. Their names and conditions must match the Bookinglayer policies
  * (`Non-Refundable`, `Semi-Flexible`) exactly.
  */
 export const RATE_PLANS = [
@@ -80,9 +80,9 @@ export const LEGAL = {
    * The currency the booking engine charges in.
    *
    * The rate-plan document prices every package and every night in euros,
-   * and that is what this site states. The live Cloudbeds engine was last
-   * seen quoting MAD — the two must agree before a Stripe review, or the
-   * site is advertising a currency the customer is not charged in.
+   * and that is what this site states. Bookinglayer must be set to the
+   * same currency before a Stripe review, or the site is advertising a
+   * currency the customer is not charged in.
    */
   currency: "EUR",
 

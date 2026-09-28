@@ -1,12 +1,10 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { ExternalLink, LoaderCircle, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, Lock, X } from "lucide-react";
 import Link from "next/link";
-import Script from "next/script";
 import * as React from "react";
 
-import { buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -15,121 +13,59 @@ import {
   DialogPortal,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { buttonVariants } from "@/components/ui/button";
+import { bookingUrl, type RatePlanId } from "@/features/booking/bookinglayer";
 import {
   bookingDialogClosed,
   bookingDialogOpened,
+  bookingPackageChosen,
+  bookingPackageCleared,
 } from "@/features/booking/bookingSlice";
-import {
-  CLOUDBEDS_IMMERSIVE_CSS,
-  CLOUDBEDS_IMMERSIVE_SCRIPT_URL,
-  CLOUDBEDS_IMMERSIVE_TAG,
-  bookingEngineUrl,
-} from "@/features/booking/cloudbeds";
 import { takeBookingOpener } from "@/features/booking/components/book-button";
-import { CLOUDBEDS_PROPERTY_CODE } from "@/lib/constants/env";
+import { RATE_PLANS } from "@/features/legal/data/legal";
+import {
+  PACKAGES,
+  formatPrice,
+  packageBySlug,
+} from "@/features/packages/data/packages";
 import { CONTACT_HREF } from "@/lib/constants/nav";
 import { cn } from "@/lib/utils/cn";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
-type ScriptState = "idle" | "loading" | "ready" | "failed";
-
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
 
-const SLOW_AFTER_MS = 8000;
+/** The two plans, in the order they should be read: cheapest first. */
+const PLAN_ORDER: RatePlanId[] = ["non-refundable", "semi-flexible"];
 
 /**
- * The booking dialog: the Cloudbeds booking engine, taking over the screen.
+ * The booking dialog: choose a week, then choose how you want to pay for it.
  *
- * Mounted once, in the root layout, and opened from the store by any
- * `BookButton` on any page — it has no trigger of its own. On close, focus
- * goes back to whichever button opened it.
+ * The engine no longer runs inside this panel. What a guest has to actually
+ * understand before paying — which week, and what happens if they cancel —
+ * is the part the house should say in its own words, so it happens here; the
+ * calendar, the room and the card belong to Bookinglayer and the reader is
+ * handed over with both choices already made.
  *
- * It fills the viewport rather than sitting in a centred panel, and that is
- * the engine's requirement rather than a taste: standard mode sizes itself in
- * `dvh` and hangs its date picker off the end of `<body>` in a fixed-position
- * portal, so anything short of the whole viewport leaves the picker measuring
- * one box and the reader looking at another. See `CLOUDBEDS_IMMERSIVE_CSS`.
- *
- * The engine's script is ~a page's worth of JavaScript, so it is only
- * requested the first time the dialog opens; until it reports ready the body
- * shows a spinner at full height, so the panel never jumps when the engine
- * lands. Outside presses do not dismiss: the flow inside has date pickers and
- * a payment step, and a stray click should not throw a half-made booking
- * away. Escape still closes, except while focus is inside the engine, where
- * it belongs to whatever picker is open in there.
+ * Two steps, and the first is skipped whenever the button already knew the
+ * answer. A "Book" button on a package page opens straight on that week's
+ * plans; the one in the navbar opens on the three packages. Stepping back is
+ * always possible, because a reader who opened the wrong week should not have
+ * to close the dialog to fix it.
  */
 export function BookStayDialog() {
   const open = useAppSelector((state) => state.booking.dialogOpen);
+  const slug = useAppSelector((state) => state.booking.slug);
   const dispatch = useAppDispatch();
-  const setOpen = React.useCallback(
-    (next: boolean) =>
-      dispatch(next ? bookingDialogOpened() : bookingDialogClosed()),
-    [dispatch],
-  );
-  // True once the dialog has been opened at all — the gate on the script tag.
-  const [engaged, setEngaged] = React.useState(false);
-  const [script, setScript] = React.useState<ScriptState>("idle");
-  // The engine is 1.3 MB from a CDN and has been seen to stall; past this
-  // point the spinner gets a way out alongside it.
-  const [slow, setSlow] = React.useState(false);
-  const engineRef = React.useRef<HTMLElement | null>(null);
 
-  // The script tag is gated on the first open, whichever button does it.
-  // Adjusted during render rather than in an effect: the store flips `open`
-  // from outside, so there is no event handler here to hang it on, and React
-  // re-runs the render immediately with the new state.
-  if (open && !engaged) {
-    setEngaged(true);
-    // Already registered (a hot reload): skip the spinner. `onReady` still
-    // fires, harmlessly, on the script below.
-    setScript(
-      customElements.get(CLOUDBEDS_IMMERSIVE_TAG) ? "ready" : "loading",
-    );
-  }
+  const entry = slug ? packageBySlug(slug) : null;
 
-  React.useEffect(() => {
-    if (script !== "loading") return;
-    const timer = window.setTimeout(() => setSlow(true), SLOW_AFTER_MS);
-    return () => window.clearTimeout(timer);
-  }, [script]);
-
-  const propertyCode = CLOUDBEDS_PROPERTY_CODE;
-
-  function handleOpenChange(
-    next: boolean,
-    details: DialogPrimitive.Root.ChangeEventDetails,
-  ) {
-    if (
-      !next &&
-      details.reason === "escape-key" &&
-      engineRef.current?.contains(document.activeElement)
-    ) {
-      details.cancel();
-      return;
-    }
-    setOpen(next);
+  function handleOpenChange(next: boolean) {
+    dispatch(next ? bookingDialogOpened(null) : bookingDialogClosed());
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange} disablePointerDismissal>
-      {engaged && propertyCode && (
-        <>
-          <Script
-            src={CLOUDBEDS_IMMERSIVE_SCRIPT_URL}
-            strategy="afterInteractive"
-            onReady={() => setScript("ready")}
-            onError={() => setScript("failed")}
-          />
-          {/* Cloudbeds' documented hook for styling the embed from the host
-              page. It ships with the engine rather than from the global
-              stylesheet, so nothing is sent to a reader who never books. */}
-          <style data-cb-immersive-experience-root="">
-            {CLOUDBEDS_IMMERSIVE_CSS}
-          </style>
-        </>
-      )}
-
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogPortal>
         <DialogOverlay className="bg-house-deep/55 duration-300 motion-reduce:animate-none" />
         <DialogPrimitive.Popup
@@ -137,117 +73,55 @@ export function BookStayDialog() {
           finalFocus={takeBookingOpener}
           className={cn(
             "fixed inset-0 z-50 flex flex-col bg-background text-foreground outline-none",
+            // `sm:inset-auto` first, and it is the whole fix: `inset-0` sets
+            // `bottom: 0` as well as `top: 0`, and overriding only `top` left
+            // the panel stretched between `top: 50%` and `bottom: 0` — half
+            // the viewport, whatever its content, with the second rate plan
+            // cut off below the fold.
+            "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[calc(100dvh-3rem)] sm:w-[min(52rem,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:shadow-2xl sm:ring-1 sm:ring-foreground/10",
             "duration-300 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom-4 data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom-4",
             "motion-reduce:animate-none",
           )}
         >
-          {/* Nothing of ours sits in the flow above the engine: every pixel
-              of chrome here pushes its search card further down the viewport,
-              and the date picker measures its room from there. So the title is
-              read rather than drawn, and the close floats over the engine's own
-              header — which the engine stylesheet pads to keep its language and
-              currency controls out from under it. */}
-          <DialogTitle className="sr-only">Book a stay</DialogTitle>
-          <DialogDescription className="sr-only">
-            Live availability and secure payment.
-          </DialogDescription>
-
-          <DialogClose
-            aria-label="Close booking"
-            className={cn(
-              "absolute top-3 right-3 z-20 inline-flex size-11 cursor-pointer items-center justify-center rounded-xl",
-              "bg-background/85 shadow-sm ring-1 ring-foreground/10 backdrop-blur-sm",
-              "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
-              focusRing,
-            )}
-          >
-            <X aria-hidden className="size-5" />
-          </DialogClose>
-
-          {/* The engine sets its own heights; this is the one scroll
-              container so the page underneath stays locked while the panel
-              scrolls. */}
-          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain">
-            {!propertyCode ? (
-              <Notice
-                title="Online booking is almost ready"
-                body="We are finishing the set-up of our booking calendar. In the meantime, write to us with your dates and we will hold the room by hand."
-              >
-                <Link
-                  href={CONTACT_HREF}
-                  onClick={() => setOpen(false)}
+          <header className="flex shrink-0 items-start justify-between gap-4 border-b border-border py-4 pr-3 pl-5 sm:pl-8">
+            <div className="min-w-0">
+              {entry && (
+                <button
+                  type="button"
+                  onClick={() => dispatch(bookingPackageCleared())}
                   className={cn(
-                    buttonVariants({ variant: "clay" }),
-                    "h-12 px-6 text-xs",
+                    "text-muted-foreground -mx-2 mb-1.5 inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 font-mono text-[0.65rem] tracking-[0.18em] uppercase",
+                    "transition-colors duration-200 hover:text-foreground motion-reduce:transition-none",
+                    focusRing,
                   )}
                 >
-                  Get in touch
-                </Link>
-              </Notice>
-            ) : script === "failed" ? (
-              <Notice
-                title="The booking calendar did not load"
-                body="Something between here and Cloudbeds is not answering. The same calendar is open on their site, and a booking made there is exactly the same booking."
-              >
-                <a
-                  href={bookingEngineUrl(propertyCode)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    buttonVariants({ variant: "clay" }),
-                    "h-12 gap-2 px-6 text-xs has-data-[icon=inline-end]:pr-5",
-                  )}
-                >
-                  Book on Cloudbeds
-                  <ExternalLink aria-hidden data-icon="inline-end" />
-                </a>
-              </Notice>
-            ) : (
-              <>
-                {script !== "ready" && (
-                  <div
-                    role="status"
-                    className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center"
-                  >
-                    <LoaderCircle
-                      aria-hidden
-                      className="text-house-tide size-6 animate-spin motion-reduce:animate-none"
-                    />
-                    <p className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase">
-                      Loading live availability
-                    </p>
-                    {slow && (
-                      <p className="text-muted-foreground mt-2 text-sm">
-                        Taking longer than usual.{" "}
-                        <a
-                          href={bookingEngineUrl(propertyCode)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cn(
-                            "text-house-tide inline-flex items-center gap-1 rounded-sm underline underline-offset-4",
-                            "transition-colors duration-200 hover:text-foreground",
-                            focusRing,
-                          )}
-                        >
-                          Book on Cloudbeds instead
-                          <ExternalLink aria-hidden className="size-3.5" />
-                        </a>
-                      </p>
-                    )}
-                  </div>
-                )}
-                {script === "ready" && (
-                  <cb-immersive-experience
-                    ref={engineRef}
-                    mode="standard"
-                    property-code={propertyCode}
-                    hide-custom-header="yes"
-                    hide-custom-footer="yes"
-                    className="block w-full"
-                  />
-                )}
-              </>
-            )}
+                  <ArrowLeft aria-hidden className="size-3.5" />
+                  All packages
+                </button>
+              )}
+              <DialogTitle className="font-display text-xl leading-tight sm:text-2xl">
+                {entry ? entry.name : "Book a stay"}
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground mt-1 text-sm">
+                {entry
+                  ? "Choose how you would like to pay for it."
+                  : "Which week are you booking?"}
+              </DialogDescription>
+            </div>
+            <DialogClose
+              aria-label="Close booking"
+              className={cn(
+                "inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-xl",
+                "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
+                focusRing,
+              )}
+            >
+              <X aria-hidden className="size-5" />
+            </DialogClose>
+          </header>
+
+          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain p-5 sm:p-8">
+            {entry ? <PlanStep slug={entry.slug} /> : <PackageStep />}
           </div>
         </DialogPrimitive.Popup>
       </DialogPortal>
@@ -255,27 +129,173 @@ export function BookStayDialog() {
   );
 }
 
-/** The dialog body when there is no engine to show — one message, one way out. */
-function Notice({
-  title,
-  body,
-  children,
-}: {
-  title: string;
-  body: string;
-  children: React.ReactNode;
-}) {
+/** Step one: which of the three. */
+function PackageStep() {
+  const dispatch = useAppDispatch();
+
   return (
-    <div className="flex flex-1 items-center justify-center p-6 sm:p-10">
-      <div className="flex max-w-md flex-col items-start">
-        <h3 className="font-display text-2xl leading-[1.1] text-balance sm:text-3xl">
-          {title}
-        </h3>
-        <p className="text-muted-foreground mt-3 text-base leading-relaxed text-pretty">
-          {body}
-        </p>
-        <div className="mt-8">{children}</div>
+    <ul className="flex flex-col gap-3">
+      {PACKAGES.map((entry) => (
+        <li key={entry.slug}>
+          <button
+            type="button"
+            onClick={() => dispatch(bookingPackageChosen(entry.slug))}
+            className={cn(
+              "group border-border flex w-full cursor-pointer items-center justify-between gap-4 rounded-2xl border p-5 text-left",
+              "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
+              focusRing,
+            )}
+          >
+            <span className="min-w-0">
+              <span className="text-house-clay block font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+                {entry.name}
+              </span>
+              <span className="font-display mt-1 block text-lg leading-snug">
+                {entry.title}
+              </span>
+              <span className="text-muted-foreground mt-1 block text-sm">
+                {entry.subtitle}
+              </span>
+            </span>
+            <span className="shrink-0 text-right">
+              <span className="text-muted-foreground block font-mono text-[0.6rem] tracking-[0.18em] uppercase">
+                From
+              </span>
+              <span className="font-display block text-lg">
+                €{formatPrice(entry.rates.nonRefundable)}
+              </span>
+              <span className="text-muted-foreground block text-xs">
+                / {entry.rates.unit}
+              </span>
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Step two: on which terms. */
+function PlanStep({ slug }: { slug: string }) {
+  const entry = packageBySlug(slug);
+
+  return (
+    <div className="flex flex-col gap-5">
+      {/* Side by side from `sm`, because this is a comparison: stacked, the
+          second plan sat below the fold on a laptop and a reader had to
+          scroll to learn that a choice existed at all. `items-stretch` plus
+          `mt-auto` on each card's action keeps the two buttons on one line
+          however unevenly the terms above them fall. */}
+      <div className="grid items-stretch gap-4 sm:grid-cols-2">
+        {PLAN_ORDER.map((id) => {
+          const plan = RATE_PLANS.find((candidate) => candidate.id === id)!;
+          const price =
+            id === "non-refundable"
+              ? entry.rates.nonRefundable
+              : entry.rates.semiFlexible;
+          const href = bookingUrl(slug, id);
+          const terms =
+            id === "non-refundable"
+              ? [
+                  plan.payment,
+                  plan.cancellation,
+                  `No-show: ${plan.noShow.toLowerCase()}`,
+                ]
+              : [
+                  plan.payment,
+                  ...("windows" in plan
+                    ? plan.windows.map((w) => `${w.applies}: ${w.free}`)
+                    : []),
+                ];
+
+          return (
+            <section
+              key={id}
+              className="border-border flex flex-col rounded-2xl border p-5"
+            >
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <h3 className="font-display text-lg">{plan.name}</h3>
+                <p className="font-display text-xl">
+                  €{formatPrice(price)}
+                  <span className="text-muted-foreground text-sm">
+                    {" "}
+                    / {entry.rates.unit}
+                  </span>
+                </p>
+              </div>
+              <p className="text-muted-foreground mt-1 text-sm">
+                {plan.tagline}
+              </p>
+
+              <ul className="mt-4 flex flex-col gap-2">
+                {terms.filter(Boolean).map((line) => (
+                  <li
+                    key={line}
+                    className="flex gap-2.5 text-sm leading-relaxed"
+                  >
+                    {id === "non-refundable" ? (
+                      <Lock
+                        aria-hidden
+                        className="text-house-muted mt-1 size-3.5 shrink-0"
+                      />
+                    ) : (
+                      <Check
+                        aria-hidden
+                        className="text-house-clay mt-1 size-3.5 shrink-0"
+                      />
+                    )}
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-auto pt-5">
+                {href ? (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      buttonVariants({
+                        variant: id === "non-refundable" ? "clay" : "outline",
+                      }),
+                      "h-12 w-full gap-2 px-5 text-xs",
+                    )}
+                  >
+                    Continue on this rate
+                    <ArrowUpRight aria-hidden className="size-4" />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  <p className="text-muted-foreground bg-muted rounded-xl px-4 py-3 text-xs leading-relaxed">
+                    Online booking for this rate is being switched on. Write to
+                    us and we will hold the week by hand —{" "}
+                    <Link
+                      href={CONTACT_HREF}
+                      className="text-house-tide underline underline-offset-4"
+                    >
+                      get in touch
+                    </Link>
+                    .
+                  </p>
+                )}
+              </div>
+            </section>
+          );
+        })}
       </div>
+
+      <p className="text-muted-foreground text-xs leading-relaxed">
+        Prices are per person in euros, from the premium dorm bed; a private
+        room is priced at the next step. Full terms are in our{" "}
+        <Link
+          href="/legal/refunds"
+          className="text-house-tide underline underline-offset-4"
+        >
+          Cancellation &amp; Refund Policy
+        </Link>
+        .
+      </p>
     </div>
   );
 }

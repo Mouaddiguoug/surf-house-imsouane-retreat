@@ -24,6 +24,12 @@ export function takeBookingOpener(): HTMLElement | true {
 
 type BookButtonProps = Omit<React.ComponentProps<typeof Button>, "type"> & {
   children?: React.ReactNode;
+  /**
+   * The package this button sells, where it sells one. A button on a package
+   * page opens the dialog straight on that week's two rate plans; one in the
+   * navbar or the footer has no package in mind and opens on the choice.
+   */
+  packageSlug?: string;
 };
 
 /**
@@ -31,7 +37,8 @@ type BookButtonProps = Omit<React.ComponentProps<typeof Button>, "type"> & {
  *
  * Every one on the site is this component, so they all do the same thing:
  * open the booking dialog in place, on whatever page the reader is on,
- * rather than scrolling them off to a section first. Clay by default — it is
+ * rather than scrolling them off to a section first. Pass `packageSlug` and
+ * it opens one step further in, on that week's rate plans. Clay by default — it is
  * the one action that should never recede — and the caller passes only the
  * size classes and the label.
  */
@@ -40,6 +47,7 @@ export function BookButton({
   className,
   onClick,
   children = "Book a stay",
+  packageSlug,
   ...props
 }: BookButtonProps) {
   const dispatch = useAppDispatch();
@@ -54,7 +62,7 @@ export function BookButton({
         onClick?.(event);
         if (event.defaultPrevented) return;
         lastOpener = event.currentTarget;
-        dispatch(bookingDialogOpened());
+        dispatch(bookingDialogOpened(packageSlug));
       }}
       {...props}
     >

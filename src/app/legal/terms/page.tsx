@@ -36,7 +36,7 @@ export default function TermsPage() {
       <h2>Booking and confirmation</h2>
       <p>
         Bookings are made through our booking engine, which is operated for us
-        by Cloudbeds. A booking exists only once you receive a confirmation
+        by Bookinglayer. A booking exists only once you receive a confirmation
         email carrying a reservation number — not when a payment leaves your
         card, and not when a date is held in the calendar.
       </p>
@@ -53,7 +53,7 @@ export default function TermsPage() {
       <p>
         All prices are shown and charged in {LEGAL.currency}, and the price you
         see in the booking engine at the moment of booking is the price that
-        applies. Card payment is processed inside Cloudbeds&rsquo; secure
+        applies. Card payment is processed inside Bookinglayer&rsquo;s secure
         environment by a PCI-compliant payment provider; your card details are
         never entered on, stored by, or transmitted through this website.
       </p>
