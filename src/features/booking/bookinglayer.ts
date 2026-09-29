@@ -39,13 +39,11 @@ export const BOOKINGLAYER = {
         "/product/classic-longboard-best-rate-non-refundable" as string | null,
       "semi-flexible": "/product/classic-longboard-standard" as string | null,
     },
-    // The Custom Retreat is a nightly stay rather than a fixed week, and has
-    // no product of its own in the shop yet. Both plans fall through to the
-    // shop's front page, which works — it just asks the guest to pick the
-    // stay again.
     "the-custom-retreat": {
-      "non-refundable": null as string | null,
-      "semi-flexible": null as string | null,
+      "non-refundable": "/product/the-custom-retreat-best-rate-save-13" as
+        string | null,
+      "semi-flexible": "/product/the-custom-retreat-semi-flexible" as
+        string | null,
     },
   },
 } as const;
