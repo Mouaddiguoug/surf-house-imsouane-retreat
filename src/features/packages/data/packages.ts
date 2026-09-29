@@ -140,7 +140,7 @@ export const PACKAGES: PackageSummary[] = [
     cta: "See what you can build",
     bookLabel: "Build your stay",
     secondary: { href: "/#is-this-trip-for-me", label: "Is this trip for me" },
-    rates: { unit: "night", nonRefundable: 35, semiFlexible: 40 },
+    rates: { unit: "night", nonRefundable: 52, semiFlexible: 60 },
   },
 ];
 
