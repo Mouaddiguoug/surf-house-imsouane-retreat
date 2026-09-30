@@ -38,8 +38,8 @@ export default function HomePage() {
         className="bg-bay-dusk sticky top-0 h-dvh w-full overflow-hidden"
       >
         <HeroVideo
-          src="/assets/background_hero.mp4"
-          poster="/assets/background_hero_poster.jpg"
+          src="/assets/hero_bg_vid.mp4"
+          poster="/assets/hero_bg_vid_poster.jpg"
           className="hero-depart-media absolute inset-0"
         />
 
@@ -90,10 +90,9 @@ export default function HomePage() {
                   "motion-reduce:animate-none"
                 }
               >
-                We deliver a structured, personalized surf-learning experience
-                that blends digital preparation, expert coaching, and ocean
-                training, empowering every surfer to build lasting skills and
-                achieve measurable progress.
+                Coached surf weeks on Morocco&rsquo;s longest right-hand wave.
+                Small groups, daily video, yoga and a shared table, from
+                &euro;485.
               </p>
 
               <CtaButtons className="mt-8 lg:justify-end" />

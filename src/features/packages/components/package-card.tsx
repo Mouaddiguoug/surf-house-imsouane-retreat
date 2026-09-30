@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { PackageSummary } from "@/features/packages/data/packages";
+import {
+  formatPrice,
+  type PackageSummary,
+} from "@/features/packages/data/packages";
 import { cn } from "@/lib/utils/cn";
 
 type PackageCardProps = {
@@ -60,6 +63,29 @@ export function PackageCard({ package: entry, className }: PackageCardProps) {
         aria-hidden
         className="from-house-deep/85 via-house-deep/30 absolute inset-0 -z-10 bg-gradient-to-t to-transparent via-45%"
       />
+
+      {/* The price, on its own pane of the same glass as the panel below.
+          It sits on the frame rather than in the panel because it is the one
+          fact a reader compares across three cards at a glance, and up here
+          it lands on the same line as its neighbours instead of at three
+          different depths.
+
+          Not interactive, so it is free to sit under the card's cover link —
+          a click on it still opens the package. "From", because this is the
+          premium dorm bed on the non-refundable rate; both a private room
+          and the flexible rate cost more, which the package page spells
+          out. */}
+      <p className="border-house-shell/20 bg-house-deep/65 text-house-shell absolute top-3 right-3 flex items-baseline gap-1.5 rounded-full border px-3.5 py-2 backdrop-blur-xl sm:top-4 sm:right-4">
+        <span className="text-house-shell/65 font-mono text-[0.6rem] tracking-[0.18em] uppercase">
+          From
+        </span>
+        <span className="font-display text-base leading-none">
+          €{formatPrice(entry.rates.nonRefundable)}
+        </span>
+        <span className="text-house-shell/70 text-xs">
+          / {entry.rates.unit}
+        </span>
+      </p>
 
       {/* Edge to edge and flush to the foot: the card's own corners round it
           off, so the glass has no radius of its own and no ring — a single

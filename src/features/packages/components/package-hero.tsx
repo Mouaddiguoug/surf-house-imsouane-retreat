@@ -1,7 +1,10 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import Image from "next/image";
 
-import type { PackageSummary } from "@/features/packages/data/packages";
+import {
+  formatPrice,
+  type PackageSummary,
+} from "@/features/packages/data/packages";
 import { cn } from "@/lib/utils/cn";
 
 /**
@@ -157,10 +160,39 @@ export function PackageHero({
         <div className={cn(ENTER, "delay-500")}>
           {children}
 
+          {/* Price and facts are one block above the rule: a reader who has
+              got this far is costing the week out, and the number belongs
+              beside the format and the arrival day rather than buried among
+              them. Both rates are named — the cheaper one is only cheap
+              because it is final, and quoting it alone would undersell the
+              difference. Inside the delayed wrapper, so it arrives with the
+              rest of the small print rather than ahead of the title. */}
+          <p className="font-display mt-10 text-3xl leading-none">
+            <span
+              className={cn(
+                quietVariants({ tone }),
+                "font-mono text-[0.65rem] tracking-[0.18em] uppercase",
+              )}
+            >
+              From{" "}
+            </span>
+            €{formatPrice(entry.rates.nonRefundable)}
+            <span className={cn(quietVariants({ tone }), "text-base")}>
+              {" "}
+              / {entry.rates.unit}
+            </span>
+          </p>
+          <p
+            className={cn(quietVariants({ tone }), "mt-2 text-sm text-pretty")}
+          >
+            Non-refundable rate, per person, premium dorm bed. Semi-flexible
+            from €{formatPrice(entry.rates.semiFlexible)} / {entry.rates.unit}.
+          </p>
+
           <dl
             className={cn(
               ruleVariants({ tone }),
-              "mt-10 grid grid-cols-3 gap-4 border-t pt-6 sm:max-w-2xl",
+              "mt-6 grid grid-cols-3 gap-4 border-t pt-6 sm:max-w-2xl",
             )}
           >
             {entry.facts.map((fact) => (

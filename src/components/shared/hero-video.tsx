@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils/cn";
 
 type HeroVideoProps = {
-  /** Path under `public`, e.g. `/assets/background_hero.mp4`. */
+  /** Path under `public`, e.g. `/assets/hero_bg_vid.mp4`. */
   src: string;
   /** Still frame held before playback starts, and instead of it. */
   poster: string;

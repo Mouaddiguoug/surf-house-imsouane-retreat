@@ -81,5 +81,8 @@ export const LEGAL_LINKS = [
   { href: "/legal/privacy", label: "Privacy Policy" },
 ] as const;
 
+/** The three packages on the home page, for the hero's own call to action. */
+export const PACKAGES_HREF = "/#packages";
+
 /** Where every "Get in touch" call to action points. */
 export const CONTACT_HREF = "/#contact";
