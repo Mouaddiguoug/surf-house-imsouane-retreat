@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils/cn";
  */
 export function ToConfirm({ children }: { children: React.ReactNode }) {
   return (
-    <mark className="bg-house-clay/10 text-house-clay ring-house-clay/30 rounded px-1.5 py-0.5 font-mono text-[0.7rem] tracking-[0.12em] uppercase ring-1">
+    <mark className="bg-house-clay/10 text-house-clay ring-house-clay/30 rounded px-1.5 py-0.5 font-mono text-label tracking-[0.12em] uppercase ring-1">
       To confirm: {children}
     </mark>
   );
@@ -87,7 +87,7 @@ export function LegalPage({
             "[&_li]:relative [&_li]:pl-5",
             "[&_li]:before:bg-house-clay [&_li]:before:absolute [&_li]:before:top-[0.6rem] [&_li]:before:left-0 [&_li]:before:size-1.5 [&_li]:before:rounded-full [&_li]:before:content-['']",
             "[&_dl]:border-border [&_dl]:mt-6 [&_dl]:flex [&_dl]:flex-col [&_dl]:gap-3 [&_dl]:border-t [&_dl]:pt-6",
-            "[&_dt]:text-muted-foreground [&_dt]:font-mono [&_dt]:text-[0.65rem] [&_dt]:tracking-[0.18em] [&_dt]:uppercase",
+            "[&_dt]:text-muted-foreground [&_dt]:font-mono [&_dt]:text-label [&_dt]:tracking-[0.18em] [&_dt]:uppercase",
             "[&_dd]:mt-1",
             "[&_a]:text-house-tide [&_a]:underline [&_a]:underline-offset-4 [&_a]:transition-colors [&_a]:duration-200 hover:[&_a]:text-foreground",
             "[&_strong]:font-semibold",

@@ -97,7 +97,7 @@ export function ImsouaneHero() {
               key={fact.term}
               className="py-5 sm:px-8 sm:py-6 sm:first:pl-0 sm:last:pr-0"
             >
-              <dt className="text-house-sky font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+              <dt className="text-house-sky font-mono text-label tracking-[0.18em] uppercase">
                 {fact.term}
               </dt>
               <dd className="font-display mt-1 text-xl leading-tight sm:text-2xl">

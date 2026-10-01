@@ -20,7 +20,7 @@ const labelClass =
   "text-house-muted font-mono text-xs tracking-[0.18em] uppercase group-data-[invalid=true]/field:text-destructive";
 
 const controlClass =
-  "rounded-xl border-house-ink/15 bg-house-shell px-4 text-base text-house-ink placeholder:text-house-dim md:text-base";
+  "rounded-xl border-house-ink/15 bg-house-shell px-4 text-base text-house-ink placeholder:text-house-muted md:text-base";
 
 /**
  * The enquiry form.
@@ -174,7 +174,7 @@ export function ContactForm({ className }: { className?: string }) {
             Phone
             {/* Marked in the label rather than with a required star on the
                 other four: one "optional" is less noise than four asterisks. */}
-            <span className="text-house-dim normal-case tracking-normal">
+            <span className="text-house-muted normal-case tracking-normal">
               Optional
             </span>
           </FieldLabel>

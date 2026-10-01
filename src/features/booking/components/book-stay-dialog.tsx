@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { ArrowLeft, ArrowUpRight, Check, Lock, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, Lock, Minus, X } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -90,7 +90,7 @@ export function BookStayDialog() {
                   type="button"
                   onClick={() => dispatch(bookingPackageCleared())}
                   className={cn(
-                    "text-muted-foreground -mx-2 mb-1.5 inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 font-mono text-[0.65rem] tracking-[0.18em] uppercase",
+                    "text-muted-foreground -mx-2 mb-1.5 inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 font-mono text-label tracking-[0.18em] uppercase",
                     "transition-colors duration-200 hover:text-foreground motion-reduce:transition-none",
                     focusRing,
                   )}
@@ -147,7 +147,7 @@ function PackageStep() {
             )}
           >
             <span className="min-w-0">
-              <span className="text-house-clay block font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+              <span className="text-muted-foreground block font-mono text-label tracking-[0.18em] uppercase">
                 {entry.name}
               </span>
               <span className="font-display mt-1 block text-lg leading-snug">
@@ -158,7 +158,7 @@ function PackageStep() {
               </span>
             </span>
             <span className="shrink-0 text-right">
-              <span className="text-muted-foreground block font-mono text-[0.6rem] tracking-[0.18em] uppercase">
+              <span className="text-muted-foreground block font-mono text-label tracking-[0.18em] uppercase">
                 From
               </span>
               <span className="font-display block text-lg">
@@ -194,18 +194,42 @@ function PlanStep({ slug }: { slug: string }) {
               ? entry.rates.nonRefundable
               : entry.rates.semiFlexible;
           const href = bookingUrl(slug, id);
-          const terms =
+          const isWeek = entry.rates.unit === "week";
+          // Only the terms that apply to this package. The semi-flexible plan
+          // carries one cancellation window per kind of stay, and rendering
+          // both put the Custom Retreat's ten days on the Foundation's card,
+          // at the moment a reader is deciding whether they can afford to
+          // change their mind. Both edges of the window are stated, because
+          // "refunded more than 30 days out" says nothing about day 29.
+          // `RATE_PLANS` lists the seven-night window first and every other
+          // stay second; keep that order if a window is ever added.
+          const window =
+            "windows" in plan ? plan.windows[isWeek ? 0 : 1] : null;
+          // Each line carries its own mark. A tick beside "the deposit is
+          // retained" reads as a benefit, so the semi-flexible plan ticks only
+          // what it gives and marks what it keeps with a plain rule.
+          const terms: {
+            text: string | null | undefined;
+            mark: "lock" | "gives" | "keeps";
+          }[] =
             id === "non-refundable"
               ? [
-                  plan.payment,
-                  plan.cancellation,
-                  `No-show: ${plan.noShow.toLowerCase()}`,
+                  { text: plan.payment, mark: "lock" },
+                  { text: plan.cancellation, mark: "lock" },
+                  { text: isWeek ? plan.change : null, mark: "lock" },
+                  {
+                    text: `No-show: ${plan.noShow.toLowerCase()}`,
+                    mark: "lock",
+                  },
                 ]
               : [
-                  plan.payment,
-                  ...("windows" in plan
-                    ? plan.windows.map((w) => `${w.applies}: ${w.free}`)
-                    : []),
+                  { text: plan.payment, mark: "gives" },
+                  { text: window?.free, mark: "gives" },
+                  { text: window?.late, mark: "keeps" },
+                  {
+                    text: `No-show: ${plan.noShow.toLowerCase()}`,
+                    mark: "keeps",
+                  },
                 ];
 
           return (
@@ -228,25 +252,32 @@ function PlanStep({ slug }: { slug: string }) {
               </p>
 
               <ul className="mt-4 flex flex-col gap-2">
-                {terms.filter(Boolean).map((line) => (
-                  <li
-                    key={line}
-                    className="flex gap-2.5 text-sm leading-relaxed"
-                  >
-                    {id === "non-refundable" ? (
-                      <Lock
-                        aria-hidden
-                        className="text-house-muted mt-1 size-3.5 shrink-0"
-                      />
-                    ) : (
-                      <Check
-                        aria-hidden
-                        className="text-house-clay mt-1 size-3.5 shrink-0"
-                      />
-                    )}
-                    <span>{line}</span>
-                  </li>
-                ))}
+                {terms.map(({ text, mark }) =>
+                  text ? (
+                    <li
+                      key={text}
+                      className="flex gap-2.5 text-sm leading-relaxed"
+                    >
+                      {mark === "lock" ? (
+                        <Lock
+                          aria-hidden
+                          className="text-house-muted mt-1 size-3.5 shrink-0"
+                        />
+                      ) : mark === "gives" ? (
+                        <Check
+                          aria-hidden
+                          className="text-house-tide mt-1 size-3.5 shrink-0"
+                        />
+                      ) : (
+                        <Minus
+                          aria-hidden
+                          className="text-house-muted mt-1 size-3.5 shrink-0"
+                        />
+                      )}
+                      <span>{text}</span>
+                    </li>
+                  ) : null,
+                )}
               </ul>
 
               <div className="mt-auto pt-5">
@@ -259,7 +290,12 @@ function PlanStep({ slug }: { slug: string }) {
                       buttonVariants({
                         variant: id === "non-refundable" ? "clay" : "outline",
                       }),
+                      // The outline plan wears the clay one's label — rounded
+                      // corner, uppercase mono — so the two read as a pair
+                      // that differ in weight, not as two unrelated controls.
                       "h-12 w-full gap-2 px-5 text-xs",
+                      id !== "non-refundable" &&
+                        "border-house-ink/15 rounded-xl font-mono tracking-[0.14em] uppercase",
                     )}
                   >
                     Continue on this rate

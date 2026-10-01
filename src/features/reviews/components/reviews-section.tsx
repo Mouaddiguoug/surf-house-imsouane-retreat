@@ -25,14 +25,14 @@ function Stars({ score, outOf }: Pick<Review, "score" | "outOf">) {
           <span key={i} className="relative size-4">
             <Star
               className={cn(
-                "text-house-clay absolute inset-0 size-4",
-                filled && "fill-house-clay",
+                "text-house-stone absolute inset-0 size-4",
+                filled && "fill-house-stone",
               )}
               strokeWidth={filled ? 0 : 1.75}
             />
             {isHalf && (
               <StarHalf
-                className="text-house-clay fill-house-clay absolute inset-0 size-4"
+                className="text-house-stone fill-house-stone absolute inset-0 size-4"
                 strokeWidth={0}
               />
             )}
@@ -49,7 +49,7 @@ function ReviewCard({ review }: { review: Review }) {
     <li className="border-house-ink/10 bg-house-shell text-house-ink shadow-card flex w-[19rem] shrink-0 flex-col gap-4 rounded-2xl border p-6 sm:w-[22rem]">
       <div className="flex items-center gap-2">
         <Stars score={score} outOf={outOf} />
-        <span className="text-house-muted font-mono text-[0.65rem] tracking-[0.12em]">
+        <span className="text-house-muted font-mono text-label tracking-[0.12em]">
           {score} / {outOf}
         </span>
       </div>
@@ -116,8 +116,8 @@ function Marquee({
 /**
  * What guests say.
  *
- * Cream, between the sand of the Custom Retreat and the ink of the booking
- * section — the proof sits right before the reader is asked to book. Two
+ * Sand, after the levels on cream: once a reader knows which week is theirs,
+ * what other guests said is the proof for it. Two
  * rows drifting in opposite directions, past the edges of the measure like
  * a wall of postcards, because eighteen reviews in a grid would read as a
  * spreadsheet. The scores are quoted on the platform's own scale, and the
@@ -127,10 +127,10 @@ export function ReviewsSection() {
   return (
     <section
       id="reviews"
-      className="border-border bg-background border-t overflow-hidden py-24 sm:py-32"
+      className="bg-house-sand text-house-ink overflow-hidden py-24 sm:py-32"
     >
       <div className="mx-auto w-full max-w-6xl px-6 text-center sm:px-10">
-        <h2 className="font-display mt-4 text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-5xl">
+        <h2 className="font-display text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-5xl">
           What guests say
         </h2>
         <p className="text-muted-foreground font-display mx-auto mt-3 max-w-2xl text-lg sm:text-xl">
@@ -153,7 +153,7 @@ export function ReviewsSection() {
               >
                 <Star
                   aria-hidden
-                  className="text-house-clay fill-house-clay size-4"
+                  className="text-house-stone fill-house-stone size-4"
                 />
                 <span className="font-display text-lg">{p.score}</span>
                 <span className="text-house-muted text-sm">

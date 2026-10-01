@@ -24,7 +24,7 @@ const linkClass = cn(
 );
 
 const columnLabelClass =
-  "text-house-sky font-mono text-[0.65rem] tracking-[0.18em] uppercase";
+  "text-house-sky font-mono text-label tracking-[0.18em] uppercase";
 
 /**
  * Site footer.
@@ -78,7 +78,7 @@ export function Footer() {
                     >
                       <Icon
                         aria-hidden
-                        className="text-house-clay size-4 shrink-0"
+                        className="text-house-sky size-4 shrink-0"
                       />
                       <span className="sr-only">{prefix}: </span>
                       {label}
@@ -147,7 +147,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className={cn(linkClass, "gap-2")}
             >
-              <MapPin aria-hidden className="text-house-clay size-4 shrink-0" />
+              <MapPin aria-hidden className="text-house-sky size-4 shrink-0" />
               Get directions
               <span className="sr-only"> (opens in a new tab)</span>
               <ArrowUpRight aria-hidden className="size-3.5" />
@@ -206,14 +206,14 @@ export function Footer() {
               wordmark in the house's own type says the same thing without
               borrowing one. */}
           <div className="flex items-center gap-3">
-            <span className="text-house-sand/50 font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+            <span className="text-house-sand/50 font-mono text-label tracking-[0.18em] uppercase">
               We accept
             </span>
             <ul className="flex flex-wrap items-center gap-2">
               {["Visa", "Mastercard", "Amex"].map((card) => (
                 <li
                   key={card}
-                  className="border-house-sand/25 text-house-sand/75 rounded-md border px-2.5 py-1 font-mono text-[0.65rem] tracking-[0.12em] uppercase"
+                  className="border-house-sand/25 text-house-sand/75 rounded-md border px-2.5 py-1 font-mono text-label tracking-[0.12em] uppercase"
                 >
                   {card}
                 </li>

@@ -76,7 +76,7 @@ export function PackageCard({ package: entry, className }: PackageCardProps) {
           and the flexible rate cost more, which the package page spells
           out. */}
       <p className="border-house-shell/20 bg-house-deep/65 text-house-shell absolute top-3 right-3 flex items-baseline gap-1.5 rounded-full border px-3.5 py-2 backdrop-blur-xl sm:top-4 sm:right-4">
-        <span className="text-house-shell/65 font-mono text-[0.6rem] tracking-[0.18em] uppercase">
+        <span className="text-house-shell/65 font-mono text-label tracking-[0.18em] uppercase">
           From
         </span>
         <span className="font-display text-base leading-none">
@@ -118,7 +118,7 @@ export function PackageCard({ package: entry, className }: PackageCardProps) {
                 key={fact.term}
                 className="flex items-baseline justify-between gap-4"
               >
-                <dt className="text-house-shell/65 font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+                <dt className="text-house-shell/65 font-mono text-label tracking-[0.18em] uppercase">
                   {fact.term}
                 </dt>
                 <dd className="text-right">{fact.detail}</dd>

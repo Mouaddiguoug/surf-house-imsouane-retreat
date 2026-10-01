@@ -297,7 +297,7 @@ export function Navbar() {
                                 >
                                   <Icon
                                     aria-hidden
-                                    className="text-house-clay size-4 shrink-0"
+                                    className="text-house-tide size-4 shrink-0"
                                   />
                                   <span className="sr-only">{prefix}: </span>
                                   {label}

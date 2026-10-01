@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 
-import {
-  CoachingFacts,
-  CoachingHero,
-} from "@/features/coaching/components/coaching-hero";
+import { CoachingHero } from "@/features/coaching/components/coaching-hero";
 import { HowWeCoachSection } from "@/features/coaching/components/how-we-coach-section";
 
 export const metadata: Metadata = {
@@ -17,18 +14,16 @@ export const metadata: Metadata = {
 /**
  * How we coach, on its own page.
  *
- * The hero makes the claim, the band under it shows the three numbers
- * behind it, and the
+ * The hero makes the claim and carries the three numbers behind it, and the
  * section under it walks through the week, step by step, in the order a
  * guest meets it. The two qualifying sections — the levels and "is this
- * trip for me" — stay on the home page, where they sit between the reviews
- * and the booking.
+ * trip for me" — stay on the home page, between the packages and the
+ * booking.
  */
 export default function CoachingPage() {
   return (
     <main id="main" className="flex flex-1 flex-col">
       <CoachingHero />
-      <CoachingFacts />
       <HowWeCoachSection />
     </main>
   );

@@ -57,7 +57,6 @@ export function RoomsSection() {
 
         <div>
           <SectionHeading
-            eyebrow="The house · 02"
             title="The rooms"
             subtitle="Sea-facing studios, kept simple on purpose."
           />

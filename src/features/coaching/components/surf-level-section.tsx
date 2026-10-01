@@ -27,7 +27,7 @@ const LEVELS = [
       "Etiquette and staying safe in a busy line-up",
       "First unbroken waves by the end of the week, with a good bank and a bit of luck",
     ],
-    week: { label: "The Foundation", href: "/packages/the-foundation" },
+    weeks: [{ label: "The Foundation", href: "/packages/the-foundation" }],
   },
   {
     number: "02",
@@ -40,10 +40,15 @@ const LEVELS = [
       "Loosening the stance so the board can be steered",
       "Choosing a board for the day",
     ],
-    week: {
-      label: "The Foundation, or the Classic Longboard week",
-      href: "/packages/the-foundation",
-    },
+    // Two weeks fit here, so two links: one line that named both and led to
+    // one of them sent every longboarder to the wrong page.
+    weeks: [
+      { label: "The Foundation", href: "/packages/the-foundation" },
+      {
+        label: "The Classic Longboard week",
+        href: "/packages/the-masterclass",
+      },
+    ],
   },
   {
     number: "03",
@@ -56,10 +61,12 @@ const LEVELS = [
       "Duck-diving and getting out on bigger days",
       "Equipment for the conditions, from the free quiver",
     ],
-    week: {
-      label: "The Classic Longboard week",
-      href: "/packages/the-masterclass",
-    },
+    weeks: [
+      {
+        label: "The Classic Longboard week",
+        href: "/packages/the-masterclass",
+      },
+    ],
   },
   {
     number: "04",
@@ -72,23 +79,26 @@ const LEVELS = [
       "Floaters and re-entries on the sections that offer them",
       "Wave selection on the days the point gets serious",
     ],
-    week: {
-      label: "The Custom Retreat, coached one-to-one",
-      href: "/packages/the-custom-retreat",
-    },
+    weeks: [
+      {
+        label: "The Custom Retreat, coached one-to-one",
+        href: "/packages/the-custom-retreat",
+      },
+    ],
   },
 ];
 
 /**
  * What's my surf level.
  *
- * Sand after the ink of "How we coach", and the same shell-card grammar as
- * the Custom Retreat so the two coaching sections read as one family with
- * the packages. Four cards rather than tabs: the reader is meant to skim
+ * Cream, straight after the packages on sand: the second question a learner
+ * asks, once they have seen the three weeks, is which one is theirs. Sand
+ * cards on the cream, the inverse of the packages above. Four cards rather
+ * than tabs: the reader is meant to skim
  * all four sentences and stop at their own, which tabs would hide.
  *
  * Each card folds. The name and the sentence are always out — those are the
- * test — and the five things a coach works on at that level, plus the week
+ * test — and the five things a coach works on at that level, plus the weeks
  * it points to, open on demand. Closed, the section is four short cards
  * instead of a wall of twenty bullet points.
  */
@@ -96,12 +106,11 @@ export function SurfLevelSection() {
   return (
     <section
       id="surf-level"
-      className="bg-house-sand text-house-ink px-6 py-24 sm:px-10 sm:py-32"
+      className="bg-background text-house-ink px-6 py-24 sm:px-10 sm:py-32"
     >
       <div className="mx-auto w-full max-w-6xl">
         <div className="max-w-2xl">
           <SectionHeading
-            eyebrow="Coaching · 02"
             title="What's my surf level"
             subtitle="Four levels, one honest sentence each. Read them and stop at yours."
           />
@@ -120,7 +129,7 @@ export function SurfLevelSection() {
           {LEVELS.map((level) => (
             <li
               key={level.number}
-              className="border-house-ink/10 bg-house-shell shadow-card rounded-3xl border p-6 sm:p-8"
+              className="border-house-ink/10 bg-house-sand shadow-card rounded-3xl border p-6 sm:p-8"
             >
               {/* Native disclosure, as in "Is this trip for me": no script,
                   keyboard and screen-reader behaviour for free, and the page
@@ -147,12 +156,12 @@ export function SurfLevelSection() {
                   </span>
 
                   <span className="border-house-ink/10 mt-6 flex min-h-11 items-center justify-between gap-4 border-t pt-4 transition-colors duration-200 group-hover/level:text-house-tide motion-reduce:transition-none">
-                    <span className="text-house-muted font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+                    <span className="text-house-muted font-mono text-label tracking-[0.18em] uppercase">
                       What we work on
                     </span>
                     <ChevronDown
                       aria-hidden
-                      className="text-house-clay size-5 shrink-0 transition-transform duration-200 group-open/level:rotate-180 motion-reduce:transition-none"
+                      className="text-house-muted size-5 shrink-0 transition-[color,transform] duration-200 group-open/level:rotate-180 group-hover/level:text-house-tide motion-reduce:transition-none"
                     />
                   </span>
                 </summary>
@@ -168,21 +177,27 @@ export function SurfLevelSection() {
                   ))}
                 </ul>
 
-                <Link
-                  href={level.week.href}
-                  className={`group/week border-house-ink/10 mt-6 flex min-h-11 items-center justify-between gap-4 rounded-sm border-t pt-5 transition-colors duration-200 hover:text-house-tide motion-reduce:transition-none ${focusRing}`}
-                >
-                  <span className="text-sm leading-relaxed">
-                    <span className="text-house-muted">Your week: </span>
-                    <span className="underline-offset-4 group-hover/week:underline">
-                      {level.week.label}
-                    </span>
-                  </span>
-                  <ArrowRight
-                    aria-hidden
-                    className="text-house-clay size-4 shrink-0 transition-transform duration-200 group-hover/week:translate-x-0.5 motion-reduce:transition-none"
-                  />
-                </Link>
+                <ul className="border-house-ink/10 mt-6 border-t pt-2">
+                  {level.weeks.map((week) => (
+                    <li key={week.href}>
+                      <Link
+                        href={week.href}
+                        className={`group/week flex min-h-11 items-center justify-between gap-4 rounded-sm py-2 transition-colors duration-200 hover:text-house-tide motion-reduce:transition-none ${focusRing}`}
+                      >
+                        <span className="text-sm leading-relaxed">
+                          <span className="text-house-muted">Your week: </span>
+                          <span className="underline-offset-4 group-hover/week:underline">
+                            {week.label}
+                          </span>
+                        </span>
+                        <ArrowRight
+                          aria-hidden
+                          className="text-house-muted size-4 shrink-0 transition-[color,transform] duration-200 group-hover/week:translate-x-0.5 group-hover/week:text-house-tide motion-reduce:transition-none"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </details>
             </li>
           ))}

@@ -1,10 +1,6 @@
 import { Check, ChevronDown, X } from "lucide-react";
-import Link from "next/link";
 
 import { SectionHeading } from "@/components/shared/section-heading";
-import { buttonVariants } from "@/components/ui/button";
-import { BookButton } from "@/features/booking/components/book-button";
-import { CONTACT_HREF } from "@/lib/constants/nav";
 import { cn } from "@/lib/utils/cn";
 
 const focusRing =
@@ -17,11 +13,11 @@ const focusRing =
  * with more confidence.
  */
 const COME_IF = [
+  "You can swim two hundred metres in open water and stay calm when a wave holds you under for a few seconds.",
   "You want to get better, not just get wet — a goal for the week, a coach in the water, and the video to prove it.",
   "You are travelling on your own. Most of the house is, and the Sunday dinner takes care of the rest.",
   "You are a couple or a group at different levels. The level groups mean you surf with your peers and eat with each other.",
   "You like a week with a rhythm: early starts, two sessions, yoga, a shared table and an early night.",
-  "You can swim two hundred metres in open water and stay calm when a wave holds you under for a few seconds.",
   "You have work to do in the mornings. The Wi-Fi is fast, the terraces are quiet, and the Custom Retreat was built for exactly this.",
 ];
 
@@ -73,7 +69,7 @@ const QUESTIONS = [
 /**
  * Is this trip for me.
  *
- * Cream, after the sand of the levels, and the last section on the page —
+ * Cream, after the reviews on sand, and the last section before the ask —
  * the place a reader arrives with their reasons not to book. Two lists say
  * plainly who the house is for and who it is not, then the questions that
  * would otherwise become emails. Native disclosure elements for those: no
@@ -84,12 +80,11 @@ export function TripFitSection() {
   return (
     <section
       id="is-this-trip-for-me"
-      className="border-border bg-background border-t px-6 py-24 sm:px-10 sm:py-32"
+      className="bg-background px-6 py-24 sm:px-10 sm:py-32"
     >
       <div className="mx-auto w-full max-w-6xl">
         <div className="max-w-2xl">
           <SectionHeading
-            eyebrow="Coaching · 03"
             title="Is this trip for me"
             subtitle="An honest list, both ways, and the questions everyone asks."
           />
@@ -106,7 +101,7 @@ export function TripFitSection() {
                 <li key={item} className="flex gap-3">
                   <Check
                     aria-hidden
-                    className="text-house-clay mt-0.5 size-5 shrink-0"
+                    className="text-house-tide mt-0.5 size-5 shrink-0"
                   />
                   <span className="text-sm leading-relaxed">{item}</span>
                 </li>
@@ -134,10 +129,7 @@ export function TripFitSection() {
 
         <div className="mt-16 grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
           <div>
-            <p className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase">
-              Before you ask
-            </p>
-            <h3 className="font-display mt-3 text-2xl leading-[1.1] text-balance sm:text-3xl">
+            <h3 className="font-display text-2xl leading-[1.1] text-balance sm:text-3xl">
               The questions that come up in the week before a booking.
             </h3>
             <p className="text-muted-foreground mt-4 text-base leading-relaxed text-pretty">
@@ -164,7 +156,7 @@ export function TripFitSection() {
                   </span>
                   <ChevronDown
                     aria-hidden
-                    className="text-house-clay size-5 shrink-0 transition-transform duration-200 group-open/faq:rotate-180 motion-reduce:transition-none"
+                    className="text-house-muted size-5 shrink-0 transition-[color,transform] duration-200 group-open/faq:rotate-180 group-hover/faq:text-house-tide motion-reduce:transition-none"
                   />
                 </summary>
                 <p className="text-muted-foreground max-w-2xl pb-6 text-base leading-relaxed text-pretty">
@@ -173,21 +165,6 @@ export function TripFitSection() {
               </details>
             ))}
           </div>
-        </div>
-
-        <div className="mt-14 flex flex-wrap items-center gap-3">
-          <BookButton className="h-12 w-full px-6 text-xs sm:w-auto">
-            Book a stay
-          </BookButton>
-          <Link
-            href={CONTACT_HREF}
-            className={cn(
-              buttonVariants({ variant: "ghost" }),
-              "h-12 w-full px-4 font-mono text-xs tracking-[0.14em] uppercase sm:w-auto",
-            )}
-          >
-            Ask us anything
-          </Link>
         </div>
       </div>
     </section>

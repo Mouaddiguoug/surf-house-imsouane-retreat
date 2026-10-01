@@ -26,7 +26,6 @@ export function PackagesSection() {
       <div className="mx-auto w-full max-w-6xl">
         <div className="max-w-2xl">
           <SectionHeading
-            eyebrow="The packages · Three ways to stay"
             title="Three ways to stay"
             subtitle="A coached week, a week on a single fin, or a stay you build yourself."
           />

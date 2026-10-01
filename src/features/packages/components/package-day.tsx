@@ -97,7 +97,7 @@ export function PackageDay({
           <div className="bg-background text-foreground shadow-photo mt-10 rounded-3xl p-6 sm:p-10">
             {arc && (
               <div className="border-border mb-8 border-b pb-8">
-                <p className="text-house-clay font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+                <p className="text-house-clay font-mono text-label tracking-[0.18em] uppercase">
                   {arc.label}
                 </p>
                 <ol className="mt-4 space-y-2.5">
@@ -106,7 +106,7 @@ export function PackageDay({
                       key={beat.label}
                       className="grid grid-cols-[6.5rem_1fr] items-baseline gap-3 text-sm"
                     >
-                      <span className="text-muted-foreground font-mono text-[0.65rem] tracking-[0.18em] uppercase">
+                      <span className="text-muted-foreground font-mono text-label tracking-[0.18em] uppercase">
                         {beat.label}
                       </span>
                       <span>{beat.title}</span>

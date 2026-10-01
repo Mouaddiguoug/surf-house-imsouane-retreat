@@ -81,7 +81,7 @@ export function MasterclassPackage() {
           {GOALS.map((goal) => (
             <li
               key={goal}
-              className="border-house-ink/20 text-house-muted rounded-full border px-3 py-1 font-mono text-[0.7rem] tracking-[0.18em] uppercase"
+              className="border-house-ink/20 text-house-muted rounded-full border px-3 py-1 font-mono text-label tracking-[0.18em] uppercase"
             >
               {goal}
             </li>

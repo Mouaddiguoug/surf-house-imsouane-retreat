@@ -44,7 +44,6 @@ export function LivingSection() {
           <div>
             <SectionHeading
               tone="dark"
-              eyebrow="The house · 03"
               title="The living space"
               subtitle="Room to land, for the stays that run longer than a week."
             />

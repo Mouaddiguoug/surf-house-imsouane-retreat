@@ -57,7 +57,6 @@ export function RooftopSection() {
       <div className="relative mx-auto -mt-20 w-full max-w-6xl px-6 sm:-mt-28 sm:px-10">
         <div className="border-border bg-house-shell text-house-ink shadow-card max-w-3xl rounded-3xl border p-8 sm:p-12">
           <SectionHeading
-            eyebrow="The house · 01"
             title="The rooftop"
             subtitle="Two floors above the bay, where most of the week actually happens."
           />

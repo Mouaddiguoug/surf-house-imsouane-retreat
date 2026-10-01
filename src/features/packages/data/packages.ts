@@ -71,7 +71,7 @@ export const PACKAGES: PackageSummary[] = [
     index: "01",
     name: "The Foundation",
     title: "Surf, Roots & Reset",
-    subtitle: "An academy week for beginners and Intermediates.",
+    subtitle: "An ISA academy week.",
     summary:
       "Five coached days on the ISA method that change how you read the ocean, held up by the village around you.",
     facts: [
@@ -88,7 +88,7 @@ export const PACKAGES: PackageSummary[] = [
     cta: "See the week",
     bookLabel: "Book the Foundation",
     secondary: { href: "/coaching", label: "How we coach" },
-    rates: { unit: "week", nonRefundable: 435.6, semiFlexible: 485 },
+    rates: { unit: "week", nonRefundable: 421.95, semiFlexible: 485 },
   },
   {
     slug: "the-masterclass",
@@ -110,7 +110,7 @@ export const PACKAGES: PackageSummary[] = [
     cta: "See the week",
     bookLabel: "Book the Masterclass",
     secondary: { href: "/#surf-level", label: "What's my surf level" },
-    rates: { unit: "week", nonRefundable: 483.45, semiFlexible: 540 },
+    rates: { unit: "week", nonRefundable: 469.80, semiFlexible: 540 },
   },
   {
     slug: "the-custom-retreat",

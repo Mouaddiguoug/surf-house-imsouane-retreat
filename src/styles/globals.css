@@ -79,6 +79,16 @@ body {
   --color-house-tide: #1183b4;
 
   /*
+   * The smallest type on the site: the uppercase mono labels over facts,
+   * prices and scores. 0.7rem (11.2px) is the floor, not a suggestion — the
+   * 0.6 and 0.65rem these used to be set in were under 11px, and tracked
+   * uppercase mono at that size is the first thing to go in sunlight on a
+   * phone. No line height of its own: labels sit in whatever line they are
+   * given, exactly as the arbitrary sizes did.
+   */
+  --text-label: 0.7rem;
+
+  /*
    * Elevation for the light grounds (shell and sand). Ink-tinted rather than
    * black so the shadow reads as the same warm palette, and light enough to
    * lift a card off the page without making it float. `photo` is one step
@@ -113,49 +123,6 @@ body {
     to {
       transform: translateX(-50%);
     }
-  }
-}
-
-/**
- * The coaching hero's scrim.
- *
- * The photograph under it is a pale dawn sky over dark water with the
- * surfer to the right of centre, so a single flat wash either loses the sky
- * or greys out the water. Two layers instead: a directional gradient that
- * carries the copy, and a light overall knock-down that keeps the sky from
- * competing with white type.
- *
- * The direction changes with the layout. On a phone the copy is anchored to
- * the foot, so the gradient climbs from there and clears the top third,
- * where the surfer sits. From lg up the copy takes the left half only, so
- * the gradient runs in from that side and the right of the frame keeps its
- * own light.
- *
- * Stacked layers, so it lives here rather than as an inline arbitrary
- * Tailwind value.
- */
-.bg-coach-scrim {
-  background:
-    linear-gradient(
-      to top,
-      var(--color-house-ink) 0%,
-      color-mix(in srgb, var(--color-house-ink) 86%, transparent) 42%,
-      color-mix(in srgb, var(--color-house-ink) 52%, transparent) 72%,
-      color-mix(in srgb, var(--color-house-ink) 12%, transparent) 100%
-    ),
-    color-mix(in srgb, var(--color-house-ink) 12%, transparent);
-}
-
-@media (width >= 64rem) {
-  .bg-coach-scrim {
-    background:
-      linear-gradient(
-        to right,
-        var(--color-house-ink) 0%,
-        color-mix(in srgb, var(--color-house-ink) 78%, transparent) 38%,
-        transparent 72%
-      ),
-      color-mix(in srgb, var(--color-house-ink) 18%, transparent);
   }
 }
 

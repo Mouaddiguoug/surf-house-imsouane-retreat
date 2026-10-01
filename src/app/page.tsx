@@ -5,7 +5,20 @@ import { SurfLevelSection } from "@/features/coaching/components/surf-level-sect
 import { TripFitSection } from "@/features/coaching/components/trip-fit-section";
 import { ContactSection } from "@/features/contact/components/contact-section";
 import { PackagesSection } from "@/features/packages/components/packages-section";
+import { PACKAGES, formatPrice } from "@/features/packages/data/packages";
 import { ReviewsSection } from "@/features/reviews/components/reviews-section";
+
+/**
+ * The lowest price a coached week is published at: the hero quotes it, so it
+ * is read from the packages rather than typed in. It used to be typed in, and
+ * said €485 — the Foundation's semi-flexible rate — over cards that each said
+ * "From €435.60" a screen below.
+ */
+const WEEK_FROM = Math.min(
+  ...PACKAGES.filter((entry) => entry.rates.unit === "week").map(
+    (entry) => entry.rates.nonRefundable,
+  ),
+);
 
 /**
  * The home page.
@@ -14,17 +27,17 @@ import { ReviewsSection } from "@/features/reviews/components/reviews-section";
  * along the foot — the promise on the left, the mission line and the calls to
  * action on the right. Under it the three packages are three cards on sand —
  * each one a way in to its own page, rather than three long sections run end
- * to end here — then the guest reviews on cream. The house, the village and the coaching
- * method each have their own page now (`/house`, `/imsouane`, `/coaching`);
- * their sections used to sit here.
+ * to end here. The house, the village and the coaching method each have their
+ * own page now (`/house`, `/imsouane`, `/coaching`); their sections used to
+ * sit here.
  *
- * What is left reads as one funnel: the offer, then the proof, then the ask.
- * Booking follows the reviews directly and takes the ink — a reader who has
- * just read what other guests said is as convinced as this page will make
- * them, and the two qualifying sections after it are there for the reader who
- * is not: the levels on sand, the honest "is this for me" on cream, and the
- * contact form on sand for anyone who would rather write than book. No two
- * adjacent sections share a ground.
+ * What is left is ordered by the questions a learner asks, in the order they
+ * ask them: which week, which level am I, what did other guests think, is
+ * this for me — and only then the ask. Booking used to follow the reviews and
+ * come before the level check, which asked a beginner to commit before they
+ * knew whether they qualified. Now it is the ink finale, with the contact
+ * form after it for anyone who would rather write than book. Grounds run
+ * sand, cream, sand, cream, ink, sand: no two adjacent sections share one.
  */
 export default function HomePage() {
   return (
@@ -91,8 +104,8 @@ export default function HomePage() {
                 }
               >
                 Coached surf weeks on Morocco&rsquo;s longest right-hand wave.
-                Small groups, daily video, yoga and a shared table, from
-                &euro;485.
+                Small groups, daily video, yoga and a shared table, from &euro;
+                {formatPrice(WEEK_FROM)}.
               </p>
 
               <CtaButtons className="mt-8 lg:justify-end" />
@@ -109,10 +122,9 @@ export default function HomePage() {
         <PackagesSection />
 
         <ReviewsSection />
-        <BookStaySection />
-
-        <SurfLevelSection />
         <TripFitSection />
+        <BookStaySection />
+        <SurfLevelSection />
         <ContactSection />
       </div>
     </main>

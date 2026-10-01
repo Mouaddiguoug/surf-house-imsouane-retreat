@@ -16,14 +16,14 @@ const linkClass =
 const BEFORE_YOU_WRITE = [
   {
     icon: CalendarDays,
-    title: "Booking a room",
+    title: "Booking a stay",
     body: (
       <>
-        Dates and prices live in{" "}
+        Every week books online, with live dates and prices.{" "}
         <Link href={BOOK_HREF} className={linkClass}>
-          the calendar
-        </Link>
-        , and it is quicker than we are.
+          Book a stay
+        </Link>{" "}
+        — it is quicker than we are.
       </>
     ),
   },
@@ -37,7 +37,7 @@ const BEFORE_YOU_WRITE = [
 /**
  * Get in touch.
  *
- * Sand after the ink of the booking section. The form takes the right column
+ * Sand after the ink of the booking section, and the last section on the page. The form takes the right column
  * because it is the point; the left column earns its place by putting the
  * direct lines one tap away and heading off the message we would rather not
  * receive — "how much is a room".
@@ -54,7 +54,6 @@ export function ContactSection() {
       <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-16">
         <div>
           <SectionHeading
-            eyebrow="Contact · Imsouane"
             title="Get in touch"
             subtitle="Questions, dates that are not on the calendar, or a group — write, and a person at the house answers."
           />
@@ -75,7 +74,7 @@ export function ContactSection() {
                   >
                     <Icon
                       aria-hidden
-                      className="text-house-clay size-5 shrink-0"
+                      className="text-house-tide size-5 shrink-0"
                     />
                     <span className="sr-only">{prefix}: </span>
                     <span className="text-base underline-offset-4 group-hover/channel:underline">
@@ -101,7 +100,7 @@ export function ContactSection() {
             >
               <Icon
                 aria-hidden
-                className="text-house-clay mt-0.5 size-5 shrink-0"
+                className="text-house-muted mt-0.5 size-5 shrink-0"
               />
               <div>
                 <dt className="font-display text-lg">{title}</dt>

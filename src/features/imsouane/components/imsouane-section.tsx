@@ -48,7 +48,6 @@ export function ImsouaneSection() {
         <div className="grid gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
           <div className="flex flex-col">
             <SectionHeading
-              eyebrow="Imsouane · The bay"
               title="Two waves and a fishing port"
               subtitle="A village of a thousand people on the coast road, two hours north of Agadir."
             />

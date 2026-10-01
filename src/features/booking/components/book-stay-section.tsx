@@ -34,8 +34,9 @@ const HOW_IT_WORKS = [
 /**
  * The booking section — where every "Book now" on the page lands.
  *
- * Ink, after the cream of Imsouane, and the last hard ground before the
- * softer sections that follow. The button opens the engine in place — the
+ * Ink, and the finale: it comes after every qualifying section — the level,
+ * the reviews, the honest "is this for me" — so the page ends on the ask,
+ * with only the contact form after it. The button opens the engine in place — the
  * same dialog every "Book" button on the site opens — rather than sending
  * the reader straight out to the booking engine: the week and the rate plan
  * are chosen here, in the house's own words, and only then is the reader
@@ -56,16 +57,15 @@ export function BookStaySection() {
       <div className="relative mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
         <div>
           <SectionHeading
-            eyebrow="Book · Imsouane"
             title="Book a stay"
-            subtitle="Pick your dates, pick a room, and it is done in a few minutes."
+            subtitle="Choose your week and how you would like to pay. Dates and the room come next, and it is done in a few minutes."
             tone="dark"
           />
 
           <p className="text-house-sand/85 mt-6 text-base leading-relaxed text-pretty">
-            Dates, rooms and prices live in one calendar, and the button below
-            opens it right here. Booking a package, a group, or dates you cannot
-            find? Write to us and we will put it together by hand.
+            Every package books online, and the button below opens it right
+            here. Coming as a group, or after dates you cannot find? Write to
+            us and we will put it together by hand.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">

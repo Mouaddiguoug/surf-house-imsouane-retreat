@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-30T05:51:42+00:00",
+  "title": "Design System: Surf House Imsouane",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(19.1% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#222222",
+          "#3d3d3d",
+          "#5b5b5b",
+          "#7a7a7a",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ]
+      },
+      "deep-night": {
+        "role": "neutral",
+        "displayName": "Deep Night",
+        "canonical": "oklch(14.5% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#222222",
+          "#3d3d3d",
+          "#5b5b5b",
+          "#7a7a7a",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ]
+      },
+      "driftwood": {
+        "role": "neutral",
+        "displayName": "Driftwood",
+        "canonical": "oklch(36.9% 0.019 54.4)",
+        "tonalRamp": [
+          "#120904",
+          "#291f19",
+          "#463b34",
+          "#645851",
+          "#847870",
+          "#a99c93",
+          "#cfc1b9",
+          "#f9ebe3"
+        ]
+      },
+      "weathered-stone": {
+        "role": "neutral",
+        "displayName": "Weathered Stone",
+        "canonical": "oklch(49.6% 0.023 54.8)",
+        "tonalRamp": [
+          "#130803",
+          "#2a1f17",
+          "#473a32",
+          "#65584f",
+          "#86776e",
+          "#aa9b91",
+          "#d1c1b6",
+          "#fbebe0"
+        ]
+      },
+      "bleached-drift": {
+        "role": "neutral",
+        "displayName": "Bleached Drift",
+        "canonical": "oklch(68.4% 0.019 59.3)",
+        "tonalRamp": [
+          "#110904",
+          "#292018",
+          "#453b33",
+          "#635850",
+          "#83786f",
+          "#a89c93",
+          "#cec1b8",
+          "#f9ece2"
+        ]
+      },
+      "shell": {
+        "role": "neutral",
+        "displayName": "Shell",
+        "canonical": "oklch(98.5% 0.010 87.5)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#24211c",
+          "#3f3d37",
+          "#5d5b55",
+          "#7d7a74",
+          "#a19e98",
+          "#c7c4bd",
+          "#fdfaf3"
+        ]
+      },
+      "sand": {
+        "role": "neutral",
+        "displayName": "Sand",
+        "canonical": "oklch(95.1% 0.024 85.8)",
+        "tonalRamp": [
+          "#100a02",
+          "#272114",
+          "#433c2f",
+          "#615a4c",
+          "#817a6a",
+          "#a59e8e",
+          "#cbc3b3",
+          "#f6eedd"
+        ]
+      },
+      "wet-sand-line": {
+        "role": "neutral",
+        "displayName": "Wet Sand Line",
+        "canonical": "oklch(89.7% 0.034 86.3)",
+        "tonalRamp": [
+          "#110a00",
+          "#29200d",
+          "#453c28",
+          "#635a45",
+          "#837964",
+          "#a89d87",
+          "#e7dcc4",
+          "#f9edd5"
+        ]
+      },
+      "card-white": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#222222",
+          "#3d3d3d",
+          "#5b5b5b",
+          "#7a7a7a",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#ffffff"
+        ]
+      },
+      "clay": {
+        "role": "primary",
+        "displayName": "Clay",
+        "canonical": "oklch(57.4% 0.205 29.3)",
+        "tonalRamp": [
+          "#250000",
+          "#4c0000",
+          "#7b0000",
+          "#ad0000",
+          "#d72f23",
+          "#f66e5d",
+          "#ffa393",
+          "#ffd9cd"
+        ]
+      },
+      "sky": {
+        "role": "secondary",
+        "displayName": "Sky",
+        "canonical": "oklch(79.4% 0.123 227.4)",
+        "tonalRamp": [
+          "#000e27",
+          "#00274d",
+          "#00466e",
+          "#006690",
+          "#0087b2",
+          "#30adda",
+          "#56cbf9",
+          "#b0fbff"
+        ]
+      },
+      "tide": {
+        "role": "secondary",
+        "displayName": "Tide",
+        "canonical": "oklch(57.6% 0.118 234.7)",
+        "tonalRamp": [
+          "#000c29",
+          "#002550",
+          "#004371",
+          "#006392",
+          "#1183b4",
+          "#47aadd",
+          "#70d0ff",
+          "#b5f9ff"
+        ]
+      },
+      "ember-error": {
+        "role": "error",
+        "displayName": "Ember Error",
+        "canonical": "oklch(47.4% 0.177 29.4)",
+        "tonalRamp": [
+          "#250000",
+          "#4c0000",
+          "#7b0000",
+          "#a91b12",
+          "#ce4435",
+          "#f66e5d",
+          "#ffa392",
+          "#ffd9cd"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(20, 20, 20, 0.1)"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display (Sora)",
+        "purpose": "Hero h1 only, shell over footage."
+      },
+      "headline": {
+        "displayName": "Headline (Bricolage)",
+        "purpose": "Section titles via SectionHeading."
+      },
+      "title": {
+        "displayName": "Title (Bricolage)",
+        "purpose": "Card and panel titles."
+      },
+      "subtitle": {
+        "displayName": "Subtitle (Bricolage)",
+        "purpose": "The line under every section title."
+      },
+      "body": {
+        "displayName": "Body (Karla)",
+        "purpose": "All running copy; measure under ~36rem."
+      },
+      "label": {
+        "displayName": "Label (Geist Mono)",
+        "purpose": "Uppercase tracked level names, nav links and buttons."
+      },
+      "label-small": {
+        "displayName": "Label small (Geist Mono)",
+        "purpose": "Fact terms, price-pill 'From', review scores, disclosure labels. The 0.7rem floor (text-label token)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card",
+        "value": "0 1px 2px color-mix(in srgb, #141414 4%, transparent), 0 12px 32px -12px color-mix(in srgb, #141414 14%, transparent)",
+        "purpose": "Lift a card off shell or sand without floating it."
+      },
+      {
+        "name": "photo",
+        "value": "0 2px 4px color-mix(in srgb, #141414 6%, transparent), 0 20px 48px -16px color-mix(in srgb, #141414 24%, transparent)",
+        "purpose": "Photographs and photo cards, which have no border to find their edge."
+      },
+      {
+        "name": "rise",
+        "value": "0 -2rem 3rem -1.5rem color-mix(in srgb, #0a0a0a 55%, transparent)",
+        "purpose": "Upward edge of the sheet that rises over the pinned hero."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-house",
+        "value": "cubic-bezier(0.32, 0.72, 0, 1)",
+        "purpose": "Details reveal and scroll-driven row reveals."
+      },
+      {
+        "name": "photo-push",
+        "value": "transform 700ms ease-out, scale 1.04",
+        "purpose": "Photograph push-in on card hover."
+      },
+      {
+        "name": "state",
+        "value": "200–300ms",
+        "purpose": "Colour, border and underline transitions; navbar crossfade 300ms."
+      },
+      {
+        "name": "hero-depart",
+        "value": "animation-timeline: scroll(root block); media 0–100dvh, copy 0–50dvh",
+        "purpose": "Pinned hero with page rising over it; guarded by @supports and reduced motion."
+      },
+      {
+        "name": "marquee",
+        "value": "90s linear infinite",
+        "purpose": "Reviews wall, two rows in opposite directions."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Clay Button",
+      "kind": "button",
+      "refersTo": "button-clay",
+      "description": "The house's primary call to action: Book now / Book a stay. One per view region.",
+      "html": "<button class=\"ds-btn-clay\">Book a stay</button>",
+      "css": ".ds-btn-clay { display:inline-flex; align-items:center; justify-content:center; height:48px; padding:0 24px; border:1px solid transparent; border-radius:16.8px; background:var(--color-house-clay); color:var(--color-house-shell); font-family: var(--font-geist-mono), ui-monospace, monospace; text-transform: uppercase; font-size:0.75rem; font-weight:500; letter-spacing:0.14em; cursor:pointer; transition:background-color 150ms, transform 150ms; } .ds-btn-clay:hover { background:color-mix(in oklch, var(--color-house-clay), black 12%); } .ds-btn-clay:active { transform:translateY(1px); } .ds-btn-clay:focus-visible { outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--color-house-tide) 50%, transparent); }"
+    },
+    {
+      "name": "Shell Outline Button",
+      "kind": "button",
+      "refersTo": "button-shell-outline",
+      "description": "Quiet partner to clay, over dark media only (hero video, scrimmed photos).",
+      "html": "<div style=\"background:#0a0a0a;padding:24px;border-radius:16px\"><a class=\"ds-btn-shell\" href=\"#\">Explore packages<svg aria-hidden=\"true\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div>",
+      "css": ".ds-btn-shell { display:inline-flex; align-items:center; gap:8px; height:48px; padding:0 20px 0 24px; border:1px solid color-mix(in srgb, var(--color-house-shell) 50%, transparent); border-radius:16.8px; background:transparent; color:var(--color-house-shell); font-family: var(--font-geist-mono), ui-monospace, monospace; text-transform: uppercase; font-size:0.75rem; font-weight:500; letter-spacing:0.14em; text-decoration:none; backdrop-filter:blur(2px); transition:border-color 150ms, background-color 150ms; } .ds-btn-shell svg { transition:transform 200ms; } .ds-btn-shell:hover { border-color:color-mix(in srgb, var(--color-house-shell) 80%, transparent); background:color-mix(in srgb, var(--color-house-shell) 12%, transparent); } .ds-btn-shell:hover svg { transform:translateX(2px); } .ds-btn-shell:focus-visible { outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--color-house-tide) 50%, transparent); }"
+    },
+    {
+      "name": "Sand Outline Button",
+      "kind": "button",
+      "refersTo": "button-sand-outline",
+      "description": "Secondary action on light grounds, e.g. the enquiry form's follow-up.",
+      "html": "<button class=\"ds-btn-sand\">Send another</button>",
+      "css": ".ds-btn-sand { height:48px; padding:0 24px; border:1px solid color-mix(in srgb, var(--color-house-ink) 15%, transparent); border-radius:16.8px; background:transparent; color:var(--color-house-ink); font-family: var(--font-geist-mono), ui-monospace, monospace; text-transform: uppercase; font-size:0.75rem; font-weight:500; letter-spacing:0.14em; cursor:pointer; transition:background-color 150ms; } .ds-btn-sand:hover { background:var(--color-house-sand); } .ds-btn-sand:focus-visible { outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--color-house-tide) 50%, transparent); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "House form field: wet-sand border, tide focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">First name</span><input class=\"ds-input\" placeholder=\"Amina\"></label>",
+      "css": ".ds-field { display:flex; flex-direction:column; gap:8px; max-width:320px; } .ds-field-label { font-family: var(--font-geist-mono), ui-monospace, monospace; text-transform: uppercase; font-size:0.7rem; letter-spacing:0.18em; color:var(--color-house-muted); } .ds-input { height:48px; padding:4px 10px; border:1px solid #e7dcc4; border-radius:12px; background:transparent; color:var(--color-house-ink); font-family:var(--font-sans), Arial, sans-serif; font-size:1rem; outline:none; transition:border-color 150ms, box-shadow 150ms; } .ds-input::placeholder { color:var(--color-house-muted); } .ds-input:focus-visible { border-color:var(--color-house-tide); box-shadow:0 0 0 3px color-mix(in srgb, var(--color-house-tide) 50%, transparent); } .ds-input[aria-invalid=true] { border-color:#a91b12; box-shadow:0 0 0 3px color-mix(in srgb, #a91b12 20%, transparent); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Mono uppercase nav item with a scale-in underline; shown on the solid shell bar.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link\" href=\"#\">The House</a><a class=\"ds-nav-link\" href=\"#\">Coaching</a><a class=\"ds-nav-link\" href=\"#\">Imsouane</a></nav>",
+      "css": ".ds-nav { display:flex; align-items:center; padding:0 24px; height:80px; background:color-mix(in srgb, var(--color-house-shell) 85%, transparent); border-bottom:1px solid rgba(20,20,20,0.1); backdrop-filter:blur(12px); } .ds-nav-link { position:relative; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; font-family: var(--font-geist-mono), ui-monospace, monospace; text-transform: uppercase; font-size:0.875rem; letter-spacing:0.18em; color:color-mix(in srgb, var(--color-house-ink) 70%, transparent); text-decoration:none; transition:color 200ms; } .ds-nav-link::after { content:''; position:absolute; left:16px; right:16px; bottom:12px; height:1px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform 200ms; } .ds-nav-link:hover { color:var(--color-house-ink); } .ds-nav-link:hover::after { transform:scaleX(1); } .ds-nav-link:focus-visible { outline:none; border-radius:7px; box-shadow:0 0 0 3px color-mix(in srgb, var(--color-house-tide) 50%, transparent); }"
+    },
+    {
+      "name": "Price Pill",
+      "kind": "chip",
+      "refersTo": "price-pill",
+      "description": "Ink-glass price badge pinned top-right of a package card.",
+      "html": "<div style=\"background:linear-gradient(135deg,#6f8fa0,#d9c9a8);padding:24px;border-radius:26px\"><p class=\"ds-price\"><span class=\"ds-price-from\">From</span><span class=\"ds-price-num\">€435.60</span><span class=\"ds-price-unit\">/ week</span></p></div>",
+      "css": ".ds-price { display:inline-flex; align-items:baseline; gap:6px; margin:0; padding:8px 14px; border:1px solid color-mix(in srgb, var(--color-house-shell) 20%, transparent); border-radius:9999px; background:color-mix(in srgb, var(--color-house-deep) 65%, transparent); backdrop-filter:blur(24px); color:var(--color-house-shell); } .ds-price-from { font-family: var(--font-geist-mono), ui-monospace, monospace; text-transform: uppercase; font-size:0.7rem; letter-spacing:0.18em; color:color-mix(in srgb, var(--color-house-shell) 65%, transparent); } .ds-price-num { font-family:var(--font-display), Arial, sans-serif; font-size:1rem; line-height:1; } .ds-price-unit { font-family:var(--font-sans), Arial, sans-serif; font-size:0.75rem; color:color-mix(in srgb, var(--color-house-shell) 70%, transparent); }"
+    },
+    {
+      "name": "Package Card",
+      "kind": "card",
+      "refersTo": "package-card",
+      "description": "Signature: the photograph is the card; ink-glass panel flush along the foot; whole card is one link.",
+      "html": "<a class=\"ds-pkg\" href=\"#\"><div class=\"ds-pkg-photo\"></div><div class=\"ds-pkg-scrim\"></div><div class=\"ds-pkg-glass\"><h3 class=\"ds-pkg-title\">Surf, Roots &amp; Reset</h3><p class=\"ds-pkg-sub\">An academy week for beginners and Intermediates.</p><dl class=\"ds-pkg-facts\"><div><dt>Level</dt><dd>Beginner &amp; Intermediate</dd></div><div><dt>Format</dt><dd>7 nights, fixed dates</dd></div></dl></div></a>",
+      "css": ".ds-pkg { position:relative; isolation:isolate; display:flex; flex-direction:column; justify-content:flex-end; width:300px; aspect-ratio:4/5; overflow:hidden; border-radius:26.4px; color:var(--color-house-shell); text-decoration:none; box-shadow:0 2px 4px color-mix(in srgb, var(--color-house-ink) 6%, transparent), 0 20px 48px -16px color-mix(in srgb, var(--color-house-ink) 24%, transparent); } .ds-pkg-photo { position:absolute; inset:0; z-index:-2; background:linear-gradient(170deg,#9fb8c4 0%,#6e8e9c 40%,#d8c7a4 75%,#efe3c8 100%); transition:transform 700ms ease-out; } .ds-pkg-scrim { position:absolute; inset:0; z-index:-1; background:linear-gradient(to top, color-mix(in srgb, var(--color-house-deep) 85%, transparent), color-mix(in srgb, var(--color-house-deep) 30%, transparent) 45%, transparent); } .ds-pkg:hover .ds-pkg-photo { transform:scale(1.04); } .ds-pkg-glass { padding:24px; background:color-mix(in srgb, var(--color-house-deep) 65%, transparent); backdrop-filter:blur(24px); border-top:1px solid color-mix(in srgb, var(--color-house-shell) 20%, transparent); transition:background-color 300ms; } .ds-pkg:hover .ds-pkg-glass { background:color-mix(in srgb, var(--color-house-deep) 75%, transparent); } .ds-pkg-title { margin:0; font-family:var(--font-display), Arial, sans-serif; font-weight:400; font-size:1.5rem; line-height:1.15; } .ds-pkg-sub { margin:6px 0 0; font-size:0.875rem; color:color-mix(in srgb, var(--color-house-shell) 80%, transparent); } .ds-pkg-facts { margin:16px 0 0; padding-top:16px; border-top:1px solid color-mix(in srgb, var(--color-house-shell) 20%, transparent); display:flex; flex-direction:column; gap:6px; font-size:0.875rem; } .ds-pkg-facts div { display:flex; justify-content:space-between; gap:16px; } .ds-pkg-facts dt { font-family: var(--font-geist-mono), ui-monospace, monospace; text-transform: uppercase; font-size:0.7rem; letter-spacing:0.18em; color:color-mix(in srgb, var(--color-house-shell) 65%, transparent); } .ds-pkg-facts dd { margin:0; text-align:right; } .ds-pkg:focus-visible { outline:none; box-shadow:0 0 0 2px var(--color-house-ink), 0 0 0 5px color-mix(in srgb, var(--color-house-shell) 80%, transparent); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bay at Dusk",
+    "overview": "The site reads like the bay at the end of a session. The top of the sky has gone near-black, cold blue lingers low on one side and clay red on the other, and under it the warm sand of the house. Every page lives between those poles. **Shell and sand** grounds carry the reading. **Ink bands** carry the moments that should feel like evening, such as booking, the living room and the day's rhythm. **Clay** is the ember that marks what to do next. Photography and footage do the persuading, and the interface stays out of their way.\n\nThe feel is **warm and tactile**. Corners are generous (up to 26px on photographs), shadows are ink-tinted rather than black, and photographs sit in rounded frames that push in slowly under the pointer. Type is quietly characterful. Bricolage Grotesque's slightly hand-cut forms carry the headings, a narrow Karla carries the body, and uppercase Geist Mono labels give the facts (level, format, \"From €485\") the air of a coach's clipboard. Motion is driven by scrolling rather than by timers: the page rises over the pinned hero, and rows rise into place as they arrive. Every motion effect has a reduced-motion fallback.\n\nThis world rejects two things by name. It is **not a generic surf camp**: no tie-dye, no hand-drawn waves, no tropical gradients, no backpacker-party energy. It is **not a SaaS page**: no purple gradients, no rows of icon cards, no glassy-dashboard chrome.",
+    "keyCharacteristics": [
+      "Light-first. Pages sit on shell (#fdfaf3), with sand and ink bands creating rhythm. There is no user-facing dark mode; ink sections are hand-set with a `tone=\"dark\"` heading.",
+      "Closed palette: five anchors (sand, clay, ink, driftwood, sky) and their tints. Nothing outside them.",
+      "One red. Clay is reserved for the booking actions.",
+      "Photographs as the hero material, framed in 26px corners with a warm lift.",
+      "Uppercase, tracked mono for every label, fact term and button.",
+      "Scroll-driven motion with feature and reduced-motion guards."
+    ],
+    "rules": [
+      {
+        "name": "The Closed Palette Rule",
+        "body": "Every colour on the site is one of the five anchors or a tint, shade or `color-mix()` of them. A new hex that doesn't trace back to sand, clay, ink, driftwood or sky doesn't belong.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Ember Rule",
+        "body": "Clay marks the next action and nothing decorative. One clay button per view region. Never clay body text, never clay backgrounds for whole sections, and never clay on stars, checks, chevrons or icons: stars take Driftwood, checks and link icons take Tide, chevrons and other icons take Weathered Stone.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tide, Not Sky Rule",
+        "body": "Anything that must carry contrast on shell or sand (rings, links, icons) uses Tide. Sky only appears on ink or in the dusk gradient.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Voices Rule",
+        "body": "Sora speaks only in heroes, Bricolage speaks in headings, and Karla does the reading. Mono is punctuation, never prose: no mono sentences, no mono paragraphs.",
+        "section": "typography"
+      },
+      {
+        "name": "The Label Floor Rule",
+        "body": "The smallest type is the small label at 0.7rem (11.2px). Tracked uppercase mono below that is the first thing to go in sunlight on a phone.",
+        "section": "typography"
+      },
+      {
+        "name": "The Size Is In The Class Rule",
+        "body": "Heading levels are semantic (`h1` on package pages, `h2` elsewhere); visual size comes from the classes, so the same heading looks identical at either level.",
+        "section": "typography"
+      },
+      {
+        "name": "The Warm Shadow Rule",
+        "body": "Every shadow and scrim is mixed from Ink or Deep Night. Pure `rgba(0,0,0,…)` never appears.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Ink Glass Rule",
+        "body": "Text over a photograph sits on **dark** glass (Deep Night at 65%, 24px backdrop blur) above a gradient that darkens the frame from the middle down. Never use white frosted glass: it fails the moment the photo has sand or foam in the lower third. Measure contrast on the rendered pixels, not in theory.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** set every page on Shell (#fdfaf3) and create rhythm with Sand and Ink bands instead of dividers.",
+      "**Do** use Clay (#d72f23) for the one primary action per region, and the mono uppercase label (0.14em tracking) on every house button.",
+      "**Do** frame photographs at the 26.4px corner with the Photo shadow, and let them push in slowly (1.04, 700ms) on hover.",
+      "**Do** put text over photos on Ink Glass (Deep Night 65% + 24px blur + bottom gradient), and verify contrast on the rendered frame.",
+      "**Do** mix every shadow and scrim from Ink or Deep Night.",
+      "**Do** drive motion from the scroll timeline with the `cubic-bezier(0.32, 0.72, 0, 1)` ease, behind both an `@supports` guard and `prefers-reduced-motion: no-preference`.",
+      "**Do** keep touch targets at least 44px and primary CTAs at 48px."
+    ],
+    "donts": [
+      "**Don't** drift into a generic surf camp look: no tie-dye, hand-drawn waves, tropical or neon gradients, or party-hostel energy.",
+      "**Don't** borrow SaaS/startup chrome: no purple gradients, rows of identical icon cards, or glassy dashboard panels.",
+      "**Don't** use white frosted glass over photographs.",
+      "**Don't** set text in Sky on Shell or Sand; use Tide.",
+      "**Don't** introduce colours outside the five anchors and their tints.",
+      "**Don't** use Sora outside hero titles, or set sentences in mono.",
+      "**Don't** use pure black shadows or heavy borders; hairlines only.",
+      "**Don't** put a small label (an eyebrow or kicker) above a heading; the heading carries the section.",
+      "**Don't** set any text under 0.7rem (11.2px)."
+    ]
+  }
+}

@@ -3,23 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils/cn";
 
 /**
- * The eyebrow / title / subtitle stack every long-form section opens with.
+ * The title / subtitle stack every long-form section opens with.
  *
- * `tone` exists because two of the three sections sit on ink rather than on a
- * themed surface, where `text-muted-foreground` would be unreadable. The title
- * itself carries no colour class at all — it inherits from the section, so the
- * same component reads correctly on shell, on sand and on ink.
+ * `tone` exists because some sections sit on ink rather than on a themed
+ * surface, where `text-muted-foreground` would be unreadable. The title
+ * itself carries no colour class at all — it inherits from the section, so
+ * the same component reads correctly on shell, on sand and on ink.
+ *
+ * There is no label above the title. There used to be an `eyebrow` prop for
+ * one; it had stopped rendering long before it was removed, and the heading
+ * carries the section without it.
  */
-const eyebrowVariants = cva("font-mono text-xs tracking-[0.18em] uppercase", {
-  variants: {
-    tone: {
-      light: "text-house-clay",
-      dark: "text-house-sky",
-    },
-  },
-  defaultVariants: { tone: "light" },
-});
-
 const subtitleVariants = cva("font-display text-lg sm:text-xl", {
   variants: {
     tone: {
@@ -31,8 +25,6 @@ const subtitleVariants = cva("font-display text-lg sm:text-xl", {
 });
 
 type SectionHeadingProps = {
-  /** The small line above the title — "Package 01 · 7 nights". */
-  eyebrow: string;
   title: string;
   subtitle: string;
   /**
@@ -43,10 +35,9 @@ type SectionHeadingProps = {
    */
   as?: "h1" | "h2";
   className?: string;
-} & VariantProps<typeof eyebrowVariants>;
+} & VariantProps<typeof subtitleVariants>;
 
 function SectionHeading({
-  eyebrow,
   title,
   subtitle,
   tone = "light",
@@ -55,7 +46,7 @@ function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div data-slot="section-heading" className={cn("flex flex-col", className)}>
-      <Heading className="font-display mt-4 text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-5xl">
+      <Heading className="font-display text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-5xl">
         {title}
       </Heading>
       <p className={cn(subtitleVariants({ tone }), "mt-3")}>{subtitle}</p>
@@ -63,4 +54,4 @@ function SectionHeading({
   );
 }
 
-export { SectionHeading, eyebrowVariants, subtitleVariants };
+export { SectionHeading, subtitleVariants };
