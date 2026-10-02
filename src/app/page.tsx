@@ -21,11 +21,12 @@ const WEEK_FROM = Math.min(
 );
 
 /**
- * The hero footage, encoded from the 4K master (`hero_bg_vid.mp4`, which is
- * not served): no audio track, since it plays muted, and two cuts. A phone
- * held upright only ever shows the middle of a 16:9 frame under
- * `object-cover`, so it gets that middle as a 720×1280 file of its own
- * instead of downloading the full width to throw two thirds away. Everything
+ * The hero footage, encoded from the 4K master (`hero_bg_vid.mp4`, kept out
+ * of the repo in ~/Downloads/surf-house-masters/): no audio track, since it
+ * plays muted, and two cuts. A phone held upright only ever shows the middle
+ * of a 16:9 frame under `object-cover`, so it gets that middle as a 720×1280
+ * file of its own instead of downloading the full width to throw two thirds
+ * away. Everything
  * else gets 1080p. AV1 first where it decodes, H.264 for the rest.
  *
  * To re-encode: `sh scripts/encode-hero-video.sh <master.mp4>`.
