@@ -2,6 +2,7 @@ import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { CaptionStrip } from "@/components/shared/caption-strip";
 import { buttonVariants } from "@/components/ui/button";
 import { BookButton } from "@/features/booking/components/book-button";
 import { SITE } from "@/lib/constants/site";
@@ -88,25 +89,7 @@ export function ImsouaneHero() {
         </div>
       </section>
 
-      {/* The caption strip. Same measure as the section below, so the three
-          values line up with its heading. */}
-      <div className="bg-house-ink text-house-sand px-6 sm:px-10">
-        <dl className="divide-house-sand/15 mx-auto grid w-full max-w-6xl divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {FACTS.map((fact) => (
-            <div
-              key={fact.term}
-              className="py-5 sm:px-8 sm:py-6 sm:first:pl-0 sm:last:pr-0"
-            >
-              <dt className="text-house-sky font-mono text-label tracking-[0.18em] uppercase">
-                {fact.term}
-              </dt>
-              <dd className="font-display mt-1 text-xl leading-tight sm:text-2xl">
-                {fact.detail}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      <CaptionStrip facts={FACTS} />
     </>
   );
 }

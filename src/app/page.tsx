@@ -21,6 +21,35 @@ const WEEK_FROM = Math.min(
 );
 
 /**
+ * The hero footage, encoded from the 4K master (`hero_bg_vid.mp4`, which is
+ * not served): no audio track, since it plays muted, and two cuts. A phone
+ * held upright only ever shows the middle of a 16:9 frame under
+ * `object-cover`, so it gets that middle as a 720×1280 file of its own
+ * instead of downloading the full width to throw two thirds away. Everything
+ * else gets 1080p. AV1 first where it decodes, H.264 for the rest.
+ *
+ * To re-encode: `sh scripts/encode-hero-video.sh <master.mp4>`.
+ */
+const PORTRAIT = "(orientation: portrait) and (max-width: 767px)";
+const HERO_SOURCES = [
+  {
+    src: "/assets/hero-portrait-720-av1.mp4",
+    type: 'video/mp4; codecs="av01.0.05M.08"',
+    media: PORTRAIT,
+  },
+  {
+    src: "/assets/hero-portrait-720.mp4",
+    type: 'video/mp4; codecs="avc1.640028"',
+    media: PORTRAIT,
+  },
+  {
+    src: "/assets/hero-1080-av1.mp4",
+    type: 'video/mp4; codecs="av01.0.08M.08"',
+  },
+  { src: "/assets/hero-1080.mp4", type: 'video/mp4; codecs="avc1.640028"' },
+];
+
+/**
  * The home page.
  *
  * The hero is the full viewport: the bay footage, a scrim, and two columns
@@ -51,7 +80,7 @@ export default function HomePage() {
         className="bg-bay-dusk sticky top-0 h-dvh w-full overflow-hidden"
       >
         <HeroVideo
-          src="/assets/hero_bg_vid.mp4"
+          sources={HERO_SOURCES}
           poster="/assets/hero_bg_vid_poster.jpg"
           className="hero-depart-media absolute inset-0"
         />

@@ -203,6 +203,21 @@
         "role": "neutral",
         "displayName": "Hairline",
         "canonical": "rgba(20, 20, 20, 0.1)"
+      },
+      "tide-deep": {
+        "role": "secondary",
+        "displayName": "Tide Deep",
+        "canonical": "#16303e",
+        "tonalRamp": [
+          "#071219",
+          "#0d1f29",
+          "#16303e",
+          "#24495c",
+          "#356379",
+          "#4d8098",
+          "#79a8bd",
+          "#c5dde8"
+        ]
       }
     },
     "typographyMeta": {

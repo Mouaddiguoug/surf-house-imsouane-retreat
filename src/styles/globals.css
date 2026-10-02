@@ -77,6 +77,13 @@ body {
   --color-house-clay: #d72f23;
   --color-house-sky: #56cbf9;
   --color-house-tide: #1183b4;
+  /*
+   * Tide at 35% in deep night, mixed in OKLCH: the water before sunrise.
+   * The coaching hero's ground, so that page opens cool and blue where
+   * Imsouane opens on ink and the package pages fade into cream. Shell type
+   * on it is 13.2:1, sky labels 7.4:1.
+   */
+  --color-house-tide-deep: #16303e;
 
   /*
    * The smallest type on the site: the uppercase mono labels over facts,
@@ -123,6 +130,72 @@ body {
     to {
       transform: translateX(-50%);
     }
+  }
+}
+
+/**
+ * The coaching hero's crop, from lg.
+ *
+ * The surfer sits between 36% and 46% of the way down the photograph, and
+ * the copy needs the lower half of the frame. No percentage anchor holds
+ * both: from lg the picture is cover-scaled to the frame's width, so its
+ * height grows with the window's width while the frame's grows with its
+ * height, and every anchor that suited one shape of screen either lifted her
+ * out of the top or dropped her into the title on another.
+ *
+ * So the anchor is a length. The picture is 3:2 and full width, so it is
+ * 66.667vw tall and her top sits 24vw down it; `4rem - 24vw` puts her top
+ * 4rem below the frame's. The outer `max` is the clamp: the frame is the
+ * section's own height formula, and the picture can never be pulled up
+ * further than it overhangs, or the foot of the frame would show through.
+ */
+@media (width >= 64rem) {
+  .coach-hero-photo {
+    object-position: 62%
+      max(4rem - 24vw, max(34rem, min(80dvh, 48rem)) - 66.667vw);
+  }
+}
+
+/**
+ * The coaching hero's scrim.
+ *
+ * The photograph under it is a pale dawn sky over dark water with the
+ * surfer to the right of centre, so a single flat wash either loses the sky
+ * or greys out the water. Two layers instead: a directional gradient that
+ * carries the copy, and a light overall knock-down that keeps the sky from
+ * competing with white type.
+ *
+ * The direction changes with the layout. On a phone the copy is anchored to
+ * the foot, so the gradient climbs from there and clears the top third,
+ * where the surfer sits. From lg up the copy takes the left half only, so
+ * the gradient runs in from that side and the right of the frame keeps its
+ * own light.
+ *
+ * Stacked layers, so it lives here rather than as an inline arbitrary
+ * Tailwind value.
+ */
+.bg-coach-scrim {
+  background:
+    linear-gradient(
+      to top,
+      var(--color-house-ink) 0%,
+      color-mix(in srgb, var(--color-house-ink) 86%, transparent) 42%,
+      color-mix(in srgb, var(--color-house-ink) 52%, transparent) 72%,
+      color-mix(in srgb, var(--color-house-ink) 12%, transparent) 100%
+    ),
+    color-mix(in srgb, var(--color-house-ink) 12%, transparent);
+}
+
+@media (width >= 64rem) {
+  .bg-coach-scrim {
+    background:
+      linear-gradient(
+        to right,
+        var(--color-house-ink) 0%,
+        color-mix(in srgb, var(--color-house-ink) 78%, transparent) 38%,
+        transparent 72%
+      ),
+      color-mix(in srgb, var(--color-house-ink) 18%, transparent);
   }
 }
 

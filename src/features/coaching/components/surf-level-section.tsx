@@ -32,7 +32,7 @@ const LEVELS = [
   {
     number: "02",
     name: "Green waves",
-    quote: "I catch unbroken waves and I'm starting to angle my take-off.",
+    quote: "I catch green waves and angle my take-off.",
     focus: [
       "Reading where the wave will peel, and sitting there",
       "A take-off that repeats",

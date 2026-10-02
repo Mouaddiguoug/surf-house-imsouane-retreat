@@ -4,9 +4,22 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils/cn";
 
-type HeroVideoProps = {
-  /** Path under `public`, e.g. `/assets/hero_bg_vid.mp4`. */
+export type HeroVideoSource = {
+  /** Path under `public`, e.g. `/assets/hero-1080.mp4`. */
   src: string;
+  /** With codecs, so a browser that cannot decode it skips it unfetched. */
+  type: string;
+  /** Matched once, when the element loads; it does not swap on resize. */
+  media?: string;
+};
+
+type HeroVideoProps = {
+  /**
+   * In order of preference. The browser plays the first one whose `media`
+   * matches and whose `type` it can decode, so the smaller AV1 file goes
+   * ahead of its H.264 fallback, and the phone crop ahead of the wide one.
+   */
+  sources: HeroVideoSource[];
   /** Still frame held before playback starts, and instead of it. */
   poster: string;
   className?: string;
@@ -32,7 +45,7 @@ type HeroVideoProps = {
  * of the page. A screen of scroll is the cue that there is nothing left to
  * see.
  */
-export function HeroVideo({ src, poster, className }: HeroVideoProps) {
+export function HeroVideo({ sources, poster, className }: HeroVideoProps) {
   const ref = React.useRef<HTMLVideoElement>(null);
 
   React.useEffect(() => {
@@ -82,7 +95,6 @@ export function HeroVideo({ src, poster, className }: HeroVideoProps) {
   return (
     <video
       ref={ref}
-      src={src}
       poster={poster}
       muted
       loop
@@ -91,6 +103,10 @@ export function HeroVideo({ src, poster, className }: HeroVideoProps) {
       aria-hidden
       tabIndex={-1}
       className={cn("size-full object-cover", className)}
-    />
+    >
+      {sources.map((source) => (
+        <source key={source.src} {...source} />
+      ))}
+    </video>
   );
 }
