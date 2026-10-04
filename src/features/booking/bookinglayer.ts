@@ -31,18 +31,23 @@ export const BOOKINGLAYER = {
    */
   paths: {
     "the-foundation": {
-      "non-refundable": "/product/surf-roots-and-reset-1" as string | null,
-      "semi-flexible": "/product/surf-roots-and-reset" as string | null,
+      "non-refundable":
+        "/product/surf-roots-and-reset-best-rate-non-refundable" as
+          string | null,
+      "semi-flexible": "/product/surf-roots-and-reset-semi-flexible" as
+        string | null,
     },
     "the-masterclass": {
       "non-refundable":
-        "/product/classic-longboard-best-rate-non-refundable" as string | null,
-      "semi-flexible": "/product/classic-longboard-standard" as string | null,
+        "/product/classic-longboard-best-rate-non-refundable-1" as
+          string | null,
+      "semi-flexible": "/product/classic-longboard-semi-flexible" as
+        string | null,
     },
     "the-custom-retreat": {
-      "non-refundable": "/product/the-custom-retreat-best-rate-save-13" as
+      "non-refundable": "/product/the-custom-retreat-best-rate-save-13-1" as
         string | null,
-      "semi-flexible": "/product/the-custom-retreat-semi-flexible" as
+      "semi-flexible": "/product/the-custom-retreat-semi-flexible-1" as
         string | null,
     },
   },
