@@ -48,7 +48,7 @@ export const RATE_PLANS = [
         late: "Cancel 30 days or less before arrival and the deposit is retained, against the coach, the room and the kitchen already committed to your week.",
       },
       {
-        applies: "The Custom Retreat, and any bed-and-breakfast stay",
+        applies: "The Original Stay, and any other stay by the night",
         free: "Cancel more than 10 days before arrival and your deposit is refunded in full.",
         late: "Cancel 10 days or less before arrival and the deposit is retained.",
       },

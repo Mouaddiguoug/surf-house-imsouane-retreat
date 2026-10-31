@@ -2,10 +2,10 @@
  * Bookinglayer, the booking engine the house sells through.
  *
  * Unlike the widget this replaced, nothing of Bookinglayer's runs on this
- * site: the reader picks a package and a rate plan here, and we hand them to
- * Bookinglayer with that choice already made. That keeps the part a guest
- * has to understand — what am I buying, and what happens if I cancel — on
- * the house's own pages, in the house's own words, and leaves dates,
+ * site: the reader picks a package here, and we hand them to Bookinglayer
+ * with that choice already made. That keeps the part a guest has to
+ * understand — what am I buying — on the house's own pages, in the house's
+ * own words, and leaves dates,
  * availability and the card to the engine that owns them.
  *
  * `SHOP_URL` is the only thing that has to be filled in for the flow to
@@ -21,39 +21,21 @@ export const BOOKINGLAYER = {
   shopUrl: "https://imsouane-surf-house.bookinglayer.com/en" as string | null,
 
   /**
-   * The path each package's rate plan opens, appended to `shopUrl`.
+   * The path each package opens, appended to `shopUrl`.
    *
-   * Bookinglayer gives every package and every rate plan an id; the deep
-   * link is what the engine shows when you open a package from the shop's
-   * own listing. Leave a value `null` and that option falls back to the
-   * shop's front page, which still works — it just makes the guest pick the
-   * package again.
+   * One product per package. There used to be two — a non-refundable and a
+   * semi-flexible rate — and the site made the reader choose between them
+   * before handing over; the shop dropped the split, so the choice went too.
+   * Leave a value `null` and that package falls back to the shop's front
+   * page, which still works — it just makes the guest pick the package
+   * again. All three are `null` until the shop's new product links are in.
    */
   paths: {
-    "the-foundation": {
-      "non-refundable":
-        "/product/surf-roots-and-reset-best-rate-non-refundable" as
-          string | null,
-      "semi-flexible": "/product/surf-roots-and-reset-semi-flexible" as
-        string | null,
-    },
-    "the-masterclass": {
-      "non-refundable":
-        "/product/classic-longboard-best-rate-non-refundable-1" as
-          string | null,
-      "semi-flexible": "/product/classic-longboard-semi-flexible" as
-        string | null,
-    },
-    "the-custom-retreat": {
-      "non-refundable": "/product/the-custom-retreat-best-rate-save-13-1" as
-        string | null,
-      "semi-flexible": "/product/the-custom-retreat-semi-flexible-1" as
-        string | null,
-    },
+    "the-foundation": null as string | null,
+    "the-masterclass": null as string | null,
+    "the-original-stay": null as string | null,
   },
 } as const;
-
-export type RatePlanId = "non-refundable" | "semi-flexible";
 
 /** True when the shop URL has not been set, so the dialog can say so. */
 export function isBookingReady(): boolean {
@@ -61,15 +43,15 @@ export function isBookingReady(): boolean {
 }
 
 /**
- * Where a given package and rate plan should send the reader.
+ * Where a given package should send the reader.
  *
- * Falls back to the shop's front page when that pairing has no deep link
- * yet, and returns `null` when there is no shop at all — the dialog reads
+ * Falls back to the shop's front page when the package has no deep link
+ * yet, and returns `null` when there is no shop at all — the caller reads
  * that as "not ready" rather than rendering a dead link.
  */
-export function bookingUrl(slug: string, plan: RatePlanId): string | null {
+export function bookingUrl(slug: string): string | null {
   const { shopUrl, paths } = BOOKINGLAYER;
   if (!shopUrl) return null;
-  const path = paths[slug as keyof typeof paths]?.[plan] ?? null;
+  const path = paths[slug as keyof typeof paths] ?? null;
   return path ? `${shopUrl}${path}` : shopUrl;
 }

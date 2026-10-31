@@ -52,8 +52,8 @@ export function LivingSection() {
               Each apartment opens into its own living room — sofa, table,
               kitchen corner — with the bedroom through the arch. It is the part
               of the house that makes a fortnight work as easily as a weekend,
-              and the reason the Custom Retreat suits people who bring their
-              work with them.
+              and the reason the Original Stay suits people who stay a little
+              longer than they planned.
             </p>
           </div>
 

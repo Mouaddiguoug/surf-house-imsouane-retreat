@@ -16,7 +16,7 @@ import { ReviewsSection } from "@/features/reviews/components/reviews-section";
  */
 const WEEK_FROM = Math.min(
   ...PACKAGES.filter((entry) => entry.rates.unit === "week").map(
-    (entry) => entry.rates.nonRefundable,
+    (entry) => entry.rates.from,
   ),
 );
 
@@ -134,7 +134,8 @@ export default function HomePage() {
                 }
               >
                 Coached surf weeks on Morocco&rsquo;s longest right-hand wave.
-                Small groups, daily video, yoga and a shared table, from &euro;
+                Small groups, personal feedback, yoga and a shared table, from
+                &euro;
                 {formatPrice(WEEK_FROM)}.
               </p>
 

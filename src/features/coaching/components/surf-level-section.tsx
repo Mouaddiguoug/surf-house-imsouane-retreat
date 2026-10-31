@@ -59,7 +59,7 @@ const LEVELS = [
       "The bottom turn, and the first top turns",
       "Positioning for the better waves at the point",
       "Duck-diving and getting out on bigger days",
-      "Equipment for the conditions, from the free quiver",
+      "Choosing equipment for the conditions",
     ],
     weeks: [
       {
@@ -81,8 +81,8 @@ const LEVELS = [
     ],
     weeks: [
       {
-        label: "The Custom Retreat, coached one-to-one",
-        href: "/packages/the-custom-retreat",
+        label: "The Original Stay, with private coaching",
+        href: "/packages/the-original-stay",
       },
     ],
   },

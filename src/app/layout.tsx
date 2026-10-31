@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description:
-    "A surf house on the bay at Imsouane, Morocco's longest right-hand wave. Coached surf weeks for beginners and longboarders, yoga, full board, and rooms over the sea.",
+    "A surf house on the bay at Imsouane, Morocco's longest right-hand wave. Coached surf weeks for beginners and longboarders, yoga, half board, and rooms over the sea.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",

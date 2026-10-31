@@ -36,11 +36,10 @@ const HOW_IT_WORKS = [
  *
  * Ink, and the finale: it comes after every qualifying section — the level,
  * the reviews, the honest "is this for me" — so the page ends on the ask,
- * with only the contact form after it. The button opens the engine in place — the
- * same dialog every "Book" button on the site opens — rather than sending
- * the reader straight out to the booking engine: the week and the rate plan
- * are chosen here, in the house's own words, and only then is the reader
- * handed over for dates and payment.
+ * with only the contact form after it. The button opens the same dialog as
+ * every other "Book" button with no package in mind: the stay is chosen
+ * here, in the house's own words, and only then is the reader handed over
+ * for dates and payment.
  *
  * The house cycles behind it all at a fraction of full strength — the one
  * section on the page that shows the place rather than describing it, kept

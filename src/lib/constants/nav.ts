@@ -31,7 +31,7 @@ export const MENU_GROUPS = [
     links: [
       { href: "/packages/the-foundation", label: "The Foundation" },
       { href: "/packages/the-masterclass", label: "The Masterclass" },
-      { href: "/packages/the-custom-retreat", label: "The Custom Retreat" },
+      { href: "/packages/the-original-stay", label: "The Original Stay" },
     ],
   },
   {

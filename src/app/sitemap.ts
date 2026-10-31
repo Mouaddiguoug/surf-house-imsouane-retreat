@@ -25,6 +25,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     page("/", 1, "weekly"),
     ...PACKAGES.map((entry) => page(entry.href, 0.9, "monthly")),
+    // The two packages the house has written in French.
+    page("/fr/packages/the-foundation", 0.8, "monthly"),
+    page("/fr/packages/the-original-stay", 0.8, "monthly"),
     page("/house", 0.8, "monthly"),
     page("/coaching", 0.8, "monthly"),
     page("/imsouane", 0.7, "yearly"),

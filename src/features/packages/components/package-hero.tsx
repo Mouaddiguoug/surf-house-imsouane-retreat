@@ -5,9 +5,13 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { BookButton } from "@/features/booking/components/book-button";
 import {
-  formatPrice,
-  type PackageSummary,
-} from "@/features/packages/data/packages";
+  PACKAGE_UI,
+  euros,
+  perLabel,
+  priceNote,
+} from "@/features/packages/data/package-ui";
+import type { PackageSummary } from "@/features/packages/data/packages";
+import type { Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 /**
@@ -104,6 +108,9 @@ type PackageHeroProps = {
   lede: string;
   /** Anything that belongs between the lede and the facts — the goal chips. */
   children?: React.ReactNode;
+  locale?: Locale;
+  /** The same page in the other language, when there is one. */
+  alternate?: { href: string; hrefLang: Locale };
 } & VariantProps<typeof heroVariants>;
 
 export function PackageHero({
@@ -112,7 +119,11 @@ export function PackageHero({
   lede,
   tone,
   children,
+  locale = "en",
+  alternate,
 }: PackageHeroProps) {
+  const ui = PACKAGE_UI[locale];
+
   return (
     <section id={id} className={cn(heroVariants({ tone }), "pb-20 sm:pb-28")}>
       {/* The frame and its fade are one layer, pinned to the top of the
@@ -223,17 +234,30 @@ export function PackageHero({
                   </div>
                 ))}
               </dl>
+
+              {alternate && (
+                <Link
+                  href={alternate.href}
+                  hrefLang={alternate.hrefLang}
+                  lang={alternate.hrefLang}
+                  className={cn(
+                    quietVariants({ tone }),
+                    "hover:text-current mt-6 inline-block text-sm underline underline-offset-4 transition-colors",
+                  )}
+                >
+                  {ui.readIn}
+                </Link>
+              )}
             </div>
           </div>
 
           {/* Price and the way in are one block: a reader who has got this
               far is costing the week out, and the next thing they need is
-              the button. Both rates are named — the cheaper one is only cheap
-              because it is final, and quoting it alone would undersell the
-              difference. The button opens the booking dialog on this package,
-              where the two rates are laid side by side before the engine;
-              the link beside it is the page's one way out, the same pair the
-              strip at the foot of the page offers. */}
+              the button. The note under the price says what the figure is
+              and that the room is priced at booking. The button goes
+              straight to this package in the shop; the link beside it is
+              the page's one way out, the same pair the strip at the foot of
+              the page offers. */}
           <div className={cn(ENTER, "delay-500 lg:self-end")}>
             <p className="font-display text-3xl leading-none">
               <span
@@ -242,12 +266,12 @@ export function PackageHero({
                   "font-mono text-label tracking-[0.18em] uppercase",
                 )}
               >
-                From{" "}
+                {ui.from}{" "}
               </span>
-              €{formatPrice(entry.rates.nonRefundable)}
+              {euros(entry.rates.from, locale)}
               <span className={cn(quietVariants({ tone }), "text-base")}>
                 {" "}
-                / {entry.rates.unit}
+                / {perLabel(entry, locale)}
               </span>
             </p>
             <p
@@ -256,8 +280,7 @@ export function PackageHero({
                 "mt-2 text-sm text-pretty",
               )}
             >
-              Non-refundable rate, per person, premium dorm bed. Semi-flexible
-              from €{formatPrice(entry.rates.semiFlexible)} / {entry.rates.unit}.
+              {priceNote(entry, locale)}
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">

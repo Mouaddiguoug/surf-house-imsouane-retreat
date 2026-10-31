@@ -27,7 +27,8 @@ type PackageFeatureProps = {
   id: string;
   eyebrow: string;
   title: string;
-  body: string;
+  /** One paragraph, or several. */
+  body: string | string[];
   /**
    * One landscape frame, or two portrait frames side by side. Two tall frames
    * together take the same footprint as one wide one, so the column stays
@@ -123,7 +124,17 @@ export function PackageFeature({
       <h2 className="font-display mt-4 text-3xl leading-[1.1] text-balance sm:text-4xl">
         {title}
       </h2>
-      <p className="mt-5 text-base leading-relaxed text-pretty">{body}</p>
+      {(Array.isArray(body) ? body : [body]).map((paragraph, index) => (
+        <p
+          key={paragraph}
+          className={cn(
+            "text-base leading-relaxed text-pretty",
+            index === 0 ? "mt-5" : "mt-4",
+          )}
+        >
+          {paragraph}
+        </p>
+      ))}
     </div>
   );
 

@@ -12,6 +12,8 @@
  * down the page it is not in this file.
  */
 
+import type { Locale } from "@/lib/i18n/locale";
+
 export type PackageFact = {
   /** "Level", "Format" — mono, uppercase, the quiet half of the pair. */
   term: string;
@@ -50,18 +52,21 @@ export type PackageSummary = {
   /** The page's one link out, beside the book button. */
   secondary: { href: string; label: string };
   /**
-   * The lowest published price on each rate plan, in euros.
+   * What the stay costs, in euros.
    *
-   * "From", because it is the premium-dorm bed: a private room costs more,
-   * and the engine prices the room once dates are chosen. The weeks are
-   * priced per stay, the Custom Retreat per night, which is why the unit
-   * travels with the number instead of being assumed.
+   * `from` is the one figure the cards, the hero and the dialog lead with:
+   * the shared-dorm bed, because a private room costs more and the engine
+   * prices the room once dates are chosen. The weeks are priced per stay,
+   * the Original Stay for its shortest stay, which is why the unit travels
+   * with the number instead of being assumed.
+   *
+   * `stay` means the figure covers the whole minimum stay, `nights` long —
+   * €45 for three nights, not €45 a night — and every label that prints it
+   * says the number of nights, so it is never read as a nightly rate.
    */
-  rates: {
-    unit: "week" | "night";
-    nonRefundable: number;
-    semiFlexible: number;
-  };
+  rates:
+    | { unit: "week"; from: number }
+    | { unit: "stay"; from: number; nights: number };
 };
 
 export const PACKAGES: PackageSummary[] = [
@@ -71,12 +76,12 @@ export const PACKAGES: PackageSummary[] = [
     index: "01",
     name: "The Foundation",
     title: "Surf, Roots & Reset",
-    subtitle: "An ISA academy week.",
+    subtitle: "Catch waves. Understand why. Keep growing.",
     summary:
-      "Five coached days on the ISA method that change how you read the ocean, held up by the village around you.",
+      "Seven nights of structured coaching in your own level group, with yoga, surfskate and half board at the house.",
     facts: [
       { term: "Level", detail: "Beginner & Intermediate" },
-      { term: "Format", detail: "7 nights, fixed dates" },
+      { term: "Format", detail: "7 nights, half board" },
       { term: "Arrival", detail: "Saturday or Sunday" },
     ],
     image: "/assets/surf_1.jpg",
@@ -86,9 +91,9 @@ export const PACKAGES: PackageSummary[] = [
     // against the top edge. A third of the way down puts him mid-band.
     imagePosition: "50% 33%",
     cta: "See the week",
-    bookLabel: "Book the Foundation",
+    bookLabel: "View dates & availability",
     secondary: { href: "/coaching", label: "How we coach" },
-    rates: { unit: "week", nonRefundable: 421.95, semiFlexible: 485 },
+    rates: { unit: "week", from: 590 },
   },
   {
     slug: "the-masterclass",
@@ -110,39 +115,111 @@ export const PACKAGES: PackageSummary[] = [
     cta: "See the week",
     bookLabel: "Book the Masterclass",
     secondary: { href: "/#surf-level", label: "What's my surf level" },
-    rates: { unit: "week", nonRefundable: 469.80, semiFlexible: 540 },
+    rates: {
+      unit: "week",
+      from: 469.8,
+    },
   },
   {
-    slug: "the-custom-retreat",
-    href: "/packages/the-custom-retreat",
+    slug: "the-original-stay",
+    href: "/packages/the-original-stay",
     index: "03",
-    name: "The Custom Retreat",
-    /*
-     * The one package whose name is not also a title. Its section led with
-     * "The Custom Retreat" over "Bed, breakfast & board — then build the rest
-     * yourself", which left the card saying the name twice and the page
-     * saying it again under the hero. The subtitle had a title in it all
-     * along; this splits it in two and the section now leads with the same
-     * pair.
-     */
-    title: "Bed, breakfast & board",
-    subtitle: "Then build the rest yourself.",
+    name: "The Original Stay",
+    title: "Your Home. Your Flow.",
+    subtitle: "Come for the waves. Stay for the feeling.",
     summary:
-      "Your stay, your rules. The house and the quiver, without the timetable.",
+      "Your room, breakfast and dinner, and a daily Sunset Tea. No compulsory surf lessons, no fixed schedule.",
     facts: [
-      { term: "Stay", detail: "From two nights" },
-      { term: "Arrival", detail: "Any day" },
-      { term: "Included", detail: "Bed, breakfast & board" },
+      { term: "Stay", detail: "From three nights" },
+      { term: "Arrival", detail: "Flexible" },
+      { term: "Meals", detail: "Half board" },
     ],
     image: "/assets/surf_3.jpg",
     imageAlt:
       "A surfer waiting out the back on a longboard in glassy water, looking back over one shoulder, the village stacked along the cliff behind in the last of the light.",
-    cta: "See what you can build",
-    bookLabel: "Build your stay",
-    secondary: { href: "/#is-this-trip-for-me", label: "Is this trip for me" },
-    rates: { unit: "night", nonRefundable: 52, semiFlexible: 60 },
+    cta: "Explore the stay",
+    bookLabel: "Request your stay",
+    secondary: { href: "/house#the-rooms", label: "Explore our rooms" },
+    rates: {
+      unit: "stay",
+      from: 45,
+      nights: 3,
+    },
   },
 ];
+
+type PackageCopy = Pick<
+  PackageSummary,
+  | "href"
+  | "title"
+  | "subtitle"
+  | "summary"
+  | "facts"
+  | "imageAlt"
+  | "cta"
+  | "bookLabel"
+  | "secondary"
+>;
+
+/**
+ * The cards and heroes in French. The Foundation and The Original Stay have
+ * their own French pages, so their cards point there; the Masterclass has
+ * none yet, so its card is translated but still opens the English page.
+ * Where the house's French copy keeps an English line — "Your Home. Your
+ * Flow." — so does this.
+ */
+const FRENCH: Record<string, Partial<PackageCopy>> = {
+  "the-foundation": {
+    href: "/fr/packages/the-foundation",
+    subtitle: "Prenez des vagues. Comprenez pourquoi. Continuez à progresser.",
+    summary:
+      "Sept nuits de surf encadré dans un groupe adapté à votre niveau, avec yoga, surfskate et demi-pension à la maison.",
+    facts: [
+      { term: "Niveau", detail: "Débutants & intermédiaires" },
+      { term: "Format", detail: "7 nuits, demi-pension" },
+      { term: "Arrivée", detail: "Samedi ou dimanche" },
+    ],
+    imageAlt:
+      "Un surfeur descend la face d'une droite propre à Imsouane pendant que le reste du groupe attend au line-up.",
+    cta: "Voir la semaine",
+    bookLabel: "Voir les dates et disponibilités",
+    secondary: { href: "/coaching", label: "Notre méthode" },
+  },
+  "the-masterclass": {
+    subtitle: "Sept nuits sur une simple dérive.",
+    summary:
+      "Imsouane est la droite longue et patiente pour laquelle le longboard a été dessiné. La grâce plutôt que la puissance, et la marche jusqu'au nose.",
+    facts: [
+      { term: "Niveau", detail: "Lit déjà une vague verte" },
+      { term: "Format", detail: "7 nuits, simple dérive" },
+      { term: "Rythme", detail: "Du dimanche au vendredi" },
+    ],
+    imageAlt:
+      "Un surfeur porte un longboard blanc à simple dérive sur le sable mouillé, doré par le soleil bas.",
+    cta: "Voir la semaine",
+  },
+  "the-original-stay": {
+    href: "/fr/packages/the-original-stay",
+    summary:
+      "Votre chambre, le petit-déjeuner et le dîner, et notre Sunset Tea quotidien. Pas de surf camp obligatoire, pas de programme imposé.",
+    facts: [
+      { term: "Séjour", detail: "À partir de trois nuits" },
+      { term: "Arrivée", detail: "Flexible" },
+      { term: "Repas", detail: "Demi-pension" },
+    ],
+    imageAlt:
+      "Un surfeur attend au large sur un longboard, dans une eau lisse, regardant par-dessus son épaule, le village accroché à la falaise derrière lui dans la dernière lumière.",
+    cta: "Découvrir le séjour",
+    bookLabel: "Demander mon séjour",
+    secondary: { href: "/house#the-rooms", label: "Découvrir les hébergements" },
+  },
+};
+
+/** The three packages, in the reader's language. */
+export function localizedPackages(locale: Locale = "en"): PackageSummary[] {
+  if (locale === "en") return PACKAGES;
+  return PACKAGES.map((entry) => ({ ...entry, ...FRENCH[entry.slug] }));
+}
 
 /**
  * One package by its route segment.
@@ -151,15 +228,18 @@ export const PACKAGES: PackageSummary[] = [
  * prerendered at build time, so a slug that does not exist should stop the
  * build with its own name in the message, not render a page without a hero.
  */
-export function packageBySlug(slug: string): PackageSummary {
-  const found = PACKAGES.find((entry) => entry.slug === slug);
+export function packageBySlug(
+  slug: string,
+  locale: Locale = "en",
+): PackageSummary {
+  const found = localizedPackages(locale).find((entry) => entry.slug === slug);
   if (!found) throw new Error(`Unknown package slug: ${slug}`);
   return found;
 }
 
 /** The other two, for the foot of a package's own page. */
-export function otherPackages(slug: string) {
-  return PACKAGES.filter((entry) => entry.slug !== slug);
+export function otherPackages(slug: string, locale: Locale = "en") {
+  return localizedPackages(locale).filter((entry) => entry.slug !== slug);
 }
 
 /**

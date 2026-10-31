@@ -35,3 +35,10 @@ export const CONTACT_CHANNELS = [
     external: false,
   },
 ] as const;
+
+/**
+ * A WhatsApp chat with the house, for the calls to action that name
+ * WhatsApp outright. `wa.me` wants the number as digits only, so the `+`
+ * comes off the E.164 form.
+ */
+export const WHATSAPP_HREF = `https://wa.me/${phone.e164.replace(/^\+/, "")}`;

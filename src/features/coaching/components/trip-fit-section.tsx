@@ -14,18 +14,18 @@ const focusRing =
  */
 const COME_IF = [
   "You can swim two hundred metres in open water and stay calm when a wave holds you under for a few seconds.",
-  "You want to get better, not just get wet — a goal for the week, a coach in the water, and the video to prove it.",
+  "You want to get better, not just get wet — a group at your level, a coach in the water, and feedback that tells you what to practise next.",
   "You are travelling on your own. Most of the house is, and the Sunday dinner takes care of the rest.",
   "You are a couple or a group at different levels. The level groups mean you surf with your peers and eat with each other.",
-  "You like a week with a rhythm: early starts, two sessions, yoga, a shared table and an early night.",
-  "You have work to do in the mornings. The Wi-Fi is fast, the terraces are quiet, and the Custom Retreat was built for exactly this.",
+  "You like a week with a rhythm: a coached session most days, yoga, a shared table and an early night.",
+  "You want the house without a timetable. The Original Stay is your room, breakfast, dinner and the daily Sunset Tea, and the rest of the day is yours.",
 ];
 
 const THINK_TWICE_IF = [
   "You are after a party town. Imsouane is a fishing village with a handful of cafés, and the nights are early because the mornings are.",
   "You want a resort. The rooms are simple on purpose; the money goes into the coaching and the food.",
   "You are chasing heavy, hollow waves. The bay is a long, slow right and the point is sharper — a progression wave and a longboard wave, not a slab.",
-  "You would rather free-surf all day with nobody watching. The Custom Retreat can do that; the two coached weeks cannot.",
+  "You would rather free-surf all day with nobody watching. The Original Stay can do that; the two coached weeks cannot.",
   "You are not a confident swimmer. We cannot take you out, and we would rather say so here than on the beach.",
 ];
 
@@ -42,12 +42,12 @@ const QUESTIONS = [
   {
     question: "Can a partner who does not surf come too?",
     answer:
-      "Yes. They stay on the Custom Retreat basis — room, Surf-Fuel breakfasts, yoga, the communal dinners — and can add the dunes, the horses or the souk while you are in the water. Say so when you book and we will put the two stays together.",
+      "Yes, in one of our eligible private rooms. Companion stays are arranged personally rather than through online booking, so message us on WhatsApp or by email before you book and we will put the two stays together.",
   },
   {
     question: "Is there an age limit?",
     answer:
-      "The coached weeks are for adults. Teenagers are welcome with a parent on the Custom Retreat, with private coaching arranged around them — write to us first so we can plan the sessions.",
+      "The coached weeks are for adults. Teenagers are welcome with a parent on the Original Stay, with private coaching arranged around them — write to us first so we can plan the sessions.",
   },
   {
     question: "When is the best time to come?",
@@ -57,7 +57,7 @@ const QUESTIONS = [
   {
     question: "Do I need my own board or wetsuit?",
     answer:
-      "No. The quiver is on free rental for every package — shortboards, twin fins and classic logs — and there are wetsuits in the house. Bring your own board if you love it; a board bag is worth the fee for a week on a wave like this.",
+      "No. On the Foundation, program surfboards are provided on the scheduled activity days, and equipment comes with any lesson you book. On the Original Stay, boards and wetsuits can be rented by the day. Bring your own board if you love it; a board bag is worth the fee for a week on a wave like this.",
   },
   {
     question: "What is not included?",

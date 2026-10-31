@@ -1,33 +1,51 @@
 import type { Metadata } from "next";
 
-import { FoundationPackage } from "@/features/packages/components/foundation-package";
+import { WHATSAPP_HREF } from "@/components/shared/contact-channels";
+import {
+  FOUNDATION_CLOSING,
+  FoundationPackage,
+} from "@/features/packages/components/foundation-package";
 import { PackageBooking } from "@/features/packages/components/package-booking";
 import { OtherPackagesSection } from "@/features/packages/components/other-packages-section";
 import { packageBySlug } from "@/features/packages/data/packages";
 
 const PACKAGE = packageBySlug("the-foundation");
+const CLOSING = FOUNDATION_CLOSING.en;
 
 export const metadata: Metadata = {
   title: "Beginner Surf Camp in Imsouane — 7-Night Surf & Yoga Week",
   description:
-    "The Foundation: a seven-night surf and yoga week in Imsouane for beginners and intermediates. Five coached days on the ISA method, full board, and the village around you.",
-  alternates: { canonical: "/packages/the-foundation" },
+    "The Foundation: seven nights in Imsouane for beginner and intermediate surfers. Five two-hour coached sessions in separate level groups, four yoga sessions, surfskate and half board, from €590.",
+  alternates: {
+    canonical: "/packages/the-foundation",
+    languages: {
+      en: "/packages/the-foundation",
+      fr: "/fr/packages/the-foundation",
+    },
+  },
   openGraph: { url: "/packages/the-foundation" },
 };
 
 /**
  * Package 01, on its own page.
  *
- * The photograph the card showed opens it, then the section that has always
- * made the case for this week, then the other two. The section is cream, so
- * the strip at the foot is sand.
+ * The section ends on sand, so the strip at the foot is shell.
  */
 export default function FoundationPage() {
   return (
     <main id="main" className="flex flex-1 flex-col">
       <FoundationPackage />
-      <PackageBooking package={PACKAGE} />
-      <OtherPackagesSection current={PACKAGE.slug} ground="sand" />
+      <PackageBooking
+        package={PACKAGE}
+        heading={CLOSING.heading}
+        body={[...CLOSING.body]}
+        secondary={{
+          href: WHATSAPP_HREF,
+          label: CLOSING.whatsapp,
+          external: true,
+        }}
+      />
+      <OtherPackagesSection current={PACKAGE.slug} ground="shell" />
     </main>
   );
 }

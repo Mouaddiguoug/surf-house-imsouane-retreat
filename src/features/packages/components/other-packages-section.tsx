@@ -1,5 +1,7 @@
 import { PackageCard } from "@/features/packages/components/package-card";
+import { PACKAGE_UI } from "@/features/packages/data/package-ui";
 import { otherPackages } from "@/features/packages/data/packages";
+import type { Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 type OtherPackagesSectionProps = {
@@ -11,6 +13,7 @@ type OtherPackagesSectionProps = {
    * page picks the ground and the cards take the opposite light from it.
    */
   ground?: "sand" | "shell";
+  locale?: Locale;
 };
 
 /**
@@ -23,8 +26,9 @@ type OtherPackagesSectionProps = {
 export function OtherPackagesSection({
   current,
   ground = "sand",
+  locale = "en",
 }: OtherPackagesSectionProps) {
-  const others = otherPackages(current);
+  const others = otherPackages(current, locale);
 
   return (
     <section
@@ -37,12 +41,12 @@ export function OtherPackagesSection({
     >
       <div className="mx-auto w-full max-w-6xl">
         <h2 className="font-display text-2xl leading-[1.1] text-balance sm:text-3xl">
-          The other packages
+          {PACKAGE_UI[locale].otherPackages}
         </h2>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {others.map((entry) => (
-            <PackageCard key={entry.slug} package={entry} />
+            <PackageCard key={entry.slug} package={entry} locale={locale} />
           ))}
         </div>
       </div>

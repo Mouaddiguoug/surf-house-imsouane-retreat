@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils/cn";
  */
 const FACTS = [
   { term: "Coach to surfer", detail: "1 : 3 at most" },
-  { term: "In the water", detail: "Two a day" },
+  { term: "Each session", detail: "Two hours" },
   { term: "On video", detail: "Every session" },
 ];
 

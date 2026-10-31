@@ -1,6 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      // The Custom Retreat became The Original Stay. Permanent, so search
+      // engines move the old page's standing to the new address.
+      {
+        source: "/packages/the-custom-retreat",
+        destination: "/packages/the-original-stay",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     // AVIF first, WebP for the browsers that lack it. On these photographs
     // AVIF comes in a fifth to a third smaller than WebP at the same quality,

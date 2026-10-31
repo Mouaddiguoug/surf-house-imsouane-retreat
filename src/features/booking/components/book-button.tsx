@@ -1,9 +1,13 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { bookingUrl } from "@/features/booking/bookinglayer";
 import { bookingDialogOpened } from "@/features/booking/bookingSlice";
+import { CONTACT_HREF } from "@/lib/constants/nav";
 import { useAppDispatch } from "@/store/hooks";
 import { cn } from "@/lib/utils/cn";
 
@@ -26,8 +30,9 @@ type BookButtonProps = Omit<React.ComponentProps<typeof Button>, "type"> & {
   children?: React.ReactNode;
   /**
    * The package this button sells, where it sells one. A button on a package
-   * page opens the dialog straight on that week's two rate plans; one in the
-   * navbar or the footer has no package in mind and opens on the choice.
+   * page already knows the answer, so it goes straight to that package in
+   * the shop; one in the navbar or the footer has no package in mind and
+   * opens the dialog on the choice.
    */
   packageSlug?: string;
 };
@@ -38,9 +43,11 @@ type BookButtonProps = Omit<React.ComponentProps<typeof Button>, "type"> & {
  * Every one on the site is this component, so they all do the same thing:
  * open the booking dialog in place, on whatever page the reader is on,
  * rather than scrolling them off to a section first. Pass `packageSlug` and
- * it opens one step further in, on that week's rate plans. Clay by default — it is
- * the one action that should never recede — and the caller passes only the
- * size classes and the label.
+ * there is nothing left to ask, so it is a link instead: straight to that
+ * package in the Bookinglayer shop, in a new tab, with the arrow that says
+ * the reader is leaving the site. Clay by default — it is the one action
+ * that should never recede — and the caller passes only the size classes
+ * and the label.
  */
 export function BookButton({
   variant = "clay",
@@ -52,6 +59,33 @@ export function BookButton({
 }: BookButtonProps) {
   const dispatch = useAppDispatch();
 
+  if (packageSlug) {
+    const href = bookingUrl(packageSlug);
+    const classes = cn(
+      buttonVariants({ variant }),
+      "cursor-pointer gap-2",
+      className,
+    );
+
+    // No shop configured: send the reader to a person rather than a dead
+    // link. The label stays the same — the house will book it by hand.
+    if (!href) {
+      return (
+        <Link href={CONTACT_HREF} className={classes}>
+          {children}
+        </Link>
+      );
+    }
+
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+        {children}
+        <ArrowUpRight aria-hidden className="size-4" />
+        <span className="sr-only"> (opens in a new tab)</span>
+      </a>
+    );
+  }
+
   return (
     <Button
       type="button"
@@ -62,7 +96,7 @@ export function BookButton({
         onClick?.(event);
         if (event.defaultPrevented) return;
         lastOpener = event.currentTarget;
-        dispatch(bookingDialogOpened(packageSlug));
+        dispatch(bookingDialogOpened());
       }}
       {...props}
     >

@@ -2,14 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 
 import {
-  formatPrice,
-  type PackageSummary,
-} from "@/features/packages/data/packages";
+  PACKAGE_UI,
+  euros,
+  perLabel,
+} from "@/features/packages/data/package-ui";
+import type { PackageSummary } from "@/features/packages/data/packages";
+import type { Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 type PackageCardProps = {
   package: PackageSummary;
   className?: string;
+  locale?: Locale;
 };
 
 /**
@@ -35,7 +39,13 @@ type PackageCardProps = {
  * nothing else in here may become interactive, or it would sit under that
  * cover.
  */
-export function PackageCard({ package: entry, className }: PackageCardProps) {
+export function PackageCard({
+  package: entry,
+  className,
+  locale = "en",
+}: PackageCardProps) {
+  const ui = PACKAGE_UI[locale];
+
   return (
     <article
       className={cn(
@@ -72,18 +82,17 @@ export function PackageCard({ package: entry, className }: PackageCardProps) {
 
           Not interactive, so it is free to sit under the card's cover link —
           a click on it still opens the package. "From", because this is the
-          premium dorm bed on the non-refundable rate; both a private room
-          and the flexible rate cost more, which the package page spells
-          out. */}
+          shared-dorm bed at the lowest published rate; a private room costs
+          more, and the package page spells out the rest. */}
       <p className="border-house-shell/20 bg-house-deep/65 text-house-shell absolute top-3 right-3 flex items-baseline gap-1.5 rounded-full border px-3.5 py-2 backdrop-blur-xl sm:top-4 sm:right-4">
         <span className="text-house-shell/65 font-mono text-label tracking-[0.18em] uppercase">
-          From
+          {ui.from}
         </span>
         <span className="font-display text-base leading-none">
-          €{formatPrice(entry.rates.nonRefundable)}
+          {euros(entry.rates.from, locale)}
         </span>
         <span className="text-house-shell/70 text-xs">
-          / {entry.rates.unit}
+          / {perLabel(entry, locale)}
         </span>
       </p>
 

@@ -27,13 +27,13 @@ export function PackagesSection() {
         <div className="max-w-2xl">
           <SectionHeading
             title="Three ways to stay"
-            subtitle="A coached week, a week on a single fin, or a stay you build yourself."
+            subtitle="A coached week, a week on a single fin, or a stay on your own terms."
           />
 
           <p className="text-house-muted mt-6 text-base leading-relaxed text-pretty">
             Every one of them is the same house, the same bay and the same
-            coaches. What changes is how much of the week is decided before you
-            arrive.
+            Sunset Tea. What changes is how much of the week is decided before
+            you arrive.
           </p>
         </div>
 
