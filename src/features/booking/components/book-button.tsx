@@ -7,7 +7,8 @@ import * as React from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { bookingUrl } from "@/features/booking/bookinglayer";
 import { bookingDialogOpened } from "@/features/booking/bookingSlice";
-import { CONTACT_HREF } from "@/lib/constants/nav";
+import { contactHref } from "@/lib/constants/nav";
+import { useLocale } from "@/lib/i18n/use-locale";
 import { useAppDispatch } from "@/store/hooks";
 import { cn } from "@/lib/utils/cn";
 
@@ -58,6 +59,7 @@ export function BookButton({
   ...props
 }: BookButtonProps) {
   const dispatch = useAppDispatch();
+  const locale = useLocale();
 
   if (packageSlug) {
     const href = bookingUrl(packageSlug);
@@ -71,7 +73,7 @@ export function BookButton({
     // link. The label stays the same — the house will book it by hand.
     if (!href) {
       return (
-        <Link href={CONTACT_HREF} className={classes}>
+        <Link href={contactHref(locale)} className={classes}>
           {children}
         </Link>
       );
@@ -81,7 +83,11 @@ export function BookButton({
       <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
         {children}
         <ArrowUpRight aria-hidden className="size-4" />
-        <span className="sr-only"> (opens in a new tab)</span>
+        <span className="sr-only">
+          {locale === "fr"
+            ? " (s'ouvre dans un nouvel onglet)"
+            : " (opens in a new tab)"}
+        </span>
       </a>
     );
   }

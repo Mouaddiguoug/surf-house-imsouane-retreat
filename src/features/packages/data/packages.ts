@@ -1,18 +1,19 @@
 /**
- * The three packages, as everything outside their own sections sees them.
+ * The four products, as everything outside their own pages sees them.
  *
- * Each package owns a page now, and the home page shows the three as cards
- * instead of running all three sections end to end. Both of those need the
- * same handful of facts — the number, the name, the one-line pitch, the shape
- * of the stay — so they live here rather than being read back out of the
- * sections, which are long-form and built to be read rather than summarised.
+ * V1.5 splits them in two. The Original Stay and Custom Surf are sold: each
+ * has a price and a way into the booking shop. The Foundation and Golden
+ * Lines are programmes the house presents but does not sell yet — no price,
+ * no booking, and a conversation with the team as the way in. `rates` being
+ * present is what marks a product as sold; every component that shows a
+ * price or a book button checks for it rather than for a name.
  *
- * Every line is lifted from the section it belongs to. Nothing here is a new
- * claim about what a week includes: if a fact is not already promised further
- * down the page it is not in this file.
+ * Every line is lifted from the house's own copy for that product. Nothing
+ * here is a new claim: if a fact is not already promised on the product's
+ * page, it is not in this file.
  */
 
-import type { Locale } from "@/lib/i18n/locale";
+import { localizeHref, type Locale } from "@/lib/i18n/locale";
 
 export type PackageFact = {
   /** "Level", "Format" — mono, uppercase, the quiet half of the pair. */
@@ -24,8 +25,8 @@ export type PackageSummary = {
   /** The route segment. */
   slug: string;
   href: string;
-  /** "01". The card's anchor, and how the sections already number themselves. */
-  index: string;
+  /** "Stay" or "Programme": what kind of thing this is, for the cards. */
+  kind: "stay" | "programme";
   /** "The Foundation" — the name the nav and the menus use. */
   name: string;
   /** "Surf, Roots & Reset" — the name the section leads with. */
@@ -45,9 +46,12 @@ export type PackageSummary = {
    * Only set this where the middle of the picture is not the point of it.
    */
   imagePosition?: string;
-  /** The card's own call to action. Only two of the three are weeks. */
+  /** The card's own call to action. */
   cta: string;
-  /** What the book button says on this package's page. */
+  /**
+   * What the page's main button says. On a sold product it books; on a
+   * programme it opens a conversation with the team.
+   */
   bookLabel: string;
   /** The page's one link out, beside the book button. */
   secondary: { href: string; label: string };
@@ -64,25 +68,69 @@ export type PackageSummary = {
    * €45 for three nights, not €45 a night — and every label that prints it
    * says the number of nights, so it is never read as a nightly rate.
    */
-  rates:
+  rates?:
     | { unit: "week"; from: number }
     | { unit: "stay"; from: number; nights: number };
 };
 
 export const PACKAGES: PackageSummary[] = [
   {
-    slug: "the-foundation",
-    href: "/packages/the-foundation",
-    index: "01",
-    name: "The Foundation",
-    title: "Surf, Roots & Reset",
+    slug: "original-stay",
+    href: "/original-stay",
+    kind: "stay",
+    name: "The Original Stay",
+    title: "The Original Stay",
+    subtitle: "Your Home. Your Flow.",
+    summary:
+      "Accommodation and half-board at the House, with a daily Sunset Tea. Academy activities are optional and billed separately.",
+    facts: [
+      { term: "Stay", detail: "From three nights" },
+      { term: "Arrival", detail: "Flexible" },
+      { term: "Meals", detail: "Half board" },
+    ],
+    image: "/assets/book_a_stay_1.JPG",
+    imageAlt:
+      "A private room at the house: a made double bed, a painted mural along one wall, and light coming through the curtains from the sea-facing window.",
+    cta: "Explore your stay",
+    bookLabel: "Request your stay",
+    secondary: { href: "/custom-surf", label: "Add surf: Custom Surf" },
+    rates: { unit: "stay", from: 45, nights: 3 },
+  },
+  {
+    slug: "custom-surf",
+    href: "/custom-surf",
+    kind: "stay",
+    name: "Custom Surf",
+    title: "Custom Surf",
+    subtitle: "The Original Stay, with the surf you choose.",
+    summary:
+      "Start with The Original Stay and add eligible surf activities with Imsouane Surf Academy, at the public activity price.",
+    facts: [
+      { term: "Base", detail: "The Original Stay" },
+      { term: "Surf", detail: "Activities you choose" },
+      { term: "Billing", detail: "Activities separately" },
+    ],
+    image: "/assets/video_analysis.JPG",
+    imageAlt:
+      "A surfer standing up on a small, wind-textured wave at Imsouane while two others paddle back out behind.",
+    cta: "Explore Custom Surf",
+    bookLabel: "Request your stay",
+    secondary: { href: "/upgrade", label: "Already booked?" },
+    rates: { unit: "stay", from: 45, nights: 3 },
+  },
+  {
+    slug: "foundation",
+    href: "/foundation",
+    kind: "programme",
+    name: "Foundation",
+    title: "Foundation — Surf, Roots & Reset",
     subtitle: "Catch waves. Understand why. Keep growing.",
     summary:
-      "Seven nights of structured coaching in your own level group, with yoga, surfskate and half board at the house.",
+      "A seven-night programme for beginner and intermediate surfers, in separate level groups. Details and opening are subject to confirmation.",
     facts: [
       { term: "Level", detail: "Beginner & Intermediate" },
       { term: "Format", detail: "7 nights, half board" },
-      { term: "Arrival", detail: "Saturday or Sunday" },
+      { term: "Status", detail: "Opening to be confirmed" },
     ],
     image: "/assets/surf_1.jpg",
     imageAlt:
@@ -90,61 +138,30 @@ export const PACKAGES: PackageSummary[] = [
     // The surfer rides high in this frame: centred, the crop leaves him up
     // against the top edge. A third of the way down puts him mid-band.
     imagePosition: "50% 33%",
-    cta: "See the week",
-    bookLabel: "View dates & availability",
+    cta: "Explore the programme",
+    bookLabel: "Ask about Foundation",
     secondary: { href: "/coaching", label: "How we coach" },
-    rates: { unit: "week", from: 590 },
   },
   {
-    slug: "the-masterclass",
-    href: "/packages/the-masterclass",
-    index: "02",
-    name: "The Masterclass",
-    title: "Classic Longboard",
-    subtitle: "Seven nights on a single fin.",
+    slug: "golden-lines",
+    href: "/golden-lines",
+    kind: "programme",
+    name: "Golden Lines",
+    title: "Golden Lines",
+    subtitle: "A longboard programme on a long, patient right.",
     summary:
-      "Imsouane is the long, patient right the log was designed for. Grace over power, and the walk to the nose.",
+      "The longboard concept: grace over power, and the walk to the nose. Details and editions are subject to confirmation.",
     facts: [
-      { term: "Level", detail: "Reads a green wave" },
-      { term: "Format", detail: "7 nights, single fin" },
-      { term: "Rhythm", detail: "Sunday to Friday" },
+      { term: "Discipline", detail: "Longboard" },
+      { term: "For", detail: "Surfers who read a green wave" },
+      { term: "Status", detail: "Editions to be confirmed" },
     ],
     image: "/assets/surf_2.jpg",
     imageAlt:
       "A surfer carrying a white single-fin longboard across wet sand lit gold by the low sun.",
-    cta: "See the week",
-    bookLabel: "Book the Masterclass",
-    secondary: { href: "/#surf-level", label: "What's my surf level" },
-    rates: {
-      unit: "week",
-      from: 469.8,
-    },
-  },
-  {
-    slug: "the-original-stay",
-    href: "/packages/the-original-stay",
-    index: "03",
-    name: "The Original Stay",
-    title: "Your Home. Your Flow.",
-    subtitle: "Come for the waves. Stay for the feeling.",
-    summary:
-      "Your room, breakfast and dinner, and a daily Sunset Tea. No compulsory surf lessons, no fixed schedule.",
-    facts: [
-      { term: "Stay", detail: "From three nights" },
-      { term: "Arrival", detail: "Flexible" },
-      { term: "Meals", detail: "Half board" },
-    ],
-    image: "/assets/surf_3.jpg",
-    imageAlt:
-      "A surfer waiting out the back on a longboard in glassy water, looking back over one shoulder, the village stacked along the cliff behind in the last of the light.",
-    cta: "Explore the stay",
-    bookLabel: "Request your stay",
-    secondary: { href: "/house#the-rooms", label: "Explore our rooms" },
-    rates: {
-      unit: "stay",
-      from: 45,
-      nights: 3,
-    },
+    cta: "Explore Golden Lines",
+    bookLabel: "Ask about Golden Lines",
+    secondary: { href: "/#surf", label: "Back to the Academy" },
   },
 ];
 
@@ -162,63 +179,90 @@ type PackageCopy = Pick<
 >;
 
 /**
- * The cards and heroes in French. The Foundation and The Original Stay have
- * their own French pages, so their cards point there; the Masterclass has
- * none yet, so its card is translated but still opens the English page.
- * Where the house's French copy keeps an English line — "Your Home. Your
- * Flow." — so does this.
+ * The cards and heroes in French, in "tu" like the rest of the French site.
+ * Links are not written here: `localizedPackages` points every one at the
+ * French page. Where the house's French copy keeps an English line — "Your
+ * Home. Your Flow." — so does this.
  */
 const FRENCH: Record<string, Partial<PackageCopy>> = {
-  "the-foundation": {
-    href: "/fr/packages/the-foundation",
-    subtitle: "Prenez des vagues. Comprenez pourquoi. Continuez à progresser.",
+  "original-stay": {
     summary:
-      "Sept nuits de surf encadré dans un groupe adapté à votre niveau, avec yoga, surfskate et demi-pension à la maison.",
-    facts: [
-      { term: "Niveau", detail: "Débutants & intermédiaires" },
-      { term: "Format", detail: "7 nuits, demi-pension" },
-      { term: "Arrivée", detail: "Samedi ou dimanche" },
-    ],
-    imageAlt:
-      "Un surfeur descend la face d'une droite propre à Imsouane pendant que le reste du groupe attend au line-up.",
-    cta: "Voir la semaine",
-    bookLabel: "Voir les dates et disponibilités",
-    secondary: { href: "/coaching", label: "Notre méthode" },
-  },
-  "the-masterclass": {
-    subtitle: "Sept nuits sur une simple dérive.",
-    summary:
-      "Imsouane est la droite longue et patiente pour laquelle le longboard a été dessiné. La grâce plutôt que la puissance, et la marche jusqu'au nose.",
-    facts: [
-      { term: "Niveau", detail: "Lit déjà une vague verte" },
-      { term: "Format", detail: "7 nuits, simple dérive" },
-      { term: "Rythme", detail: "Du dimanche au vendredi" },
-    ],
-    imageAlt:
-      "Un surfeur porte un longboard blanc à simple dérive sur le sable mouillé, doré par le soleil bas.",
-    cta: "Voir la semaine",
-  },
-  "the-original-stay": {
-    href: "/fr/packages/the-original-stay",
-    summary:
-      "Votre chambre, le petit-déjeuner et le dîner, et notre Sunset Tea quotidien. Pas de surf camp obligatoire, pas de programme imposé.",
+      "L'hébergement et la demi-pension à la House, avec le Sunset Tea quotidien. Les activités Academy sont facultatives et facturées séparément.",
     facts: [
       { term: "Séjour", detail: "À partir de trois nuits" },
       { term: "Arrivée", detail: "Flexible" },
       { term: "Repas", detail: "Demi-pension" },
     ],
     imageAlt:
-      "Un surfeur attend au large sur un longboard, dans une eau lisse, regardant par-dessus son épaule, le village accroché à la falaise derrière lui dans la dernière lumière.",
+      "Une chambre privée de la maison : un grand lit fait, une fresque peinte sur un mur et la lumière qui filtre par les rideaux de la fenêtre côté mer.",
     cta: "Découvrir le séjour",
     bookLabel: "Demander mon séjour",
-    secondary: { href: "/house#the-rooms", label: "Découvrir les hébergements" },
+    secondary: { href: "/custom-surf", label: "Ajouter du surf : Custom Surf" },
+  },
+  "custom-surf": {
+    subtitle: "The Original Stay, avec le surf que tu choisis.",
+    summary:
+      "Pars de The Original Stay et ajoute les activités surf éligibles d'Imsouane Surf Academy, au tarif public de l'activité.",
+    facts: [
+      { term: "Base", detail: "The Original Stay" },
+      { term: "Surf", detail: "Les activités choisies" },
+      { term: "Facturation", detail: "Activités à part" },
+    ],
+    imageAlt:
+      "Un surfeur debout sur une petite vague ridée par le vent à Imsouane, deux autres repartant à la rame derrière lui.",
+    cta: "Découvrir Custom Surf",
+    bookLabel: "Demander mon séjour",
+    secondary: { href: "/upgrade", label: "Déjà réservé ?" },
+  },
+  foundation: {
+    subtitle: "Prends des vagues. Comprends pourquoi. Continue à progresser.",
+    summary:
+      "Un programme de sept nuits pour surfeurs débutants et intermédiaires, en groupes de niveau. Les modalités et l'ouverture restent à confirmer.",
+    facts: [
+      { term: "Niveau", detail: "Débutants & intermédiaires" },
+      { term: "Format", detail: "7 nuits, demi-pension" },
+      { term: "Statut", detail: "Ouverture à confirmer" },
+    ],
+    imageAlt:
+      "Un surfeur descend la face d'une droite propre à Imsouane pendant que le reste du groupe attend au line-up.",
+    cta: "Découvrir le programme",
+    bookLabel: "Parler de Foundation",
+    secondary: { href: "/coaching", label: "Notre méthode" },
+  },
+  "golden-lines": {
+    subtitle: "Un programme longboard sur une droite longue et patiente.",
+    summary:
+      "Le concept longboard : la grâce plutôt que la puissance, et la marche jusqu'au nose. Les modalités et les éditions restent à confirmer.",
+    facts: [
+      { term: "Discipline", detail: "Longboard" },
+      { term: "Pour", detail: "Qui lit déjà une vague verte" },
+      { term: "Statut", detail: "Éditions à confirmer" },
+    ],
+    imageAlt:
+      "Un surfeur porte un longboard blanc à simple dérive sur le sable mouillé, doré par le soleil bas.",
+    cta: "Découvrir Golden Lines",
+    bookLabel: "Parler de Golden Lines",
+    secondary: { href: "/#surf", label: "Retour à l'Academy" },
   },
 };
 
-/** The three packages, in the reader's language. */
+/**
+ * The four products, in the reader's language: the French copy laid over
+ * the English, and every link pointed at the same page in that language.
+ */
 export function localizedPackages(locale: Locale = "en"): PackageSummary[] {
   if (locale === "en") return PACKAGES;
-  return PACKAGES.map((entry) => ({ ...entry, ...FRENCH[entry.slug] }));
+  return PACKAGES.map((entry) => {
+    const merged = { ...entry, ...FRENCH[entry.slug] };
+    return {
+      ...merged,
+      href: localizeHref(merged.href, locale),
+      secondary: {
+        ...merged.secondary,
+        href: localizeHref(merged.secondary.href, locale),
+      },
+    };
+  });
 }
 
 /**
@@ -237,7 +281,7 @@ export function packageBySlug(
   return found;
 }
 
-/** The other two, for the foot of a package's own page. */
+/** The others, for the foot of a product's own page. */
 export function otherPackages(slug: string, locale: Locale = "en") {
   return localizedPackages(locale).filter((entry) => entry.slug !== slug);
 }

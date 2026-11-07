@@ -1,7 +1,9 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { WHATSAPP_HREF } from "@/components/shared/contact-channels";
 import { buttonVariants } from "@/components/ui/button";
 import { BookButton } from "@/features/booking/components/book-button";
 import {
@@ -79,12 +81,12 @@ const ruleVariants = cva("", {
  * ink, because a sand wash on sand would not show.
  */
 const secondaryVariants = cva(
-  "h-12 w-full cursor-pointer rounded-xl bg-transparent px-6 font-mono text-xs tracking-[0.14em] uppercase sm:w-auto lg:w-full",
+  "h-12 w-full cursor-pointer rounded-xl bg-transparent px-6 text-xs font-semibold tracking-[0.14em] uppercase sm:w-auto lg:w-full",
   {
     variants: {
       tone: {
-        cream: "border-house-ink/15 text-house-ink hover:bg-house-sand",
-        sand: "border-house-ink/15 text-house-ink hover:bg-house-ink/5",
+        cream: "border-house-ink text-house-ink hover:bg-house-sand",
+        sand: "border-house-ink text-house-ink hover:bg-house-ink/5",
         ink: "border-house-sand/30 text-house-sand hover:bg-house-sand/10",
       },
     },
@@ -223,7 +225,7 @@ export function PackageHero({
                     <dt
                       className={cn(
                         quietVariants({ tone }),
-                        "font-mono text-label tracking-[0.18em] uppercase",
+                        "text-label font-semibold tracking-[0.16em] uppercase",
                       )}
                     >
                       {fact.term}
@@ -259,37 +261,68 @@ export function PackageHero({
               the page's one way out, the same pair the strip at the foot of
               the page offers. */}
           <div className={cn(ENTER, "delay-500 lg:self-end")}>
-            <p className="font-display text-3xl leading-none">
-              <span
+            {entry.rates ? (
+              <>
+                <p className="font-display text-3xl leading-none">
+                  <span
+                    className={cn(
+                      quietVariants({ tone }),
+                      "text-label font-sans font-semibold tracking-[0.16em] uppercase",
+                    )}
+                  >
+                    {ui.from}{" "}
+                  </span>
+                  {euros(entry.rates.from, locale)}
+                  <span className={cn(quietVariants({ tone }), "text-base")}>
+                    {" "}
+                    / {perLabel(entry, locale)}
+                  </span>
+                </p>
+                <p
+                  className={cn(
+                    quietVariants({ tone }),
+                    "mt-2 text-sm text-pretty",
+                  )}
+                >
+                  {priceNote(entry, locale)}
+                </p>
+              </>
+            ) : (
+              // A programme the house presents but does not sell yet: no
+              // price, and the way in is a conversation, not a checkout.
+              <p
                 className={cn(
                   quietVariants({ tone }),
-                  "font-mono text-label tracking-[0.18em] uppercase",
+                  "text-sm leading-relaxed text-pretty",
                 )}
               >
-                {ui.from}{" "}
-              </span>
-              {euros(entry.rates.from, locale)}
-              <span className={cn(quietVariants({ tone }), "text-base")}>
-                {" "}
-                / {perLabel(entry, locale)}
-              </span>
-            </p>
-            <p
-              className={cn(
-                quietVariants({ tone }),
-                "mt-2 text-sm text-pretty",
-              )}
-            >
-              {priceNote(entry, locale)}
-            </p>
+                {ui.programmeNote}
+              </p>
+            )}
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <BookButton
-                packageSlug={entry.slug}
-                className="h-12 w-full px-6 text-xs sm:w-auto lg:w-full"
-              >
-                {entry.bookLabel}
-              </BookButton>
+              {entry.rates ? (
+                <BookButton
+                  packageSlug={entry.slug}
+                  className="h-12 w-full px-6 text-xs sm:w-auto lg:w-full"
+                >
+                  {entry.bookLabel}
+                </BookButton>
+              ) : (
+                <a
+                  href={WHATSAPP_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    buttonVariants({ variant: "clay" }),
+                    "h-12 w-full gap-2 px-6 text-xs sm:w-auto lg:w-full",
+                  )}
+                >
+                  {entry.bookLabel}
+                  <ArrowUpRight aria-hidden className="size-4" />
+                  <span className="sr-only"> (WhatsApp, opens in a new tab)</span>
+                </a>
+              )}
               <Link
                 href={entry.secondary.href}
                 className={cn(

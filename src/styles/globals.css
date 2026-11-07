@@ -8,10 +8,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  /* No monospace in this world: labels are Manrope set small, uppercase
+     and lightly tracked, so `font-mono` resolves to the text face. */
+  --font-mono: var(--font-sans);
   --font-display: var(--font-display);
   --font-heading: var(--font-display);
-  --font-title: var(--font-title);
+  --font-title: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -41,13 +43,16 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  /* Near-square, per the V1.5 design system: corners 0–2px everywhere.
+     Every radius utility resolves here, so a `rounded-3xl` written for the
+     old world lands on the new one without being found and edited. */
+  --radius-sm: 0px;
+  --radius-md: 1px;
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-xl: var(--radius);
+  --radius-2xl: var(--radius);
+  --radius-3xl: var(--radius);
+  --radius-4xl: var(--radius);
 }
 
 body {
@@ -55,35 +60,38 @@ body {
 }
 
 /**
- * Surf House brand tokens.
+ * Imsouane Surf House brand tokens — DS-001, Atlantic Amazigh Refined
+ * Editorial (V1.5 handoff).
  *
- * Five anchors carry the identity — sand #f6eedd, clay red #d72f23, ink
- * #141414, driftwood #483d36, sky #56cbf9 — and every other token here is a
- * tint or shade of one of them, so the palette stays closed. Structured like
- * the Waveclubs palette so components port between the two projects.
+ * Five approved colours and nothing invented on top of them: sand #FDFBF7
+ * and charcoal #1C1C1C are the ground and the type; terracotta, ocean and
+ * sage are surfaces, accents and display type only. Measured against sand
+ * none of the three carries ordinary-size text (terracotta 4.3:1, ocean
+ * 3.6:1, sage 4.0:1), so body copy, labels and buttons stay charcoal.
  *
- * `tide` is the one non-anchor worth knowing about: sky at full brightness is
- * far too light to read on sand or shell, so anything that must carry contrast
- * on a light surface (rings, links, chart-1) uses tide instead.
+ * The `house-*` names are kept from the previous world so every component
+ * lands on the new palette without a rename. Where the old token was a
+ * colour this world does not have, it maps onto the nearest role:
+ * `clay` (the call to action) is charcoal, as the system asks for buttons;
+ * `tide` (links, rings, ticks) is charcoal; `sky` (labels on dark) is sand.
+ * `stone`, `muted` and `dim` are charcoal tints, and `sand` is the ground
+ * tinted a step toward terracotta for alternating sections.
  */
 @theme {
-  --color-house-ink: #141414;
-  --color-house-deep: #0a0a0a;
-  --color-house-stone: #483d36;
-  --color-house-muted: #6d5f56;
-  --color-house-dim: #a3978e;
-  --color-house-shell: #fdfaf3;
-  --color-house-sand: #f6eedd;
-  --color-house-clay: #d72f23;
-  --color-house-sky: #56cbf9;
-  --color-house-tide: #1183b4;
-  /*
-   * Tide at 35% in deep night, mixed in OKLCH: the water before sunrise.
-   * The coaching hero's ground, so that page opens cool and blue where
-   * Imsouane opens on ink and the package pages fade into cream. Shell type
-   * on it is 13.2:1, sky labels 7.4:1.
-   */
-  --color-house-tide-deep: #16303e;
+  --color-house-ink: #1c1c1c;
+  --color-house-deep: #1c1c1c;
+  --color-house-shell: #fdfbf7;
+  --color-house-terracotta: #b85d43;
+  --color-house-ocean: #638d95;
+  --color-house-sage: #6e7f73;
+  --color-house-stone: color-mix(in oklch, #1c1c1c 86%, #fdfbf7);
+  --color-house-muted: color-mix(in oklch, #1c1c1c 76%, #fdfbf7);
+  --color-house-dim: color-mix(in oklch, #1c1c1c 45%, #fdfbf7);
+  --color-house-sand: color-mix(in oklch, #fdfbf7 93%, #b85d43);
+  --color-house-clay: #1c1c1c;
+  --color-house-sky: #fdfbf7;
+  --color-house-tide: #1c1c1c;
+  --color-house-tide-deep: #1c1c1c;
 
   /*
    * The smallest type on the site: the uppercase mono labels over facts,
@@ -101,22 +109,14 @@ body {
    * lift a card off the page without making it float. `photo` is one step
    * deeper because a photograph has no border to find its own edge.
    */
-  --shadow-card:
-    0 1px 2px color-mix(in srgb, var(--color-house-ink) 4%, transparent),
-    0 12px 32px -12px
-      color-mix(in srgb, var(--color-house-ink) 14%, transparent);
-  --shadow-photo:
-    0 2px 4px color-mix(in srgb, var(--color-house-ink) 6%, transparent),
-    0 20px 48px -16px
-      color-mix(in srgb, var(--color-house-ink) 24%, transparent);
-
   /*
-   * The edge where the page rises over the pinned hero. Cast upward, and
-   * deeper than the other two because it falls on moving footage rather than
-   * on a flat ground — anything lighter reads as a seam instead of a lift.
+   * No elevation in this world: depth comes from 1px charcoal rules and
+   * from colour blocks, not from shadows. The tokens stay so the components
+   * that name them keep compiling, and resolve to nothing.
    */
-  --shadow-rise: 0 -2rem 3rem -1.5rem
-    color-mix(in srgb, var(--color-house-deep) 55%, transparent);
+  --shadow-card: none;
+  --shadow-photo: none;
+  --shadow-rise: none;
 
   /*
    * The reviews wall. Each row holds two copies of its cards and drifts
@@ -130,6 +130,59 @@ body {
     to {
       transform: translateX(-50%);
     }
+  }
+}
+
+/**
+ * The V1.5 page grid, from the implementation contract.
+ *
+ * Content width is min(1280px, viewport − 2 × gutter), and the gutter steps
+ * with the viewport: 16 below 360, 20 to 767, 32 to 899, 40 to 1399, 80
+ * from 1400. `page-wrap` is that column; every home section sits in it.
+ *
+ * Sections carry their space at the end only — 64 / 80 / 96 / 112 at the
+ * documented breakpoints — and the next section starts at zero, so two
+ * neighbours never add their padding together. `page-section` is that rule.
+ */
+:root {
+  --gutter: 16px;
+}
+@media (width >= 360px) {
+  :root {
+    --gutter: 20px;
+  }
+}
+@media (width >= 768px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+@media (width >= 900px) {
+  :root {
+    --gutter: 40px;
+  }
+}
+@media (width >= 1400px) {
+  :root {
+    --gutter: 80px;
+  }
+}
+
+@utility page-wrap {
+  margin-inline: auto;
+  width: min(1280px, 100% - 2 * var(--gutter));
+}
+
+@utility page-section {
+  padding-bottom: 64px;
+  @media (width >= 768px) {
+    padding-bottom: 80px;
+  }
+  @media (width >= 900px) {
+    padding-bottom: 96px;
+  }
+  @media (width >= 1200px) {
+    padding-bottom: 112px;
   }
 }
 
@@ -374,38 +427,38 @@ body {
 }
 
 :root {
-  --background: #fdfaf3;
-  --foreground: #141414;
-  --card: #ffffff;
-  --card-foreground: #141414;
-  --popover: #ffffff;
-  --popover-foreground: #141414;
-  --primary: #141414;
-  --primary-foreground: #fdfaf3;
-  --secondary: #f6eedd;
-  --secondary-foreground: #141414;
-  --muted: #f6eedd;
-  --muted-foreground: #6d5f56;
-  --accent: #f6eedd;
-  --accent-foreground: #141414;
-  --destructive: #a91b12;
-  --border: rgba(20, 20, 20, 0.1);
-  --input: #e7dcc4;
-  --ring: #1183b4;
-  --chart-1: #1183b4;
-  --chart-2: #d72f23;
-  --chart-3: #483d36;
-  --chart-4: #56cbf9;
-  --chart-5: #6d5f56;
-  --radius: 0.75rem;
-  --sidebar: #f8f2e4;
-  --sidebar-foreground: #141414;
-  --sidebar-primary: #141414;
-  --sidebar-primary-foreground: #fdfaf3;
-  --sidebar-accent: #f6eedd;
-  --sidebar-accent-foreground: #141414;
-  --sidebar-border: rgba(20, 20, 20, 0.1);
-  --sidebar-ring: #1183b4;
+  --background: #fdfbf7;
+  --foreground: #1c1c1c;
+  --card: #fdfbf7;
+  --card-foreground: #1c1c1c;
+  --popover: #fdfbf7;
+  --popover-foreground: #1c1c1c;
+  --primary: #1c1c1c;
+  --primary-foreground: #fdfbf7;
+  --secondary: var(--color-house-sand);
+  --secondary-foreground: #1c1c1c;
+  --muted: var(--color-house-sand);
+  --muted-foreground: var(--color-house-muted);
+  --accent: var(--color-house-sand);
+  --accent-foreground: #1c1c1c;
+  --destructive: #a3311c;
+  --border: color-mix(in oklch, #1c1c1c 22%, transparent);
+  --input: color-mix(in oklch, #1c1c1c 35%, transparent);
+  --ring: #1c1c1c;
+  --chart-1: #638d95;
+  --chart-2: #b85d43;
+  --chart-3: #6e7f73;
+  --chart-4: #1c1c1c;
+  --chart-5: var(--color-house-dim);
+  --radius: 2px;
+  --sidebar: #fdfbf7;
+  --sidebar-foreground: #1c1c1c;
+  --sidebar-primary: #1c1c1c;
+  --sidebar-primary-foreground: #fdfbf7;
+  --sidebar-accent: var(--color-house-sand);
+  --sidebar-accent-foreground: #1c1c1c;
+  --sidebar-border: color-mix(in oklch, #1c1c1c 22%, transparent);
+  --sidebar-ring: #1c1c1c;
 }
 
 .dark {
@@ -448,6 +501,20 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* The parts the browser draws: selection, caret, focus. A 3px charcoal
+     ring with a sand gap, per the system's focus rule. */
+  ::selection {
+    background-color: var(--color-house-terracotta);
+    color: var(--color-house-shell);
+  }
+  html {
+    caret-color: var(--color-house-terracotta);
+    accent-color: var(--color-house-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-house-ink);
+    outline-offset: 3px;
   }
   html {
     @apply font-sans;

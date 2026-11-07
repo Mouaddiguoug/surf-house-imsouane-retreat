@@ -31,9 +31,8 @@ export const BOOKINGLAYER = {
    * again. All three are `null` until the shop's new product links are in.
    */
   paths: {
-    "the-foundation": null as string | null,
-    "the-masterclass": null as string | null,
-    "the-original-stay": null as string | null,
+    "original-stay": null as string | null,
+    "custom-surf": null as string | null,
   },
 } as const;
 

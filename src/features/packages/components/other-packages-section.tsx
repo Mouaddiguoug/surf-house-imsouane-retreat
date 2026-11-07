@@ -44,7 +44,7 @@ export function OtherPackagesSection({
           {PACKAGE_UI[locale].otherPackages}
         </h2>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <div className="mt-10 grid gap-12 md:grid-cols-3 md:gap-8">
           {others.map((entry) => (
             <PackageCard key={entry.slug} package={entry} locale={locale} />
           ))}

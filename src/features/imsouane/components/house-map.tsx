@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 
+import { useLocale } from "@/lib/i18n/use-locale";
+
 /**
  * Client boundary for the map.
  *
@@ -13,13 +15,20 @@ const MapCanvas = dynamic(
   () => import("@/features/imsouane/components/map-canvas"),
   {
     ssr: false,
-    loading: () => (
-      <div className="bg-house-sand size-full animate-pulse motion-reduce:animate-none">
-        <span className="sr-only">Loading the map</span>
-      </div>
-    ),
+    loading: () => <MapLoading />,
   },
 );
+
+function MapLoading() {
+  const locale = useLocale();
+  return (
+    <div className="bg-house-sand size-full animate-pulse motion-reduce:animate-none">
+      <span className="sr-only">
+        {locale === "fr" ? "Chargement de la carte" : "Loading the map"}
+      </span>
+    </div>
+  );
+}
 
 export function HouseMap() {
   return <MapCanvas />;

@@ -7,40 +7,97 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
 
-import { CONTACT_CHANNELS } from "@/components/shared/contact-channels";
+import { contactChannels } from "@/components/shared/contact-channels";
 import { BookButton } from "@/features/booking/components/book-button";
-import { MENU_COLUMNS, NAV_LINKS } from "@/lib/constants/nav";
+import { menuColumns, navLinks } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
+import {
+  LOCALE_NAMES,
+  localizeHref,
+  stripLocale,
+  type Locale,
+} from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 /**
  * Site header.
  *
- * Overlays the hero instead of sitting above it: the bar stays in normal flow
- * (so `sticky` works) but pulls the following section up under itself with a
- * negative bottom margin equal to its own height. That keeps `bg-bay-dusk`
- * running edge to edge behind the bar, and means no page has to reserve top
- * padding for a fixed header.
+ * A solid sand bar with a 1px charcoal rule under it, on every page. The
+ * V1.5 hero puts its footage in a frame beside the title rather than behind
+ * it, so there is no dark first screen for a transparent bar to sit on, and
+ * one state is simpler and steadier than two.
  *
- * Two colour states. Over the dark hero the bar is transparent with
- * shell-coloured type; a few pixels into the scroll it fades to a blurred
- * `background` surface with foreground type, so it stays legible over the pale
- * sections further down. Only the home page has that hero, so every other
- * route starts in the solid state. `Book now` is clay in both states — it is
- * the one element that should never recede.
+ * The bar still pulls the next section up under itself (negative bottom
+ * margin equal to its height), because the product pages' photographs are
+ * built to run from the top of the window and fade into the page.
+ *
+ * The logo is the Terracotta A lockup (BR-006). It is drawn in terracotta
+ * and charcoal and only reads on a light ground, which is why the bar is
+ * never dark.
  */
-export function Navbar() {
-  const [scrolled, setScrolled] = React.useState(false);
-  const [menuOpen, setMenuOpen] = React.useState(false);
-  const pathname = usePathname();
-  const solid = scrolled || pathname !== "/";
+const COPY = {
+  en: {
+    skip: "Skip to content",
+    home: "home",
+    book: "Book now",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    menu: "Menu",
+    main: "Main",
+    newTab: "(opens in a new tab)",
+  },
+  fr: {
+    skip: "Aller au contenu",
+    home: "accueil",
+    book: "Réserver",
+    openMenu: "Ouvrir le menu",
+    closeMenu: "Fermer le menu",
+    menu: "Menu",
+    main: "Principal",
+    newTab: "(s'ouvre dans un nouvel onglet)",
+  },
+} as const;
 
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+/**
+ * The switch between the two versions of the page being read. It names the
+ * other language in that language — "Français" on an English page, "English"
+ * on a French one — because that is the word a reader who needs it can read.
+ * Shortened to the two-letter code in the bar, spelled out for assistive tech.
+ */
+function LanguageSwitch({
+  locale,
+  className,
+  onNavigate,
+}: {
+  locale: Locale;
+  className?: string;
+  onNavigate?: () => void;
+}) {
+  const pathname = usePathname() ?? "/";
+  const other: Locale = locale === "fr" ? "en" : "fr";
+  const href = localizeHref(stripLocale(pathname), other);
+
+  return (
+    <Link
+      href={href}
+      hrefLang={other}
+      lang={other}
+      onClick={onNavigate}
+      className={cn(
+        "inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm px-2 text-sm font-semibold tracking-[0.16em] uppercase underline-offset-4 hover:underline",
+        className,
+      )}
+    >
+      <span aria-hidden>{other}</span>
+      <span className="sr-only">{LOCALE_NAMES[other]}</span>
+    </Link>
+  );
+}
+
+export function Navbar({ locale }: { locale: Locale }) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const t = COPY[locale];
+  const columns = menuColumns(locale);
 
   const focusRing =
     "focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
@@ -48,11 +105,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 -mb-16 h-16 border-b px-6 transition-colors duration-300 sm:-mb-20 sm:h-20 sm:px-10",
-        "motion-reduce:transition-none",
-        solid
-          ? "border-border bg-background/85 backdrop-blur-md"
-          : "border-transparent bg-transparent",
+        "sticky top-0 z-40 -mb-16 h-16 border-b border-house-ink bg-background sm:-mb-20 sm:h-20",
       )}
     >
       {/* First thing in the tab order: 3 links plus a CTA is not much to tab
@@ -65,71 +118,41 @@ export function Navbar() {
           focusRing,
         )}
       >
-        Skip to content
+        {t.skip}
       </a>
 
-      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-between gap-4">
+      <div className="page-wrap flex h-full items-center justify-between gap-4">
         <Link
-          href="/"
-          aria-label={`${SITE.name} — home`}
+          href={localizeHref("/", locale)}
+          aria-label={`${SITE.name} — ${t.home}`}
           className={cn(
             "flex shrink-0 items-center gap-3 rounded-sm",
             focusRing,
           )}
         >
-          {/* Two marks crossfaded rather than one swapped. The white line-art
-              is the only one that reads over the hero footage; the gradient
-              mark only works once the bar has faded up to a pale surface. A
-              hard swap would pop against the bar's own 300ms colour fade.
-
-              The box is fixed and both marks are `object-contain object-left`
-              because the two files are different shapes — 3:2 for the gradient
-              lockup, square for the white one — and letting each size itself
-              would shuffle the wordmark sideways on every scroll.
-
-              Both decorative: the link's aria-label already names the house,
-              and on wider screens the wordmark beside it repeats the name. */}
-          <span className="relative block h-9 w-14 shrink-0 sm:h-11 sm:w-16">
-            <Image
-              src="/assets/logo_white.png"
-              alt=""
-              fill
-              sizes="64px"
-              preload
-              className={cn(
-                "object-contain object-left transition-opacity duration-300",
-                "motion-reduce:transition-none",
-                solid ? "opacity-0" : "opacity-100",
-              )}
-            />
-            <Image
-              src="/assets/logo.png"
-              alt=""
-              fill
-              sizes="64px"
-              loading="eager"
-              className={cn(
-                "object-contain object-left transition-opacity duration-300",
-                "motion-reduce:transition-none",
-                solid ? "opacity-100" : "opacity-0",
-              )}
-            />
-          </span>
+          {/* Decorative: the link's aria-label names the house. The SVG
+              is the vertical lockup, so it is sized by height and the
+              width follows its 748:539 box. */}
+          <Image
+            src="/brand/logo-terracotta-a.svg"
+            alt=""
+            width={748}
+            height={539}
+            preload
+            className="h-11 w-auto sm:h-14"
+          />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center md:flex">
-          {NAV_LINKS.map((item) => (
+        <nav aria-label={t.main} className="hidden items-center md:flex">
+          {navLinks(locale).map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
                 "group relative inline-flex min-h-11 items-center rounded-sm px-4",
-                "font-mono text-sm tracking-[0.18em] uppercase",
-                "transition-colors duration-200 motion-reduce:transition-none",
+                "text-sm font-semibold tracking-[0.16em] uppercase",
+                "text-foreground transition-colors duration-200 motion-reduce:transition-none",
                 focusRing,
-                solid
-                  ? "text-foreground/70 hover:text-foreground"
-                  : "text-house-shell/75 hover:text-house-shell",
               )}
             >
               {item.label}
@@ -150,8 +173,9 @@ export function Navbar() {
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {/* A real button, not a link: it opens the booking dialog in place
               on whatever page the reader is on. */}
+          <LanguageSwitch locale={locale} />
           <BookButton className="h-11 px-4 text-xs sm:px-5">
-            Book now
+            {t.book}
           </BookButton>
 
           <Drawer.Root
@@ -160,14 +184,11 @@ export function Navbar() {
             onOpenChange={setMenuOpen}
           >
             <Drawer.Trigger
-              aria-label="Open menu"
+              aria-label={t.openMenu}
               className={cn(
-                "inline-flex size-11 cursor-pointer items-center justify-center rounded-xl border",
-                "transition-colors duration-200 motion-reduce:transition-none",
+                "inline-flex size-11 cursor-pointer items-center justify-center rounded-xl border border-house-ink",
+                "text-foreground transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
                 focusRing,
-                solid
-                  ? "border-border text-foreground hover:bg-muted"
-                  : "border-house-shell/25 text-house-shell hover:bg-house-shell/10",
               )}
             >
               <Menu aria-hidden className="size-5" />
@@ -195,7 +216,7 @@ export function Navbar() {
               <Drawer.Viewport className="fixed inset-0 z-50 flex items-start justify-stretch">
                 <Drawer.Popup
                   className={cn(
-                    "flex h-[78dvh] max-h-[44rem] min-h-[22rem] w-full flex-col rounded-b-3xl border-b border-border bg-background text-foreground shadow-2xl outline-none sm:h-[50dvh] sm:max-h-none",
+                    "flex h-[78dvh] max-h-[44rem] min-h-[22rem] w-full flex-col border-b border-house-ink bg-background text-foreground outline-none sm:h-[50dvh] sm:max-h-none",
                     "[transform:translateY(var(--drawer-swipe-movement-y))]",
                     "transition-transform duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
                     "data-swiping:duration-0 data-swiping:select-none",
@@ -205,11 +226,11 @@ export function Navbar() {
                 >
                   <div className="px-6 sm:px-10">
                     <div className="mx-auto flex w-full max-w-6xl items-center justify-between py-3">
-                      <Drawer.Title className="font-mono text-xs tracking-[0.18em] text-muted-foreground uppercase">
-                        Menu
+                      <Drawer.Title className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+                        {t.menu}
                       </Drawer.Title>
                       <Drawer.Close
-                        aria-label="Close menu"
+                        aria-label={t.closeMenu}
                         className={cn(
                           "inline-flex size-11 cursor-pointer items-center justify-center rounded-xl",
                           "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
@@ -237,9 +258,9 @@ export function Navbar() {
                           repeating them here keeps the sheet a complete map
                           rather than a partial one. */}
                         <div className="grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-4 md:gap-10">
-                          {MENU_COLUMNS.map((column) => (
+                          {columns.map((column) => (
                             <div key={column.id}>
-                              <p className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase">
+                              <p className="text-muted-foreground text-xs font-semibold tracking-[0.16em] uppercase">
                                 {column.label}
                               </p>
                               <ul className="mt-2 flex flex-col gap-1 md:mt-3 md:gap-0">
@@ -256,7 +277,7 @@ export function Navbar() {
                                       onClick={() => setMenuOpen(false)}
                                       className={cn(
                                         "-mx-3 flex min-h-11 w-full cursor-pointer items-center rounded-xl px-3 py-1.5",
-                                        "font-display text-base leading-snug md:text-lg",
+                                        "font-display text-lg leading-snug md:text-xl",
                                         "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
                                         focusRing,
                                       )}
@@ -278,7 +299,7 @@ export function Navbar() {
                           with a gap under it. */}
                       <div className="border-border flex shrink-0 flex-col gap-4 border-t pt-3 md:flex-row md:items-center md:justify-between md:pt-5">
                         <ul className="flex flex-row flex-wrap gap-x-5">
-                          {CONTACT_CHANNELS.map(
+                          {contactChannels(locale).map(
                             ({ icon: Icon, prefix, label, href, external }) => (
                               <li key={href}>
                                 <a
@@ -290,7 +311,7 @@ export function Navbar() {
                                       }
                                     : {})}
                                   className={cn(
-                                    "text-muted-foreground -mx-2 flex min-h-10 items-center gap-2 rounded-lg px-2 font-mono text-xs tracking-[0.05em] md:min-h-11",
+                                    "text-muted-foreground -mx-2 flex min-h-10 items-center gap-2 rounded-lg px-2 text-sm md:min-h-11",
                                     "transition-colors duration-200 hover:text-foreground motion-reduce:transition-none",
                                     focusRing,
                                   )}
@@ -304,7 +325,7 @@ export function Navbar() {
                                   {external && (
                                     <span className="sr-only">
                                       {" "}
-                                      (opens in a new tab)
+                                      {t.newTab}
                                     </span>
                                   )}
                                 </a>
@@ -312,12 +333,19 @@ export function Navbar() {
                             ),
                           )}
                         </ul>
-                        <BookButton
-                          onClick={() => setMenuOpen(false)}
-                          className="h-12 w-full shrink-0 text-xs md:w-auto md:px-6"
-                        >
-                          Book now
-                        </BookButton>
+                        <div className="flex items-center gap-3">
+                          <LanguageSwitch
+                            locale={locale}
+                            onNavigate={() => setMenuOpen(false)}
+                            className="border-house-ink h-12 border px-4"
+                          />
+                          <BookButton
+                            onClick={() => setMenuOpen(false)}
+                            className="h-12 flex-1 shrink-0 text-xs md:flex-none md:px-6"
+                          >
+                            {t.book}
+                          </BookButton>
+                        </div>
                       </div>
                     </nav>
                   </Drawer.Content>

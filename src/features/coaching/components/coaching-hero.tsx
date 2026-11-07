@@ -4,17 +4,43 @@ import Link from "next/link";
 import { CaptionStrip } from "@/components/shared/caption-strip";
 import { buttonVariants } from "@/components/ui/button";
 import { BookButton } from "@/features/booking/components/book-button";
+import { localizeHref, type Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 /**
  * The three numbers a reader wants before they trust the paragraphs. Any of
  * these that changes on the ground should change here first.
  */
-const FACTS = [
-  { term: "Coach to surfer", detail: "1 : 3 at most" },
-  { term: "Each session", detail: "Two hours" },
-  { term: "On video", detail: "Every session" },
-];
+const COPY = {
+  en: {
+    facts: [
+      { term: "Coach to surfer", detail: "1 : 3 at most" },
+      { term: "Each session", detail: "Two hours" },
+      { term: "On video", detail: "Every session" },
+    ],
+    alt: "A surfer lying on a longboard in the flat water off Imsouane at first light, looking back over her shoulder for the next set, with the village stacked along the cliff behind her.",
+    title: "How we coach",
+    subtitle:
+      "One goal per surfer, a coach who knows your name, and the proof on video.",
+    body: "Most surf camps teach a syllabus. We coach a person: the week is built around the one thing you came to learn, and every session, clip and evening is pointed at it.",
+    book: "Book a coached week",
+    level: "What's my surf level",
+  },
+  fr: {
+    facts: [
+      { term: "Coach par surfeur", detail: "1 pour 3 au plus" },
+      { term: "Chaque séance", detail: "Deux heures" },
+      { term: "En vidéo", detail: "Chaque séance" },
+    ],
+    alt: "Une surfeuse allongée sur un longboard dans l'eau calme d'Imsouane aux premières lueurs, regardant par-dessus son épaule la prochaine série, le village accroché à la falaise derrière elle.",
+    title: "Notre méthode",
+    subtitle:
+      "Un objectif par surfeur, un coach qui connaît ton prénom, et la preuve en vidéo.",
+    body: "La plupart des surf camps enseignent un programme. Nous, on accompagne une personne : la semaine se construit autour de ce que tu es venu apprendre, et chaque séance, chaque vidéo, chaque soirée y est consacrée.",
+    book: "Réserver une semaine encadrée",
+    level: "Quel est mon niveau ?",
+  },
+} as const satisfies Record<Locale, unknown>;
 
 /**
  * The coaching page's hero.
@@ -38,12 +64,14 @@ const FACTS = [
  * the band a reader can actually see; the padding puts it back on the
  * optical centre.
  */
-export function CoachingHero() {
+export function CoachingHero({ locale }: { locale: Locale }) {
+  const t = COPY[locale];
+
   return (
     <section className="bg-house-ink text-house-sand relative flex min-h-[40rem] items-end overflow-hidden sm:min-h-[44rem] lg:min-h-[min(88dvh,48rem)] lg:items-center">
       <Image
         src="/assets/surf_3.jpg"
-        alt="A surfer lying on a longboard in the flat water off Imsouane at first light, looking back over her shoulder for the next set, with the village stacked along the cliff behind her."
+        alt={t.alt}
         fill
         priority
         sizes="100vw"
@@ -55,30 +83,30 @@ export function CoachingHero() {
         <div className="mx-auto w-full max-w-6xl">
           <div className="max-w-xl">
             <h1 className="font-title text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.95] tracking-tight text-balance text-shadow-md animate-in fade-in slide-in-from-bottom-6 fill-mode-both duration-1000 motion-reduce:animate-none">
-              How we coach
+              {t.title}
             </h1>
             <p className="font-display text-house-shell/90 mt-5 text-lg text-pretty text-shadow-sm animate-in fade-in slide-in-from-bottom-4 fill-mode-both delay-150 duration-1000 sm:text-xl motion-reduce:animate-none">
-              One goal per surfer, a coach who knows your name, and the proof on
-              video.
+              {t.subtitle}
             </p>
             <p className="text-house-shell/75 mt-6 text-base leading-relaxed text-pretty text-shadow-sm animate-in fade-in fill-mode-both delay-300 duration-1000 motion-reduce:animate-none">
-              Most surf camps teach a syllabus. We coach a person: the week is
-              built around the one thing you came to learn, and every session,
-              clip and evening is pointed at it.
+              {t.body}
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3 animate-in fade-in fill-mode-both delay-500 duration-1000 motion-reduce:animate-none">
-              <BookButton className="h-12 w-full px-6 text-xs sm:w-auto">
-                Book a coached week
+              <BookButton
+                variant="sand"
+                className="h-12 w-full px-6 text-xs sm:w-auto"
+              >
+                {t.book}
               </BookButton>
               <Link
-                href="/#surf-level"
+                href={localizeHref("/#surf", locale)}
                 className={cn(
                   buttonVariants({ variant: "shellOutline" }),
                   "h-12 w-full px-6 text-xs sm:w-auto",
                 )}
               >
-                What&apos;s my surf level
+                {t.level}
               </Link>
             </div>
           </div>
@@ -96,6 +124,6 @@ export function CoachingHero() {
  * one thing the hero is for — so they moved out, onto the same ink the
  * Imsouane page uses for its caption strip.
  */
-export function CoachingFacts() {
-  return <CaptionStrip facts={FACTS} />;
+export function CoachingFacts({ locale }: { locale: Locale }) {
+  return <CaptionStrip facts={COPY[locale].facts} />;
 }

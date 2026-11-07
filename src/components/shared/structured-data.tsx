@@ -1,5 +1,6 @@
-import { PACKAGES } from "@/features/packages/data/packages";
+import { localizedPackages } from "@/features/packages/data/packages";
 import { SITE } from "@/lib/constants/site";
+import type { Locale } from "@/lib/i18n/locale";
 
 /**
  * What the site tells Google about itself, in schema.org terms.
@@ -19,8 +20,8 @@ import { SITE } from "@/lib/constants/site";
  * the booking engine and change by season; a stale number in structured data is a
  * policy violation, a missing one is merely a missing rich result.
  */
-export function StructuredData() {
-  const image = `${SITE.url}/opengraph-image.jpg`;
+export function StructuredData({ locale }: { locale: Locale }) {
+  const image = `${SITE.url}/og/home.jpg`;
 
   const lodging = {
     "@context": "https://schema.org",
@@ -51,12 +52,12 @@ export function StructuredData() {
       SITE.googleMapsUrl,
       `https://www.instagram.com/${SITE.contact.instagram}`,
     ],
-    makesOffer: PACKAGES.map((entry) => ({
+    makesOffer: localizedPackages(locale).map((entry) => ({
       "@type": "Offer",
       name: `${entry.name} — ${entry.title}`,
       description: entry.summary,
       url: `${SITE.url}${entry.href}`,
-      image: `${SITE.url}${entry.href}/opengraph-image.jpg`,
+      image: `${SITE.url}/og/${entry.slug}.jpg`,
     })),
   };
 
@@ -67,7 +68,7 @@ export function StructuredData() {
     name: SITE.name,
     url: SITE.url,
     publisher: { "@id": `${SITE.url}/#house` },
-    inLanguage: "en",
+    inLanguage: ["en", "fr"],
   };
 
   // `dangerouslySetInnerHTML` is the documented way to emit JSON-LD from

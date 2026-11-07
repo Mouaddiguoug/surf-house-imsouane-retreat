@@ -1,36 +1,43 @@
 import type { MetadataRoute } from "next";
 
 import { PACKAGES } from "@/features/packages/data/packages";
-import { LEGAL_LINKS } from "@/lib/constants/nav";
+import { LEGAL_PATHS } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
+import { localizeHref } from "@/lib/i18n/locale";
 
 /**
- * Every indexable page, once. Hash sections (`/#book`, `/#contact`) are not
- * pages and do not belong here. `lastModified` is the build, which is honest:
- * these are static routes and they change when the site is deployed.
+ * Every indexable page, in both languages, each entry naming its other
+ * language as an alternate so search engines pair them. Hash sections
+ * (`/#contact`) are not pages and do not belong here. `lastModified` is the
+ * build, which is honest: these are static routes and they change when the
+ * site is deployed.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const built = new Date();
-  const page = (
-    path: string,
-    priority: number,
-    changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"],
-  ) => ({
-    url: `${SITE.url}${path}`,
-    lastModified: built,
-    changeFrequency,
-    priority,
-  });
 
-  return [
-    page("/", 1, "weekly"),
-    ...PACKAGES.map((entry) => page(entry.href, 0.9, "monthly")),
-    // The two packages the house has written in French.
-    page("/fr/packages/the-foundation", 0.8, "monthly"),
-    page("/fr/packages/the-original-stay", 0.8, "monthly"),
-    page("/house", 0.8, "monthly"),
-    page("/coaching", 0.8, "monthly"),
-    page("/imsouane", 0.7, "yearly"),
-    ...LEGAL_LINKS.map((link) => page(link.href, 0.3, "yearly")),
+  const pages: [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]][] = [
+    ["/", 1, "weekly"],
+    ...PACKAGES.map(
+      (entry) => [entry.href, 0.9, "monthly"] as [string, number, "monthly"],
+    ),
+    ["/upgrade", 0.6, "monthly"],
+    ["/house", 0.8, "monthly"],
+    ["/coaching", 0.8, "monthly"],
+    ["/imsouane", 0.7, "yearly"],
+    ...LEGAL_PATHS.map((path) => [path, 0.3, "yearly"] as [string, number, "yearly"]),
   ];
+
+  return pages.flatMap(([path, priority, changeFrequency]) => {
+    const languages = {
+      en: `${SITE.url}${path}`,
+      fr: `${SITE.url}${localizeHref(path, "fr")}`,
+    };
+    return (["en", "fr"] as const).map((locale) => ({
+      url: languages[locale],
+      lastModified: built,
+      changeFrequency,
+      priority,
+      alternates: { languages },
+    }));
+  });
 }

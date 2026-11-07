@@ -144,13 +144,13 @@ const COPY = {
     },
   },
   fr: {
-    lede: "Il y a ceux qui viennent pour les vagues. Ceux qui viennent pour ralentir un peu. Et ceux qui reviennent simplement parce qu'ici, ils se sentent chez eux. Vous choisissez votre hébergement, nous nous occupons des petits-déjeuners et des dîners, et vous profitez d'Imsouane à votre manière.",
+    lede: "Il y a ceux qui viennent pour les vagues. Ceux qui viennent pour ralentir un peu. Et ceux qui reviennent simplement parce qu'ici, ils se sentent chez eux. Tu choisis ton hébergement, on s'occupe des petits-déjeuners et des dîners, et tu profites d'Imsouane à ta manière.",
     room: {
-      eyebrow: "Inclus · Votre chambre",
+      eyebrow: "Inclus · Ta chambre",
       title: "Your place. Our house.",
       body: [
-        "Vous voyagez seul, à deux ou entre amis ? Choisissez votre lit en dortoir ou votre chambre parmi les hébergements disponibles.",
-        "Votre séjour comprend l'hébergement, un petit-déjeuner et un dîner par personne pour chaque nuit réservée, ainsi que notre Sunset Tea quotidien. Le dîner commence dès votre arrivée et le petit-déjeuner est servi jusqu'au matin du départ.",
+        "Tu voyages seul, à deux ou entre amis ? Choisis ton lit en dortoir ou ta chambre parmi les hébergements disponibles.",
+        "Ton séjour comprend l'hébergement, un petit-déjeuner et un dîner par personne pour chaque nuit réservée, ainsi que notre Sunset Tea quotidien. Le dîner commence dès ton arrivée et le petit-déjeuner est servi jusqu'au matin du départ.",
       ],
       alt: "Une chambre privée de la maison : un grand lit fait, une fresque peinte sur un mur et la lumière qui filtre par les rideaux de la fenêtre côté mer.",
     },
@@ -171,7 +171,7 @@ const COPY = {
       ],
       groups: [
         {
-          title: "Votre séjour comprend",
+          title: "Ton séjour comprend",
           items: [
             {
               term: "Hébergement",
@@ -217,8 +217,8 @@ const COPY = {
       eyebrow: "En option · L'océan",
       title: "Surf if you feel like it.",
       body: [
-        "À Imsouane, l'océan fait partie de nos journées. Mais personne n'est obligé de surfer pour se sentir à sa place ici. Si vous êtes autonome, vous pouvez louer une planche ou une combinaison. Si vous souhaitez apprendre ou progresser, Imsouane Surf Academy propose des cours collectifs et du coaching privé.",
-        "Le yoga et le surfskate peuvent également compléter votre séjour. Ces prestations sont facultatives, payantes et proposées selon les disponibilités. Your stay. Your choices. Your flow.",
+        "À Imsouane, l'océan fait partie de nos journées. Mais personne n'est obligé de surfer pour se sentir à sa place ici. Si tu es autonome, tu peux louer une planche ou une combinaison. Si tu souhaites apprendre ou progresser, Imsouane Surf Academy propose des cours collectifs et du coaching privé.",
+        "Le yoga et le surfskate peuvent également compléter ton séjour. Ces prestations sont facultatives, payantes et proposées selon les disponibilités. Your stay. Your choices. Your flow.",
       ],
       alt: "Un surfeur sur une droite qui déroule au crépuscule, pendant qu'un autre attend sur l'épaule.",
     },
@@ -285,8 +285,8 @@ export const ORIGINAL_STAY_CLOSING = {
   fr: {
     heading: "You're part of the family here.",
     body: [
-      "Une question ? Une envie particulière ? Besoin d'un conseil pour votre arrivée, votre chambre ou vos activités ?",
-      "Écrivez-nous par WhatsApp ou par e-mail. Feel free to ask, share or simply say hello.",
+      "Une question ? Une envie particulière ? Besoin d'un conseil pour ton arrivée, ta chambre ou tes activités ?",
+      "Écris-nous par WhatsApp ou par e-mail. Feel free to ask, share or simply say hello.",
     ],
     whatsapp: "Discuter avec nous sur WhatsApp",
   },
@@ -301,7 +301,7 @@ export const ORIGINAL_STAY_CLOSING = {
  * want, then the week's rhythm and the people.
  */
 export function OriginalStayPackage({ locale = "en" }: { locale?: Locale }) {
-  const pkg = packageBySlug("the-original-stay", locale);
+  const pkg = packageBySlug("original-stay", locale);
   const copy = COPY[locale];
 
   return (
@@ -312,11 +312,6 @@ export function OriginalStayPackage({ locale = "en" }: { locale?: Locale }) {
         tone="sand"
         lede={copy.lede}
         locale={locale}
-        alternate={
-          locale === "en"
-            ? { href: "/fr/packages/the-original-stay", hrefLang: "fr" }
-            : { href: "/packages/the-original-stay", hrefLang: "en" }
-        }
       />
 
       <PackageFeature

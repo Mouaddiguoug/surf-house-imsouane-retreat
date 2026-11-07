@@ -113,10 +113,10 @@ const COPY = {
       alt: "Guests at the long table inside the house, mid-meal, a surfboard leaning in the foreground and the house dog underfoot.",
     },
     included: {
-      heading: "What's included in your seven nights",
+      heading: "What the seven nights are planned to include",
       intro: [
         "Arrive on Saturday and leave the following Saturday, or arrive on Sunday and leave the following Sunday. Seven nights either way.",
-        "From €590 in a shared dormitory. Private rooms are priced by category and occupancy; dates, availability and your final price are shown during booking.",
+        "The programme's dates, prices and opening are subject to confirmation, and it is not open for booking yet.",
       ],
       groups: [
         {
@@ -169,14 +169,14 @@ const COPY = {
     },
   },
   fr: {
-    lede: "Vous est-il déjà arrivé de prendre une vague sans vraiment comprendre pourquoi celle-ci a fonctionné et pas les autres ? The Foundation est un programme de sept nuits qui associe un apprentissage structuré du surf, un accompagnement personnalisé, du yoga et du surfskate à la vie chaleureuse de la maison.",
+    lede: "T'est-il déjà arrivé de prendre une vague sans vraiment comprendre pourquoi celle-ci a fonctionné et pas les autres ? The Foundation est un programme de sept nuits qui associe un apprentissage structuré du surf, un accompagnement personnalisé, du yoga et du surfskate à la vie chaleureuse de la maison.",
     groups: {
       eyebrow: "Coaching · Deux groupes",
-      title: "Votre niveau. Votre groupe. Votre progression.",
+      title: "Ton niveau. Ton groupe. Ta progression.",
       body: [
         "Nous n'apprenons pas tous de la même manière. Un débutant n'a pas les mêmes besoins qu'un surfeur qui prend déjà des vagues. C'est pourquoi The Foundation propose deux groupes distincts, chacun avec ses objectifs pédagogiques et son suivi personnalisé.",
-        "Débutants : découvrez comment fonctionnent les vagues, familiarisez-vous avec votre matériel et apprenez les gestes essentiels — la rame, le placement, l'équilibre et le take-off. Vous avancez étape par étape, avec le temps de poser vos questions, sans avoir à suivre le rythme des surfeurs expérimentés.",
-        "Intermédiaires : vous partez un peu trop tard, votre placement n'est pas toujours le bon ou vos virages ne se passent pas comme prévu ? Nous vous aidons à comprendre ce qui se passe dans l'eau, à affiner votre technique et à identifier ce que vous devez travailler.",
+        "Débutants : découvre comment fonctionnent les vagues, familiarise-toi avec ton matériel et apprends les gestes essentiels — la rame, le placement, l'équilibre et le take-off. Tu avances étape par étape, avec le temps de poser tes questions, sans avoir à suivre le rythme des surfeurs expérimentés.",
+        "Intermédiaires : tu pars un peu trop tard, ton placement n'est pas toujours le bon ou tes virages ne se passent pas comme prévu ? On t'aide à comprendre ce qui se passe dans l'eau, à affiner ta technique et à identifier ce que tu dois travailler.",
       ],
       alt: "Un surfeur debout sur une petite vague ridée par le vent à Imsouane, deux autres repartant à la rame derrière lui.",
     },
@@ -184,8 +184,8 @@ const COPY = {
       eyebrow: "Coaching · La méthode",
       title: "Chaque séance a un objectif",
       body: [
-        "Un bon moniteur ne se contente pas de vous montrer quoi faire. Il vous aide à comprendre pourquoi. L'enseignement d'Imsouane Surf Academy repose sur une progression structurée, associant objectifs pédagogiques, pratique, observation et retours personnalisés.",
-        "Nous ne mesurons pas la réussite d'une semaine au nombre de vagues prises. Ce qui nous intéresse, c'est ce que vous avez compris en chemin. Moins de hasard. Plus de compréhension. Des bases plus solides.",
+        "Un bon moniteur ne se contente pas de te montrer quoi faire. Il t'aide à comprendre pourquoi. L'enseignement d'Imsouane Surf Academy repose sur une progression structurée, associant objectifs pédagogiques, pratique, observation et retours personnalisés.",
+        "Nous ne mesurons pas la réussite d'une semaine au nombre de vagues prises. Ce qui nous intéresse, c'est ce que tu as compris en chemin. Moins de hasard. Plus de compréhension. Des bases plus solides.",
         "Apprendre à connaître l'océan, c'est aussi apprendre à le respecter : comprendre les conditions, identifier les dangers, respecter les autres surfeurs et reconnaître ses limites. Le surf comporte des risques qu'aucun cours ne peut faire disparaître, et savoir quand ne pas entrer à l'eau est aussi important que savoir surfer.",
       ],
       alt: "Un surfeur sur une droite qui déroule au crépuscule, pendant qu'un autre attend sur l'épaule.",
@@ -196,7 +196,7 @@ const COPY = {
       body: [
         "L'apprentissage ne s'arrête pas lorsqu'on sort de l'eau. Cinq séances accompagnées par nos moniteurs, soit dix heures de coaching prévues : le temps de pratiquer, de poser des questions, de recevoir des conseils et de faire le lien d'une séance à l'autre.",
         "Quatre séances de yoga pour la mobilité, la respiration, la conscience du corps et la récupération. Une séance de surfskate pour explorer l'équilibre, la coordination et les mouvements du surf sur la terre ferme.",
-        "Et entre toutes ces activités ? Se reposer. Se promener. Lire un livre. Regarder les vagues, ou tout simplement ne rien faire. Après tout, vous êtes aussi en vacances.",
+        "Et entre toutes ces activités ? Se reposer. Se promener. Lire un livre. Regarder les vagues, ou tout simplement ne rien faire. Après tout, tu es aussi en vacances.",
       ],
       alt: "Un cours de yoga sur le toit-terrasse : cinq personnes assises sur leurs tapis face à la mer, le soleil bas sur la baie.",
     },
@@ -204,7 +204,7 @@ const COPY = {
       eyebrow: "Chaque jour · Sunset Tea",
       title: "Le Sunset Tea, notre petit rendez-vous quotidien",
       body: [
-        "Lorsque le soleil commence à descendre et que chacun revient de sa journée, on se retrouve autour d'un thé. Chaque jour, nous vous offrons le Sunset Tea, accompagné d'un petit gâteau.",
+        "Lorsque le soleil commence à descendre et que chacun revient de sa journée, on se retrouve autour d'un thé. Chaque jour, on t'offre le Sunset Tea, accompagné d'un petit gâteau.",
         "Certains racontent leur session de surf. D'autres écoutent, discutent ou profitent tranquillement de la fin de journée. Pas de cérémonie ni de programme compliqué : juste un thé, quelque chose de bon à partager et un peu de temps ensemble. C'est souvent là que les rencontres commencent.",
       ],
       alt: "Le toit-terrasse au crépuscule : banquettes basses et tapis autour d'une table, les toits du village et la baie au-delà.",
@@ -252,7 +252,7 @@ const COPY = {
       title: "Imsouane, au-delà des vagues",
       body: [
         "Imsouane, ce n'est pas seulement son spot de surf. C'est un village côtier, avec son rythme, ses habitants, sa cuisine et sa relation quotidienne avec l'océan.",
-        "Promenez-vous dans le village, découvrez le port, goûtez aux saveurs locales ou installez-vous pour regarder la vie passer. Pas besoin de transformer chaque instant en activité organisée. Parfois, les meilleurs souvenirs arrivent naturellement.",
+        "Promène-toi dans le village, découvre le port, goûte aux saveurs locales ou installe-toi pour regarder la vie passer. Pas besoin de transformer chaque instant en activité organisée. Parfois, les meilleurs souvenirs arrivent naturellement.",
       ],
       alts: [
         "Les marches de pierre qui descendent la falaise vers la plage d'Imsouane, la baie en contrebas et le village sur le promontoire.",
@@ -261,18 +261,18 @@ const COPY = {
     },
     home: {
       eyebrow: "La maison · Depuis 2012",
-      title: "Votre maison au bord de l'océan",
+      title: "Ta maison au bord de l'océan",
       body: [
         "Nous accueillons des voyageurs et des surfeurs depuis 2012, et ce que nous aimons le plus reste simple. Le petit-déjeuner avant le surf. Les histoires au retour de l'eau. Le thé au coucher du soleil. Les dîners autour de la table.",
-        "Certains arrivent seuls, d'autres entre amis. Certains aiment les grandes discussions, d'autres préfèrent regarder l'océan en silence. Il y a de la place pour toutes les personnalités et tous les rythmes. Vous arrivez comme un invité. Vous vous sentez comme chez vous.",
+        "Certains arrivent seuls, d'autres entre amis. Certains aiment les grandes discussions, d'autres préfèrent regarder l'océan en silence. Il y a de la place pour toutes les personnalités et tous les rythmes. Tu arrives comme un invité. Tu te sens comme chez toi.",
       ],
       alt: "Des invités à la grande table de la maison, en plein repas, une planche de surf au premier plan et le chien de la maison sous la table.",
     },
     included: {
-      heading: "Ce qui est inclus dans vos 7 nuits",
+      heading: "Ce que les 7 nuits doivent comprendre",
       intro: [
         "Arrivée le samedi, départ le samedi suivant. Ou arrivée le dimanche, départ le dimanche suivant. Sept nuits dans les deux cas.",
-        "À partir de 590 € en dortoir partagé. Les chambres privées sont proposées selon la catégorie et l'occupation ; dates, disponibilités et prix définitifs s'affichent pendant la réservation.",
+        "Les dates, les prix et l'ouverture du programme restent à confirmer ; il n'est pas encore ouvert à la réservation.",
       ],
       groups: [
         {
@@ -303,19 +303,19 @@ const COPY = {
           title: "Vie à la maison",
           items: [
             "Repas partagés et rendez-vous conviviaux",
-            "Programme hebdomadaire de la maison pendant votre séjour",
-            "Temps libre pour profiter d'Imsouane à votre rythme",
+            "Programme hebdomadaire de la maison pendant ton séjour",
+            "Temps libre pour profiter d'Imsouane à ton rythme",
           ],
         },
       ],
       notes: [
         {
-          title: "Personnalisez votre séjour",
+          title: "Personnalise ton séjour",
           body: "Cours particuliers de surf, yoga ou surfskate supplémentaires et transferts aéroport peuvent être organisés en supplément, selon les disponibilités. Les déjeuners ne sont pas compris dans la demi-pension.",
         },
         {
-          title: "Vous venez avec quelqu'un qui ne surfe pas ?",
-          body: "Il est le bienvenu, dans l'une de nos catégories d'hébergement privé éligibles. Ces séjours s'organisent personnellement et ne sont pas réservables en ligne : écrivez-nous par WhatsApp ou par e-mail et nous trouverons ensemble la formule adaptée.",
+          title: "Tu viens avec quelqu'un qui ne surfe pas ?",
+          body: "Il est le bienvenu, dans l'une de nos catégories d'hébergement privé éligibles. Ces séjours s'organisent personnellement et ne sont pas réservables en ligne : écris-nous par WhatsApp ou par e-mail et on trouvera ensemble la formule adaptée.",
         },
         {
           title: "Informations pratiques",
@@ -337,10 +337,10 @@ export const FOUNDATION_CLOSING = {
     whatsapp: "Questions? WhatsApp us",
   },
   fr: {
-    heading: "Venez pour les vagues. Repartez avec bien plus.",
+    heading: "Viens pour les vagues. Repars avec bien plus.",
     body: [
-      "Peut-être une vague que vous aurez enfin comprise, un mouvement qui devient évident, ou une conversation autour d'un thé au coucher du soleil.",
-      "Nous ne vous promettons pas de devenir expert en sept nuits. Ce que nous vous proposons, c'est une manière réfléchie d'apprendre, une attention personnelle et une maison où vous vous sentirez bien.",
+      "Peut-être une vague que tu auras enfin comprise, un mouvement qui devient évident, ou une conversation autour d'un thé au coucher du soleil.",
+      "On ne te promet pas de devenir expert en sept nuits. Ce qu'on te propose, c'est une manière réfléchie d'apprendre, une attention personnelle et une maison où tu te sentiras bien.",
     ],
     whatsapp: "Une question ? WhatsApp",
   },
@@ -355,7 +355,7 @@ export const FOUNDATION_CLOSING = {
  * reader knows what the list is a list of.
  */
 export function FoundationPackage({ locale = "en" }: { locale?: Locale }) {
-  const pkg = packageBySlug("the-foundation", locale);
+  const pkg = packageBySlug("foundation", locale);
   const copy = COPY[locale];
 
   return (
@@ -366,11 +366,6 @@ export function FoundationPackage({ locale = "en" }: { locale?: Locale }) {
         tone="cream"
         lede={copy.lede}
         locale={locale}
-        alternate={
-          locale === "en"
-            ? { href: "/fr/packages/the-foundation", hrefLang: "fr" }
-            : { href: "/packages/the-foundation", hrefLang: "en" }
-        }
       />
 
       <PackageFeature

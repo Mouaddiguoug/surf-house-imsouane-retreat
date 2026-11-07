@@ -14,7 +14,9 @@ export const PACKAGE_UI = {
     from: "From",
     week: "week",
     nights: (count: number) => `${count} nights`,
-    otherPackages: "The other packages",
+    otherPackages: "More from the House",
+    programmeNote:
+      "Programme details and opening are subject to confirmation. No price or booking yet: write to the team and we'll tell you where things stand.",
     closingHeading: "Ready when you are",
     closingBody:
       "Live availability, secure payment, and a confirmation in your inbox the moment it goes through.",
@@ -24,7 +26,9 @@ export const PACKAGE_UI = {
     from: "À partir de",
     week: "semaine",
     nights: (count: number) => `${count} nuits`,
-    otherPackages: "Les autres formules",
+    otherPackages: "Aussi à la House",
+    programmeNote:
+      "Les modalités et l'ouverture du programme restent à confirmer. Pas encore de prix ni de réservation : écris à l'équipe, on te dira où on en est.",
     closingHeading: "Quand vous voulez",
     closingBody:
       "Disponibilités en direct, paiement sécurisé et confirmation dans votre boîte mail dès la réservation.",
@@ -35,6 +39,7 @@ export const PACKAGE_UI = {
 /** What the headline price buys: "week", or "3 nights" for a minimum stay. */
 export function perLabel(entry: PackageSummary, locale: Locale = "en") {
   const ui = PACKAGE_UI[locale];
+  if (!entry.rates) return "";
   return entry.rates.unit === "week"
     ? ui.week
     : ui.nights(entry.rates.nights);
@@ -46,6 +51,7 @@ export function perLabel(entry: PackageSummary, locale: Locale = "en") {
  */
 export function priceNote(entry: PackageSummary, locale: Locale = "en") {
   const { rates } = entry;
+  if (!rates) return "";
 
   if (locale === "fr") {
     const stay =

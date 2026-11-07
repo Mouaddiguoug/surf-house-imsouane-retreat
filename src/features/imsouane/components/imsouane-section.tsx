@@ -4,8 +4,9 @@ import Link from "next/link";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { buttonVariants } from "@/components/ui/button";
 import { HouseMap } from "@/features/imsouane/components/house-map";
-import { CONTACT_HREF } from "@/lib/constants/nav";
+import { contactHref } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
+import type { Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 const { latitude, longitude } = SITE.coordinates;
@@ -13,23 +14,58 @@ const { latitude, longitude } = SITE.coordinates;
 /** Google Maps takes a bare "lat,lng" destination and routes from wherever the visitor is. */
 const DIRECTIONS_HREF = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
 
-const WHAT_IS_HERE = [
-  {
-    icon: Waves,
-    title: "The Bay",
-    body: "A long, slow right that peels for several hundred metres on a good day — the reason people arrive carrying a nine-six.",
+const COPY = {
+  en: {
+    title: "Two waves and a fishing port",
+    subtitle:
+      "A village of a thousand people on the coast road, two hours north of Agadir.",
+    body: "Imsouane is a working port with a wave attached: boats out at dawn, the catch sold on the quay by nine, and a headland that turns Atlantic swell into one of the longest rights in Morocco. There is a handful of cafés, one road in, and very little else — which is the point.",
+    places: [
+      {
+        title: "The Bay",
+        body: "A long, slow right that peels for several hundred metres on a good day — the reason people arrive carrying a nine-six.",
+      },
+      {
+        title: "Cathedral Point",
+        body: "The shorter, sharper right at the north end by the port. Where the week goes when the swell is up.",
+      },
+      {
+        title: "Getting here",
+        body: "Roughly two hours from Agadir Al Massira, an hour and a half from Essaouira, three and a half from Marrakech. We arrange transfers.",
+      },
+    ],
+    directions: "Get directions",
+    transfers: "Ask about transfers",
+    newTab: "(opens in a new tab)",
+    place: "Imsouane, Souss-Massa, Morocco",
   },
-  {
-    icon: Anchor,
-    title: "Cathedral Point",
-    body: "The shorter, sharper right at the north end by the port. Where the week goes when the swell is up.",
+  fr: {
+    title: "Deux vagues et un port de pêche",
+    subtitle:
+      "Un village d'un millier d'habitants sur la route côtière, à deux heures au nord d'Agadir.",
+    body: "Imsouane est un port qui travaille, avec une vague en prime : les bateaux sortent à l'aube, la pêche se vend sur le quai avant neuf heures, et un promontoire transforme la houle de l'Atlantique en l'une des plus longues droites du Maroc. Quelques cafés, une seule route, et pas grand-chose d'autre — et c'est tout l'intérêt.",
+    places: [
+      {
+        title: "La Baie",
+        body: "Une droite longue et lente qui déroule sur plusieurs centaines de mètres les bons jours — la raison pour laquelle on arrive avec un longboard sous le bras.",
+      },
+      {
+        title: "Cathedral Point",
+        body: "La droite plus courte et plus creuse au nord, près du port. Là où l'on va quand la houle monte.",
+      },
+      {
+        title: "Venir jusqu'ici",
+        body: "Environ deux heures depuis l'aéroport d'Agadir Al Massira, une heure et demie depuis Essaouira, trois heures et demie depuis Marrakech. On organise les transferts.",
+      },
+    ],
+    directions: "Itinéraire",
+    transfers: "Demander un transfert",
+    newTab: "(s'ouvre dans un nouvel onglet)",
+    place: "Imsouane, Souss-Massa, Maroc",
   },
-  {
-    icon: Plane,
-    title: "Getting here",
-    body: "Roughly two hours from Agadir Al Massira, an hour and a half from Essaouira, three and a half from Marrakech. We arrange transfers.",
-  },
-];
+} as const satisfies Record<Locale, unknown>;
+
+const ICONS = [Waves, Anchor, Plane];
 
 /**
  * Imsouane, and where the house sits in it.
@@ -38,7 +74,9 @@ const WHAT_IS_HERE = [
  * anchor exists to answer — a paragraph of driving times cannot show that the
  * house is a few hundred metres from the point.
  */
-export function ImsouaneSection() {
+export function ImsouaneSection({ locale }: { locale: Locale }) {
+  const t = COPY[locale];
+
   return (
     <section
       id="imsouane"
@@ -48,20 +86,18 @@ export function ImsouaneSection() {
         <div className="grid gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
           <div className="flex flex-col">
             <SectionHeading
-              title="Two waves and a fishing port"
-              subtitle="A village of a thousand people on the coast road, two hours north of Agadir."
+              title={t.title}
+              subtitle={t.subtitle}
             />
 
             <p className="mt-6 text-base leading-relaxed text-pretty">
-              Imsouane is a working port with a wave attached: boats out at
-              dawn, the catch sold on the quay by nine, and a headland that
-              turns Atlantic swell into one of the longest rights in Morocco.
-              There is a handful of cafés, one road in, and very little else —
-              which is the point.
+              {t.body}
             </p>
 
             <dl className="mt-10 space-y-6">
-              {WHAT_IS_HERE.map(({ icon: Icon, title, body }) => (
+              {t.places.map(({ title, body }, index) => {
+                const Icon = ICONS[index];
+                return (
                 <div key={title} className="flex gap-4">
                   <Icon
                     aria-hidden
@@ -74,7 +110,8 @@ export function ImsouaneSection() {
                     </dd>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </dl>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -87,17 +124,17 @@ export function ImsouaneSection() {
                   "h-12 w-full px-6 text-xs sm:w-auto",
                 )}
               >
-                Get directions
-                <span className="sr-only"> (opens in a new tab)</span>
+                {t.directions}
+                <span className="sr-only"> {t.newTab}</span>
               </a>
               <Link
-                href={CONTACT_HREF}
+                href={contactHref(locale)}
                 className={cn(
                   buttonVariants({ variant: "ghost" }),
-                  "h-12 w-full px-4 font-mono text-xs tracking-[0.14em] uppercase sm:w-auto",
+                  "h-12 w-full px-4 text-xs font-semibold tracking-[0.14em] uppercase sm:w-auto",
                 )}
               >
-                Ask about transfers
+                {t.transfers}
               </Link>
             </div>
           </div>
@@ -111,8 +148,7 @@ export function ImsouaneSection() {
         </div>
 
         <p className="text-muted-foreground mt-8 font-mono text-xs tracking-[0.05em]">
-          {latitude.toFixed(5)}, {longitude.toFixed(5)} · Imsouane, Souss-Massa,
-          Morocco
+          {latitude.toFixed(5)}, {longitude.toFixed(5)} · {t.place}
         </p>
       </div>
     </section>

@@ -18,13 +18,16 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
-        // The house's own call to action. Clay reads on the cream surfaces and
-        // on the video alike, so it stays put in every context.
-        clay: "rounded-xl bg-house-clay font-mono tracking-[0.14em] text-house-shell uppercase hover:bg-[color-mix(in_oklch,var(--color-house-clay),black_12%)]",
+        // The house's call to action: charcoal with sand type, per the V1.5
+        // system (white on any of the brand hues fails AA). Named `clay`
+        // from the previous world so every caller keeps working.
+        clay: "rounded-xl bg-house-clay font-semibold tracking-[0.14em] text-house-shell uppercase hover:bg-[color-mix(in_oklch,var(--color-house-clay),var(--color-house-shell)_18%)]",
         // Its quieter partner, for use over dark media only — it borrows its
         // contrast from the scrim underneath.
+        // The call to action on charcoal: sand with charcoal type.
+        sand: "rounded-xl bg-house-shell font-semibold tracking-[0.14em] text-house-ink uppercase hover:bg-house-sand",
         shellOutline:
-          "rounded-xl border-house-shell/50 font-mono tracking-[0.14em] text-house-shell uppercase backdrop-blur-[2px] hover:border-house-shell/80 hover:bg-house-shell/12",
+          "rounded-xl border-house-shell/60 font-semibold tracking-[0.14em] text-house-shell uppercase hover:border-house-shell hover:bg-house-shell/12",
       },
       size: {
         default:

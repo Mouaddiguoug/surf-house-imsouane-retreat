@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,140 +15,103 @@ type PackageCardProps = {
   package: PackageSummary;
   className?: string;
   locale?: Locale;
+  /**
+   * The photograph's shape. `row` is for cards set side by side: one fixed
+   * height from 900px, so cards of different widths still put their rule,
+   * kind and title on one line.
+   */
+  aspect?: "landscape" | "square" | "portrait" | "row";
 };
 
+const KIND = {
+  en: { stay: "Stay", programme: "Programme" },
+  fr: { stay: "Séjour", programme: "Programme" },
+} as const;
+
 /**
- * One package, as a way in to its page: the photograph is the card, and the
- * words sit on a pane of glass laid over its foot.
+ * One product, as a way in to its page.
  *
- * The glass is tinted dark, not white, and that is the whole reason it can
- * be read. Frosted white at 15% — the textbook version — is fine over a
- * vibrant flat colour and fails over a photograph the moment the photograph
- * is bright, and all three of these have sand or foam in the lower third.
- * Ink at 65% under a 24px blur, on top of a gradient that darkens the frame
- * from the middle down, keeps shell-white type above 14:1 against the
- * single lightest pixel any of the three frames puts under it — measured
- * on the rendered panels, not assumed. That is twice the AAA bar with room
- * for a brighter photograph later. The gradient does the
- * other half: without it the glass would be a rectangle of a different
- * darkness sitting on the picture, and with it the picture simply gets
- * quieter towards the words.
+ * Editorial rather than promotional: the photograph on top, square-cornered
+ * and uncovered, then the words on the page's own ground under a 1px
+ * charcoal rule. No glass, no scrim, no shadow — the V1.5 system draws its
+ * depth with rules and colour, and a photograph with nothing laid over it is
+ * the one thing a card can honestly show of a stay.
  *
- * The whole card is the target. A single cover link spans it rather than
- * the markup being wrapped, so the card keeps one tab stop and a readable
- * heading instead of becoming a link with a paragraph inside it — and
- * nothing else in here may become interactive, or it would sit under that
- * cover.
+ * A sold product shows its "from" price beside the kind; a programme shows
+ * no price at all, because none is published. The whole card is one link,
+ * with a single cover element so it keeps one tab stop and a readable
+ * heading.
  */
 export function PackageCard({
   package: entry,
   className,
   locale = "en",
+  aspect = "landscape",
 }: PackageCardProps) {
   const ui = PACKAGE_UI[locale];
 
   return (
     <article
+      data-slot="package-card"
       className={cn(
-        "group shadow-photo relative isolate flex cursor-pointer flex-col justify-end overflow-hidden rounded-3xl",
-        // Portrait, with a ceiling for the card that spans a row on a
-        // tablet: 4:5 of 736px would be a 920px tower.
-        "aspect-4/5 max-h-[30rem] w-full",
-        "has-[a:focus-visible]:ring-3 has-[a:focus-visible]:ring-house-shell/80 has-[a:focus-visible]:ring-offset-2 has-[a:focus-visible]:ring-offset-house-ink",
+        "group relative flex flex-col",
+        "has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-house-ink",
         className,
       )}
     >
-      {/* The frame, and a slow push-in on hover — transform only, inside the
-          card's clip, so nothing around it moves. */}
-      <Image
-        src={entry.image}
-        alt={entry.imageAlt}
-        fill
-        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-        className="-z-10 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none"
-      />
-
-      {/* Darkens from the middle down, so the glass has somewhere quiet to
-          sit and the type has contrast before the tint even counts. */}
       <div
-        aria-hidden
-        className="from-house-deep/85 via-house-deep/30 absolute inset-0 -z-10 bg-gradient-to-t to-transparent via-45%"
-      />
-
-      {/* The price, on its own pane of the same glass as the panel below.
-          It sits on the frame rather than in the panel because it is the one
-          fact a reader compares across three cards at a glance, and up here
-          it lands on the same line as its neighbours instead of at three
-          different depths.
-
-          Not interactive, so it is free to sit under the card's cover link —
-          a click on it still opens the package. "From", because this is the
-          shared-dorm bed at the lowest published rate; a private room costs
-          more, and the package page spells out the rest. */}
-      <p className="border-house-shell/20 bg-house-deep/65 text-house-shell absolute top-3 right-3 flex items-baseline gap-1.5 rounded-full border px-3.5 py-2 backdrop-blur-xl sm:top-4 sm:right-4">
-        <span className="text-house-shell/65 font-mono text-label tracking-[0.18em] uppercase">
-          {ui.from}
-        </span>
-        <span className="font-display text-base leading-none">
-          {euros(entry.rates.from, locale)}
-        </span>
-        <span className="text-house-shell/70 text-xs">
-          / {perLabel(entry, locale)}
-        </span>
-      </p>
-
-      {/* Edge to edge and flush to the foot: the card's own corners round it
-          off, so the glass has no radius of its own and no ring — a single
-          hairline along its top is the edge the eye needs.
-
-          It sits in the flow rather than pinned to the bottom, and that is
-          load-bearing rather than tidy. The title's link covers the card with
-          an absolutely positioned `::after`, and an absolute wrapper here
-          would be that cover's containing block — the cover would stop at the
-          glass and the photograph above it would not be clickable. `justify-end`
-          on the card puts the panel on the floor without positioning it, so
-          the cover resolves against the card and takes the whole of it. The
-          frame and its scrim go to `-z-10` to stay behind this. */}
-      <div>
-        <div
-          className={cn(
-            "bg-house-deep/65 text-house-shell p-5 backdrop-blur-xl sm:p-6",
-            "border-house-shell/20 border-t",
-            "transition-colors duration-300 group-hover:bg-house-deep/75 motion-reduce:transition-none",
-          )}
-        >
-          <h3 className="font-display text-2xl leading-[1.15] text-balance">
-            {entry.title}
-          </h3>
-          <p className="text-house-shell/80 mt-1.5 text-sm">{entry.subtitle}</p>
-
-          <dl className="border-house-shell/20 mt-4 flex flex-col gap-1.5 border-t pt-4 text-sm">
-            {entry.facts.map((fact) => (
-              <div
-                key={fact.term}
-                className="flex items-baseline justify-between gap-4"
-              >
-                <dt className="text-house-shell/65 font-mono text-label tracking-[0.18em] uppercase">
-                  {fact.term}
-                </dt>
-                <dd className="text-right">{fact.detail}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        className={cn(
+          "relative w-full overflow-hidden rounded-sm",
+          aspect === "landscape" && "aspect-4/3",
+          aspect === "square" && "aspect-square",
+          aspect === "portrait" && "aspect-4/5",
+          aspect === "row" &&
+            "aspect-4/3 min-[900px]:aspect-auto min-[900px]:h-[22rem]",
+        )}
+      >
+        <Image
+          src={entry.image}
+          alt={entry.imageAlt}
+          fill
+          sizes="(min-width: 900px) 40vw, 100vw"
+          style={{ objectPosition: entry.imagePosition ?? "50% 50%" }}
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
+        />
       </div>
 
-      {/* The hit area, as a real element rather than a `::after` on the
-          title. It has to live out here, a child of the card itself: the
-          glass panel carries `backdrop-filter`, and that makes it a
-          containing block for every absolutely positioned descendant no
-          matter what `position` they are given — a cover inside it stops at
-          the glass, which left the photograph above unclickable. Absolute
-          beats the panel's in-flow content in paint order, so the card gets
-          one tab stop, one accessible name, and the whole of its own area. */}
+      <div className="border-house-ink mt-5 flex flex-1 flex-col border-t pt-4">
+        <div className="flex h-5 items-baseline justify-between gap-4 text-xs leading-none font-semibold tracking-[0.16em] uppercase">
+          <span>{KIND[locale][entry.kind]}</span>
+          {entry.rates && (
+            <span className="text-house-muted normal-case tracking-normal">
+              <span className="uppercase tracking-[0.16em]">{ui.from}</span>{" "}
+              <span className="text-house-ink font-display text-base leading-none font-normal">
+                {euros(entry.rates.from, locale)}
+              </span>{" "}
+              / {perLabel(entry, locale)}
+            </span>
+          )}
+        </div>
+
+        <h3 className="font-display mt-3 text-2xl leading-[1.15] text-balance sm:text-[1.75rem]">
+          {entry.title}
+        </h3>
+        <p className="text-house-muted mt-3 text-base leading-relaxed text-pretty">
+          {entry.summary}
+        </p>
+
+        <p className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold tracking-[0.14em] uppercase">
+          {entry.cta}
+          <ArrowRight
+            aria-hidden
+            className="size-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none"
+          />
+        </p>
+      </div>
+
       <Link
         href={entry.href}
-        className="absolute inset-0 rounded-3xl focus-visible:outline-none"
+        className="absolute inset-0 focus-visible:outline-none"
       >
         <span className="sr-only">{entry.title}</span>
       </Link>

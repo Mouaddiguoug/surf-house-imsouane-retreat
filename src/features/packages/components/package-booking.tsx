@@ -1,5 +1,7 @@
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
+import { WHATSAPP_HREF } from "@/components/shared/contact-channels";
 import { buttonVariants } from "@/components/ui/button";
 import { BookButton } from "@/features/booking/components/book-button";
 import { PACKAGE_UI } from "@/features/packages/data/package-ui";
@@ -39,8 +41,8 @@ export function PackageBooking({
   const paragraphs = body ?? [ui.closingBody];
 
   return (
-    <section className="bg-house-ink text-house-sand px-6 py-20 sm:px-10 sm:py-24">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+    <section className="bg-house-ink text-house-shell py-20 sm:py-24">
+      <div className="page-wrap flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-xl">
           <h2 className="font-display text-3xl leading-[1.1] text-balance sm:text-4xl">
             {heading ?? ui.closingHeading}
@@ -48,7 +50,7 @@ export function PackageBooking({
           {paragraphs.map((paragraph) => (
             <p
               key={paragraph}
-              className="text-house-sand/75 mt-3 text-base leading-relaxed text-pretty"
+              className="text-house-shell/80 mt-3 text-base leading-relaxed text-pretty"
             >
               {paragraph}
             </p>
@@ -56,12 +58,32 @@ export function PackageBooking({
         </div>
 
         <div className="flex shrink-0 flex-wrap items-center gap-3">
-          <BookButton
-            packageSlug={entry.slug}
-            className="h-12 w-full px-6 text-xs sm:w-auto"
-          >
-            {entry.bookLabel}
-          </BookButton>
+          {/* Sand on the charcoal: the charcoal call to action would vanish
+              here. A programme has nothing to book yet, so its button opens
+              a conversation instead. */}
+          {entry.rates ? (
+            <BookButton
+              variant="sand"
+              packageSlug={entry.slug}
+              className="h-12 w-full px-6 text-xs sm:w-auto"
+            >
+              {entry.bookLabel}
+            </BookButton>
+          ) : (
+            <a
+              href={WHATSAPP_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                buttonVariants({ variant: "sand" }),
+                "h-12 w-full gap-2 px-6 text-xs sm:w-auto",
+              )}
+            >
+              {entry.bookLabel}
+              <ArrowUpRight aria-hidden className="size-4" />
+              <span className="sr-only"> (WhatsApp, opens in a new tab)</span>
+            </a>
+          )}
           <Link
             href={link.href}
             {...("external" in link && link.external

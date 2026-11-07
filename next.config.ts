@@ -2,15 +2,22 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   async redirects() {
+    // V1.5 moved every product to a flat address and renamed two of them:
+    // the Custom Retreat is The Original Stay, the Masterclass is Golden
+    // Lines. Permanent, so search engines carry the old pages' standing
+    // to the new addresses.
     return [
-      // The Custom Retreat became The Original Stay. Permanent, so search
-      // engines move the old page's standing to the new address.
-      {
-        source: "/packages/the-custom-retreat",
-        destination: "/packages/the-original-stay",
-        permanent: true,
-      },
-    ];
+      ["/packages/the-original-stay", "/original-stay"],
+      ["/packages/the-custom-retreat", "/original-stay"],
+      ["/packages/the-foundation", "/foundation"],
+      ["/packages/the-masterclass", "/golden-lines"],
+      ["/fr/packages/the-original-stay", "/fr/original-stay"],
+      ["/fr/packages/the-foundation", "/fr/foundation"],
+    ].map(([source, destination]) => ({
+      source,
+      destination,
+      permanent: true,
+    }));
   },
   images: {
     // AVIF first, WebP for the browsers that lack it. On these photographs

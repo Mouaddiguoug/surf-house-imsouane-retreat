@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, X } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -18,9 +18,10 @@ import {
   bookingDialogOpened,
 } from "@/features/booking/bookingSlice";
 import { takeBookingOpener } from "@/features/booking/components/book-button";
-import { perLabel } from "@/features/packages/data/package-ui";
-import { PACKAGES, formatPrice } from "@/features/packages/data/packages";
-import { CONTACT_HREF } from "@/lib/constants/nav";
+import { euros, perLabel } from "@/features/packages/data/package-ui";
+import { localizedPackages } from "@/features/packages/data/packages";
+import { contactHref } from "@/lib/constants/nav";
+import { localizeHref, type Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
@@ -40,7 +41,35 @@ const focusRing =
  * footer, the house and village pages. A button on a package page already
  * knows the answer and goes straight to the shop.
  */
-export function BookStayDialog() {
+const COPY = {
+  en: {
+    title: "Book a stay",
+    description:
+      "Which stay are you booking? Dates and your room are chosen on our booking site.",
+    close: "Close booking",
+    note: "Prices are per person in euros, from the shared-dorm bed; a private room costs more, and your final price is shown during booking. Full terms are in our",
+    policy: "Cancellation & Refund Policy",
+    from: "From",
+    newTab: "(opens in a new tab)",
+    booked: "Already booked?",
+    bookedNote: "Add activities without booking your room again.",
+  },
+  fr: {
+    title: "Réserver un séjour",
+    description:
+      "Quel séjour réserves-tu ? Les dates et ta chambre se choisissent sur notre site de réservation.",
+    close: "Fermer la réservation",
+    note: "Prix par personne en euros, à partir du lit en dortoir partagé ; une chambre privée coûte plus, et le prix définitif s'affiche pendant la réservation. Toutes les conditions sont dans notre",
+    policy: "politique d'annulation et de remboursement",
+    from: "À partir de",
+    newTab: "(s'ouvre dans un nouvel onglet)",
+    booked: "Déjà réservé ?",
+    bookedNote: "Ajoute des activités sans réserver à nouveau ta chambre.",
+  },
+} as const;
+
+export function BookStayDialog({ locale }: { locale: Locale }) {
+  const t = COPY[locale];
   const open = useAppSelector((state) => state.booking.dialogOpen);
   const dispatch = useAppDispatch();
 
@@ -69,15 +98,14 @@ export function BookStayDialog() {
           <header className="flex shrink-0 items-start justify-between gap-4 border-b border-border py-4 pr-3 pl-5 sm:pl-8">
             <div className="min-w-0">
               <DialogTitle className="font-display text-xl leading-tight sm:text-2xl">
-                Book a stay
+                {t.title}
               </DialogTitle>
               <DialogDescription className="text-muted-foreground mt-1 text-sm">
-                Which stay are you booking? Dates and your room are chosen on
-                our booking site.
+                {t.description}
               </DialogDescription>
             </div>
             <DialogClose
-              aria-label="Close booking"
+              aria-label={t.close}
               className={cn(
                 "inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-xl",
                 "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
@@ -89,17 +117,15 @@ export function BookStayDialog() {
           </header>
 
           <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto overscroll-contain p-5 sm:p-8">
-            <PackageList />
+            <PackageList locale={locale} />
 
             <p className="text-muted-foreground text-xs leading-relaxed">
-              Prices are per person in euros, from the shared-dorm bed; a
-              private room costs more, and your final price is shown during
-              booking. Full terms are in our{" "}
+              {t.note}{" "}
               <Link
-                href="/legal/refunds"
+                href={localizeHref("/legal/refunds", locale)}
                 className="text-house-tide underline underline-offset-4"
               >
-                Cancellation &amp; Refund Policy
+                {t.policy}
               </Link>
               .
             </p>
@@ -118,7 +144,8 @@ export function BookStayDialog() {
  * reader announces it as leaving the page. Where no shop is configured a
  * row points at the contact section instead, so nothing here is ever dead.
  */
-function PackageList() {
+function PackageList({ locale }: { locale: Locale }) {
+  const t = COPY[locale];
   const dispatch = useAppDispatch();
   // The shop opens in a new tab; closing the dialog behind it means the
   // reader comes back to the page they left, not to a half-finished choice.
@@ -126,7 +153,10 @@ function PackageList() {
 
   return (
     <ul className="flex flex-col gap-3">
-      {PACKAGES.map((entry) => {
+      {localizedPackages(locale).map((entry) => {
+        // Only what can be booked: the programmes have no price or shop
+        // page yet, so they are not offered here.
+        if (!entry.rates) return null;
         const href = bookingUrl(entry.slug);
         const row = cn(
           "group border-border flex w-full cursor-pointer items-center justify-between gap-4 rounded-2xl border p-5 text-left",
@@ -149,13 +179,13 @@ function PackageList() {
             <span className="flex shrink-0 items-center gap-4">
               <span className="text-right">
                 <span className="text-muted-foreground block font-mono text-label tracking-[0.18em] uppercase">
-                  From
+                  {t.from}
                 </span>
                 <span className="font-display block text-lg">
-                  €{formatPrice(entry.rates.from)}
+                  {euros(entry.rates.from, locale)}
                 </span>
                 <span className="text-muted-foreground block text-xs">
-                  / {perLabel(entry)}
+                  / {perLabel(entry, locale)}
                 </span>
               </span>
               <ArrowUpRight
@@ -177,16 +207,37 @@ function PackageList() {
                 onClick={close}
               >
                 {content}
-                <span className="sr-only"> (opens in a new tab)</span>
+                <span className="sr-only"> {t.newTab}</span>
               </a>
             ) : (
-              <Link href={CONTACT_HREF} className={row} onClick={close}>
+              <Link href={contactHref(locale)} className={row} onClick={close}>
                 {content}
               </Link>
             )}
           </li>
         );
       })}
+      <li>
+        <Link
+          href={localizeHref("/upgrade", locale)}
+          onClick={close}
+          className={cn(
+            "group border-house-ink/40 flex w-full cursor-pointer items-center justify-between gap-4 rounded-2xl border border-dashed p-5 text-left",
+            "transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
+            focusRing,
+          )}
+        >
+          <span className="min-w-0">
+            <span className="font-display block text-lg leading-snug">
+              {t.booked}
+            </span>
+            <span className="text-muted-foreground mt-1 block text-sm">
+              {t.bookedNote}
+            </span>
+          </span>
+          <ArrowRight aria-hidden className="text-muted-foreground size-5" />
+        </Link>
+      </li>
     </ul>
   );
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CONTACT_CHANNELS } from "@/components/shared/contact-channels";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ContactForm } from "@/features/contact/components/contact-form";
-import { BOOK_HREF } from "@/lib/constants/nav";
+
 
 const linkClass =
   "text-house-tide rounded-sm underline underline-offset-4 transition-colors duration-200 hover:text-house-ink focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
@@ -20,7 +20,7 @@ const BEFORE_YOU_WRITE = [
     body: (
       <>
         Every week books online, with live dates and prices.{" "}
-        <Link href={BOOK_HREF} className={linkClass}>
+        <Link href="/#final" className={linkClass}>
           Book a stay
         </Link>{" "}
         — it is quicker than we are.

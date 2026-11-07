@@ -6,6 +6,7 @@ import { CaptionStrip } from "@/components/shared/caption-strip";
 import { buttonVariants } from "@/components/ui/button";
 import { BookButton } from "@/features/booking/components/book-button";
 import { SITE } from "@/lib/constants/site";
+import type { Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 /**
@@ -15,11 +16,32 @@ import { cn } from "@/lib/utils/cn";
  * title and two buttons and nothing else before the copy climbs into the
  * pale sky where no scrim can hold it.
  */
-const FACTS = [
-  { term: "The waves", detail: "Two rights" },
-  { term: "From Agadir", detail: "Two hours by road" },
-  { term: "The village", detail: "About a thousand people" },
-];
+const COPY = {
+  en: {
+    facts: [
+      { term: "The waves", detail: "Two rights" },
+      { term: "From Agadir", detail: "Two hours by road" },
+      { term: "The village", detail: "About a thousand people" },
+    ],
+    alt: "Dawn at Imsouane: a surfer dropping into a clean, glassy right while another waits on a longboard in the flat water inside, the headland soft in the haze behind.",
+    country: "Morocco",
+    lede: "One road in, two waves, and the house a few hundred metres from the point.",
+    book: "Book a stay",
+    find: "Find the house",
+  },
+  fr: {
+    facts: [
+      { term: "Les vagues", detail: "Deux droites" },
+      { term: "Depuis Agadir", detail: "Deux heures de route" },
+      { term: "Le village", detail: "Environ mille habitants" },
+    ],
+    alt: "L'aube à Imsouane : un surfeur part sur une droite propre et lisse pendant qu'un autre attend sur un longboard dans l'eau calme, le promontoire adouci par la brume.",
+    country: "Maroc",
+    lede: "Une seule route, deux vagues, et la maison à quelques centaines de mètres de la pointe.",
+    book: "Réserver un séjour",
+    find: "Trouver la maison",
+  },
+} as const satisfies Record<Locale, unknown>;
 
 /**
  * The Imsouane page's hero.
@@ -34,13 +56,15 @@ const FACTS = [
  * `priority` on the image: it is the largest thing above the fold on this
  * page and the one asset that should not lazy-load.
  */
-export function ImsouaneHero() {
+export function ImsouaneHero({ locale }: { locale: Locale }) {
+  const t = COPY[locale];
+
   return (
     <>
       <section className="bg-house-deep text-house-shell relative flex h-[min(80dvh,48rem)] min-h-[30rem] flex-col justify-end overflow-hidden">
         <Image
           src="/assets/imsouane_hero.jpg"
-          alt="Dawn at Imsouane: a surfer dropping into a clean, glassy right while another waits on a longboard in the flat water inside, the headland soft in the haze behind."
+          alt={t.alt}
           fill
           priority
           sizes="100vw"
@@ -60,19 +84,18 @@ export function ImsouaneHero() {
             <div className="max-w-2xl">
               <p className="text-house-sky flex items-center gap-2 font-mono text-xs tracking-[0.18em] uppercase text-shadow-sm animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-1000 motion-reduce:animate-none">
                 <MapPin aria-hidden className="size-4" />
-                {SITE.region} · Morocco
+                {SITE.region} · {t.country}
               </p>
               <h1 className="font-title mt-4 text-5xl leading-none tracking-tight text-shadow-md animate-in fade-in slide-in-from-bottom-6 fill-mode-both duration-1000 sm:text-7xl lg:text-8xl motion-reduce:animate-none">
                 Imsouane
               </h1>
               <p className="text-house-shell/85 mt-5 max-w-xl text-base leading-relaxed text-pretty text-shadow-sm animate-in fade-in slide-in-from-bottom-4 fill-mode-both delay-150 duration-1000 sm:text-lg motion-reduce:animate-none">
-                One road in, two waves, and the house a few hundred metres from
-                the point.
+                {t.lede}
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3 animate-in fade-in fill-mode-both delay-300 duration-1000 motion-reduce:animate-none">
                 <BookButton className="h-12 w-full px-6 text-xs sm:w-auto">
-                  Book a stay
+                  {t.book}
                 </BookButton>
                 <Link
                   href="#imsouane"
@@ -81,7 +104,7 @@ export function ImsouaneHero() {
                     "h-12 w-full px-6 text-xs sm:w-auto",
                   )}
                 >
-                  Find the house
+                  {t.find}
                 </Link>
               </div>
             </div>
@@ -89,7 +112,7 @@ export function ImsouaneHero() {
         </div>
       </section>
 
-      <CaptionStrip facts={FACTS} />
+      <CaptionStrip facts={t.facts} />
     </>
   );
 }
