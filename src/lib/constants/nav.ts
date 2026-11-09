@@ -15,7 +15,10 @@ import { localizeHref, type Locale } from "@/lib/i18n/locale";
 type Label = Record<Locale, string>;
 type NavLink = { href: string; label: Label };
 
-/** The three chapters of the home page, shown in the header bar. */
+/**
+ * The three chapters of the home page, shown in the header bar. In the
+ * order of the name, Imsouane · Surf · House, not the order of the page.
+ */
 const CHAPTERS: NavLink[] = [
   { href: "/#imsouane", label: { en: "Imsouane", fr: "Imsouane" } },
   { href: "/#surf", label: { en: "Surf", fr: "Surf" } },

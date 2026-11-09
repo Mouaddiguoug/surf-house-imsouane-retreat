@@ -1,20 +1,26 @@
 import { ArrowRight, ArrowUpRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { contactChannels } from "@/components/shared/contact-channels";
-import { HeroVideo, type HeroVideoSource } from "@/components/shared/hero-video";
+import {
+  HeroVideo,
+  type HeroVideoSource,
+} from "@/components/shared/hero-video";
 import { buttonVariants } from "@/components/ui/button";
-import { ChapterBand } from "@/features/home/components/chapter-band";
-import { EditorialSplit } from "@/features/home/components/editorial-split";
 import {
   BookedQuestion,
   LevelQuestion,
 } from "@/features/home/components/home-questions";
 import { FAQ } from "@/features/home/data/faq";
-import { PackageCard } from "@/features/packages/components/package-card";
-import { PACKAGE_UI, euros, perLabel } from "@/features/packages/data/package-ui";
+import {
+  PACKAGE_UI,
+  euros,
+  perLabel,
+} from "@/features/packages/data/package-ui";
 import { packageBySlug } from "@/features/packages/data/packages";
+import { ReviewTrack } from "@/features/reviews/components/review-track";
 import {
   PLATFORMS,
   REVIEWS_ROW_ONE,
@@ -45,6 +51,8 @@ const COPY = {
     hero: {
       label: "01 · Imsouane, Morocco",
       title: "The Atlantic Home for Wave Seekers",
+      tags: ["A stay by the ocean", "Surf, if you choose"],
+      place: ["Imsouane Bay", "Morocco"],
       lead: "A house in Imsouane. A stay by the ocean, with surf experiences you can choose.",
     },
     place: {
@@ -53,29 +61,79 @@ const COPY = {
       lead: "Discover Imsouane through its coastline, its village and the people who call it home.",
       link: "Discover the place",
       alt: "The point at Imsouane from the cliff path, the village and the harbour wall on the far headland across grey water.",
+      waveAlt:
+        "A surfer riding the long right-hander at Imsouane at dusk while another sits on a board waiting, the water flat and silver in front.",
+      peopleAlt:
+        "A girl in a pink skirt riding a skateboard down a concrete ramp in the village while friends and neighbours stand and watch.",
+      oceanAlt:
+        "The Atlantic from above: green water breaking into white foam as it runs up the dark sand.",
+      words: ["The Place.", "The People.", "The Ocean."],
     },
     surf: {
       band: "A conversation with the ocean.",
-      title: "More than catching waves",
-      lead: "Explore your surf journey with Imsouane Surf Academy. Tell us where you are starting, if you wish.",
-      link: "How we coach",
-      alt: "A surfer standing up on a small, wind-textured wave at Imsouane while two others paddle back out behind.",
+      bandParts: ["A ", "conversation", " with the ocean."],
+      // The home cards' own photographs; each package page keeps its own.
+      photos: {
+        "custom-surf":
+          "Two surfers walking across the wet sand with their boards under their arms, a hazy headland behind them and another surfer at the water's edge.",
+        foundation:
+          "A group of surfers sitting on their boards in the water at sunset, the sky streaked pink and orange above them.",
+        "golden-lines":
+          "A surfer in a black wetsuit riding a small wave at Imsouane, the village houses stacked along the cliff behind.",
+      },
     },
-    experiences: { title: "Choose your experience" },
     house: {
       band: "A house to come back to.",
       lead: "Accommodation and half-board at the House. Academy activities are optional and billed separately.",
       perPerson: "per person",
       button: "Explore your stay",
+      livingAlt:
+        "An apartment living room: a grey corner sofa and wooden coffee table, a dining table and chairs, a woven palm pendant lamp, and the bedroom visible through a wide arch.",
+      location: "Location",
+      locationSr:
+        "Booking.com location score: 9.4 out of 10 (opens in a new tab)",
     },
     life: {
       title: "A little more life together",
       lead: "Shared meals, conversations and time to unwind.",
-      tea: "Every afternoon, a cup of tea and a little homemade-style treat, offered by the house, as the day comes to an end. Share your surf stories, meet someone new, or simply enjoy the moment.",
-      tableAlt:
-        "Guests at the long table inside the house, mid-meal, a surfboard leaning in the foreground and the house dog underfoot.",
-      roofAlt:
-        "The rooftop terrace at dusk: low seating and rugs around a table, the village rooftops and the bay stretching out beyond.",
+      leadMore:
+        "Between sessions the house is where the day slows down: a living room with boards on the walls, a rooftop over the bay, and a long table for the evening.",
+      introAlt:
+        "The house's common room in morning light: red rugs and low sofas, surfboards on the walls and a bright row of windows.",
+      note: "Breakfast and dinner are part of every stay at the House.",
+      noteLink: "Explore your stay",
+      moments: [
+        {
+          title: "Coffee and a surf check",
+          body: "The bay is about thirty metres from the door. Take your coffee down, watch a few sets roll through, and decide whether the morning is for surfing or for taking it slow.",
+          src: "/assets/auction_1.jpg",
+          alt: "The stone steps down the cliff to the beach at Imsouane, the bay curving away below and the village on the headland beyond.",
+        },
+        {
+          title: "Breakfast at the table",
+          body: "Breakfast is included and served at a set time, so the house sits down together. It is the easiest way to meet the people you will share the water with.",
+          src: "/assets/book-a-stay/6.jpg",
+          alt: "The common room with its dining tables set by the windows, rugs on the floor and surfboards propped against the walls.",
+        },
+        {
+          title: "A rooftop over both spots",
+          body: "From the roof you can see both surf spots. There are mats and a few weights up there for a stretch, a session of your own, or a class when one is on.",
+          src: "/assets/yoga_session.jpg",
+          alt: "A small group sitting cross-legged on mats on the rooftop, facing a teacher, the sea bright behind the railing.",
+        },
+        {
+          title: "Sunset Tea",
+          body: "Every afternoon, a cup of tea and a little homemade-style treat, offered by the house, as the day comes to an end. Share your surf stories, meet someone new, or simply enjoy the moment.",
+          src: "/assets/rooftop.JPG",
+          alt: "The rooftop terrace at dusk: low seating and rugs around a table, the village rooftops and the bay stretching out beyond.",
+        },
+        {
+          title: "Dinner, together",
+          body: "Half-board means the evening ends where the morning started: around the long table, with dinner from the house and the day's waves still being talked over.",
+          src: "/assets/surf_fuel.jpg",
+          alt: "Guests at the long table inside the house, mid-meal, a surfboard leaning in the foreground and the house dog underfoot.",
+        },
+      ],
     },
     people: {
       title: "Real people. Clear answers.",
@@ -83,6 +141,13 @@ const COPY = {
       guestsNote:
         "Quoted word for word from the platforms they were left on. Every score links to its source.",
       reviewsSr: "reviews (opens in a new tab)",
+      track: {
+        region: "Guest reviews, scroll sideways for more",
+        previous: "Previous review",
+        next: "Next review",
+        from: "on",
+        newTab: "(opens in a new tab)",
+      },
       questions: "Questions",
       questionsNote: "The ones that usually arrive by email before a booking.",
     },
@@ -101,6 +166,8 @@ const COPY = {
     hero: {
       label: "01 · Imsouane, Maroc",
       title: "Ta maison atlantique au rythme des vagues",
+      tags: ["Un séjour près de l'océan", "Le surf, si tu veux"],
+      place: ["Baie d'Imsouane", "Maroc"],
       lead: "Une maison à Imsouane. Un séjour près de l'océan, avec les expériences surf que tu choisis.",
     },
     place: {
@@ -109,29 +176,78 @@ const COPY = {
       lead: "Découvre Imsouane à travers son littoral, son village et celles et ceux qui y vivent.",
       link: "Découvrir le lieu",
       alt: "La pointe d'Imsouane depuis le chemin de la falaise, le village et la digue du port de l'autre côté d'une eau grise.",
+      waveAlt:
+        "Un surfeur sur la longue droite d'Imsouane au crépuscule, un autre assis sur sa planche qui attend, l'eau plate et argentée au premier plan.",
+      peopleAlt:
+        "Une fille en jupe rose descend une rampe en béton en skateboard dans le village, sous le regard d'amis et de voisins.",
+      oceanAlt:
+        "L'Atlantique vu d'en haut : une eau verte qui se brise en écume blanche en remontant sur le sable sombre.",
+      words: ["Le lieu.", "Les gens.", "L'océan."],
     },
     surf: {
       band: "Une conversation avec l'océan.",
-      title: "Bien plus que prendre des vagues",
-      lead: "Explore ton parcours avec Imsouane Surf Academy. Si tu le souhaites, indique ton point de départ.",
-      link: "Notre méthode",
-      alt: "Un surfeur debout sur une petite vague ridée par le vent à Imsouane, deux autres repartant à la rame derrière lui.",
+      bandParts: ["Une ", "conversation", " avec l'océan."],
+      photos: {
+        "custom-surf":
+          "Deux surfeurs traversent le sable mouillé, planche sous le bras, un promontoire dans la brume derrière eux et un autre surfeur au bord de l'eau.",
+        foundation:
+          "Un groupe de surfeurs assis sur leur planche dans l'eau au coucher du soleil, le ciel strié de rose et d'orange au-dessus d'eux.",
+        "golden-lines":
+          "Un surfeur en combinaison noire sur une petite vague à Imsouane, les maisons du village accrochées à la falaise derrière.",
+      },
     },
-    experiences: { title: "Choisis ton expérience" },
     house: {
       band: "Une maison où revenir.",
       lead: "L'hébergement et la demi-pension à la House. Les activités Academy sont facultatives et facturées séparément.",
       perPerson: "par personne",
       button: "Découvrir ton séjour",
+      livingAlt:
+        "Le salon d'un appartement : un canapé d'angle gris et une table basse en bois, une table à manger et des chaises, une suspension en palmier tressé, et la chambre visible par une large arche.",
+      location: "Emplacement",
+      locationSr:
+        "Note d'emplacement sur Booking.com : 9,4 sur 10 (s'ouvre dans un nouvel onglet)",
     },
     life: {
       title: "Un peu plus de vie ensemble",
       lead: "Des repas partagés, des conversations et le temps de souffler.",
-      tea: "Chaque après-midi, un thé et une petite douceur maison, offerts par la maison, au moment où la journée se termine. Raconte ta session, rencontre quelqu'un de nouveau ou profite simplement du moment.",
-      tableAlt:
-        "Des invités à la grande table de la maison, en plein repas, une planche de surf au premier plan et le chien de la maison sous la table.",
-      roofAlt:
-        "Le toit-terrasse au crépuscule : banquettes basses et tapis autour d'une table, les toits du village et la baie au-delà.",
+      leadMore:
+        "Entre deux sessions, la maison est l'endroit où la journée ralentit : un salon aux planches accrochées aux murs, un toit au-dessus de la baie, et une grande table pour le soir.",
+      introAlt:
+        "La salle commune de la maison dans la lumière du matin : tapis rouges et banquettes basses, planches de surf aux murs et une rangée de fenêtres lumineuses.",
+      note: "Le petit-déjeuner et le dîner font partie de chaque séjour à la House.",
+      noteLink: "Découvrir ton séjour",
+      moments: [
+        {
+          title: "Café et check des vagues",
+          body: "La baie est à une trentaine de mètres de la porte. Descends avec ton café, regarde passer quelques séries, et décide si la matinée sera pour surfer ou pour prendre ton temps.",
+          src: "/assets/auction_1.jpg",
+          alt: "Les marches de pierre qui descendent la falaise vers la plage d'Imsouane, la baie en contrebas et le village sur le promontoire.",
+        },
+        {
+          title: "Le petit-déjeuner à table",
+          body: "Le petit-déjeuner est inclus et servi à heure fixe : toute la maison s'attable en même temps. C'est la façon la plus simple de rencontrer celles et ceux avec qui tu partageras l'eau.",
+          src: "/assets/book-a-stay/6.jpg",
+          alt: "La salle commune avec ses tables près des fenêtres, des tapis au sol et des planches de surf appuyées contre les murs.",
+        },
+        {
+          title: "Un toit face aux deux spots",
+          body: "Depuis le toit, on voit les deux spots. Des tapis et quelques poids t'y attendent pour t'étirer, faire ta propre séance, ou suivre un cours quand il y en a un.",
+          src: "/assets/yoga_session.jpg",
+          alt: "Un petit groupe assis en tailleur sur des tapis sur le toit, face à une enseignante, la mer lumineuse derrière la rambarde.",
+        },
+        {
+          title: "Sunset Tea",
+          body: "Chaque après-midi, un thé et une petite douceur maison, offerts par la maison, au moment où la journée se termine. Raconte ta session, rencontre quelqu'un de nouveau ou profite simplement du moment.",
+          src: "/assets/rooftop.JPG",
+          alt: "Le toit-terrasse au crépuscule : banquettes basses et tapis autour d'une table, les toits du village et la baie au-delà.",
+        },
+        {
+          title: "Le dîner, ensemble",
+          body: "Avec la demi-pension, la soirée finit là où la matinée a commencé : autour de la grande table, avec le dîner de la maison et les vagues du jour qu'on refait encore.",
+          src: "/assets/surf_fuel.jpg",
+          alt: "Des invités à la grande table de la maison, en plein repas, une planche de surf au premier plan et le chien de la maison sous la table.",
+        },
+      ],
     },
     people: {
       title: "Des personnes. Des réponses claires.",
@@ -139,6 +255,13 @@ const COPY = {
       guestsNote:
         "Cités mot pour mot, dans la langue où ils ont été écrits, depuis les plateformes où ils ont été laissés. Chaque note renvoie à sa source.",
       reviewsSr: "avis (s'ouvre dans un nouvel onglet)",
+      track: {
+        region: "Avis de voyageurs, fais défiler sur le côté pour en lire plus",
+        previous: "Avis précédent",
+        next: "Avis suivant",
+        from: "sur",
+        newTab: "(s'ouvre dans un nouvel onglet)",
+      },
       questions: "Questions",
       questionsNote:
         "Celles qui arrivent souvent par e-mail avant une réservation.",
@@ -155,17 +278,6 @@ const COPY = {
   },
 } as const;
 
-/** Heading or band → the content under it. */
-const OPENING_GAP = "mt-10 min-[900px]:mt-16";
-
-const H2 =
-  "font-display text-[clamp(2.125rem,4vw,3.75rem)] leading-[1.05] tracking-[-0.015em] text-balance";
-
-const LEAD = "text-house-muted mt-5 text-lg leading-relaxed text-pretty";
-
-const LABEL =
-  "text-house-muted text-sm font-semibold tracking-[0.16em] tabular-nums";
-
 const textLink =
   "inline-flex min-h-11 items-center gap-2 text-sm font-semibold tracking-[0.14em] uppercase underline-offset-4 hover:underline";
 
@@ -177,27 +289,6 @@ const SEVEN_FIVE =
 const PATH_HREFS = ["/original-stay", "/custom-surf", "/upgrade"] as const;
 
 type ChapterProps = { locale: Locale };
-
-/**
- * A section's number and heading, for the chapters without a colour band.
- * The number sits directly above the heading on the same left edge as
- * everything else; it is information, not decoration — the brief fixes
- * eight numbered sections in a set order.
- */
-function ChapterHeading({
-  number,
-  children,
-}: {
-  number: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="border-house-ink border-t pt-6">
-      <p className={LABEL}>{number}</p>
-      <h2 className={cn(H2, "mt-4 max-w-[18ch]")}>{children}</h2>
-    </div>
-  );
-}
 
 function PathButtons({
   locale,
@@ -250,30 +341,56 @@ export function HomeHero({
   const t = COPY[locale].hero;
 
   return (
-    <section id="hero" className="page-section pt-28 sm:pt-32 min-[900px]:pt-36">
-      {/* 5:7, the hero's own proportion: words first and narrow, the bay
-          wide. Both columns end on one line, so the buttons and the foot of
-          the frame share a baseline. */}
-      <div className="page-wrap grid gap-10 min-[900px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[900px]:items-end min-[900px]:gap-16">
-        <div>
-          <p className={LABEL}>{t.label}</p>
-          <h1 className="font-display mt-5 text-[clamp(2.375rem,5.5vw,5rem)] leading-[1] tracking-[-0.025em] text-balance">
-            {t.title}
-          </h1>
-          <p className={cn(LEAD, "mt-6 max-w-[36ch]")}>{t.lead}</p>
-          <PathButtons locale={locale} className="mt-10" />
+    <section
+      id="hero"
+      className="hero-pinned sticky top-0 isolate flex h-svh min-h-[34rem] flex-col justify-end overflow-hidden bg-house-deep text-house-shell"
+    >
+      {/* The bay, full bleed and behind everything. The navbar floats over
+          it transparent until the page is scrolled. */}
+      <HeroVideo
+        sources={sources}
+        poster={poster}
+        className="hero-footage absolute inset-0 -z-20 size-full object-cover"
+      />
+      {/* Two scrims from Deep Night: a short one under the navbar, and a
+          longer one rising from the foot, so the labels and the wordmark
+          hold contrast when the frame turns to foam. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--color-house-deep)_55%,transparent)_0%,transparent_22%,transparent_45%,color-mix(in_srgb,var(--color-house-deep)_60%,transparent)_100%)]"
+      />
+
+      {/* Deepens as the page rises over the hero (hero-dusk in globals.css),
+          so the sand edge lands on a darkening frame. Clear at rest. */}
+      <div
+        aria-hidden
+        className="hero-dusk absolute inset-0 -z-10 bg-house-deep opacity-0"
+      />
+
+      <div className="hero-copy page-wrap pb-[clamp(0.75rem,2vw,1.75rem)]">
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2 text-[clamp(0.9375rem,1.35vw,1.25rem)] leading-tight font-medium [text-shadow:0_1px_12px_color-mix(in_srgb,var(--color-house-deep)_45%,transparent)]">
+          <p className="flex flex-wrap gap-x-[1.1em]">
+            {t.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
+          </p>
+          <p className="flex flex-wrap gap-x-[1.1em]">
+            {t.place.map((part) => (
+              <span key={part}>{part}</span>
+            ))}
+          </p>
         </div>
 
-        {/* The bay itself, in a frame beside the words rather than behind
-            them: nothing is set on the footage, so it never has to be
-            darkened to carry type. */}
-        <div className="relative aspect-4/3 w-full overflow-hidden rounded-sm min-[900px]:aspect-auto min-[900px]:h-[min(36rem,calc(100dvh-12rem))] min-[900px]:min-h-[32.5rem]">
-          <HeroVideo
-            sources={sources}
-            poster={poster}
-            className="absolute inset-0 size-full object-cover"
-          />
-        </div>
+        {/* The wordmark is sized against its own column (cqi), so it runs
+            edge to edge of the page wrap at every width. */}
+        <h1 className="hero-wordmark mt-[clamp(0.25rem,1vw,0.75rem)] @container">
+          <span aria-hidden className="block overflow-hidden pb-[0.02em]">
+            <span className="hero-wordmark-text block font-display">
+              Surf House
+            </span>
+          </span>
+          <span className="sr-only">Imsouane Surf House — {t.title}</span>
+        </h1>
       </div>
     </section>
   );
@@ -283,110 +400,181 @@ export function HomeHero({
 
 export function PlaceChapter({ locale }: ChapterProps) {
   const t = COPY[locale].place;
+  const windows = [
+    { src: "/assets/auction_2.jpg", alt: t.alt, word: t.words[0] },
+    { src: "/assets/skateboard.JPG", alt: t.peopleAlt, word: t.words[1] },
+    { src: "/assets/package_day_bg.jpg", alt: t.oceanAlt, word: t.words[2] },
+  ];
 
   return (
     <section id="imsouane" className="page-section">
-      <div className="page-wrap">
-        <ChapterBand
-          tone="terracotta"
-          word="IMSOUANE"
-          number="02"
-          heading={t.band}
-          composition="place"
-        />
-
-        <EditorialSplit
-          className={OPENING_GAP}
-          image={{ src: "/assets/auction_2.jpg", alt: t.alt }}
-        >
-          <h2 className={H2}>{t.title}</h2>
-          <p className={LEAD}>{t.lead}</p>
+      {/* Imsouane as a run of windows, after surfmaroc.com's spot pages:
+          full-bleed panels, each a clipped view onto a photograph pinned to
+          the viewport, so the pictures hold still while the panel edges
+          slide past them (place-window in globals.css). The first carries
+          the section's heading; the next three spell out its title, one
+          word to a window. */}
+      <div className="place-window flex items-center justify-center text-center">
+        <div aria-hidden className="place-window-media">
+          <Image
+            src="/assets/imsouane_hero.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-house-deep/45" />
+        </div>
+        <div className="page-wrap relative text-house-shell">
+          <h2 className="font-display mx-auto max-w-[14ch] text-[clamp(3rem,8vw,6rem)] leading-[0.95] tracking-[-0.03em] text-balance">
+            {t.band}
+          </h2>
+          <p className="mx-auto mt-6 max-w-[34ch] text-[clamp(1.125rem,1.8vw,1.5rem)] leading-snug text-pretty">
+            {t.lead}
+          </p>
           <Link
             href={localizeHref("/imsouane", locale)}
-            className={cn(textLink, "mt-6")}
+            className={cn(
+              buttonVariants({ variant: "shellOutline" }),
+              "mt-8 h-12 gap-2 border px-6 text-xs",
+            )}
           >
             {t.link}
             <ArrowRight aria-hidden className="size-4" />
           </Link>
-        </EditorialSplit>
+          <span className="sr-only">{t.waveAlt}</span>
+        </div>
       </div>
+
+      {windows.map((w) => (
+        <div key={w.src} className="place-window flex items-end">
+          <div className="place-window-media">
+            <Image
+              src={w.src}
+              alt={w.alt}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-house-deep)_65%,transparent),transparent_50%)]"
+            />
+          </div>
+          <p className="page-wrap font-display relative pb-[clamp(1.5rem,5vh,3.5rem)] text-[clamp(2.75rem,9vw,7.5rem)] leading-none tracking-[-0.03em] text-house-shell">
+            {w.word}
+          </p>
+        </div>
+      ))}
     </section>
   );
 }
 
 /* 03 ------------------------------------------------------------------ */
 
+/** Photographs for the home surf cards, chosen for the stack's 4:5 frame. */
+const CARD_PHOTOS = {
+  "custom-surf": { src: "/assets/imsouane_2.jpg", position: "30% 50%" },
+  foundation: { src: "/assets/imsouan_1.jpg", position: "60% 50%" },
+  "golden-lines": { src: "/assets/surf_3.jpg", position: "52% 50%" },
+} as const;
+
 export function SurfChapter({ locale }: ChapterProps) {
   const t = COPY[locale].surf;
+  const ui = PACKAGE_UI[locale];
+  const [before, word, after] = t.bandParts;
+
+  const rows: {
+    key: string;
+    title: string;
+    meta: ReactNode;
+    image: { src: string; alt: string; position?: string };
+    body: string;
+    link: { href: string; label: string };
+  }[] = [
+    ...(["custom-surf", "foundation", "golden-lines"] as const).map((slug) => {
+      const entry = packageBySlug(slug, locale);
+      return {
+        key: slug,
+        title: entry.title,
+        meta: entry.rates ? (
+          <>
+            <span className="text-xs font-semibold tracking-[0.16em] uppercase">
+              {ui.from}
+            </span>{" "}
+            <span className="font-display text-2xl">
+              {euros(entry.rates.from, locale)}
+            </span>{" "}
+            <span className="text-house-muted">
+              / {perLabel(entry, locale)}
+            </span>
+          </>
+        ) : null,
+        image: { ...CARD_PHOTOS[slug], alt: t.photos[slug] },
+        body: entry.summary,
+        link: { href: entry.href, label: entry.cta },
+      };
+    }),
+  ];
 
   return (
     <section id="surf" className="page-section">
-      <div className="page-wrap">
-        <ChapterBand
-          tone="ocean"
-          word="SURF"
-          number="03"
-          heading={t.band}
-          composition="surf"
-        />
-
-        {/* The level question belongs to the Academy's story, so it sits in
-            the same column, straight after it — not floated off on its own
-            under the photograph. */}
-        <EditorialSplit
-          reverse
-          aspect="portrait"
-          className={OPENING_GAP}
-          image={{ src: "/assets/video_analysis.JPG", alt: t.alt }}
-        >
-          <h2 className={H2}>{t.title}</h2>
-          <p className={LEAD}>{t.lead}</p>
-          <Link
-            href={localizeHref("/coaching", locale)}
-            className={cn(textLink, "mt-6")}
-          >
-            {t.link}
-            <ArrowRight aria-hidden className="size-4" />
-          </Link>
-
-          <LevelQuestion className="mt-10" />
-        </EditorialSplit>
-      </div>
-    </section>
-  );
-}
-
-/* 04 ------------------------------------------------------------------ */
-
-export function ExperiencesChapter({ locale }: ChapterProps) {
-  return (
-    <section id="experiences" className="page-section">
-      <div className="page-wrap">
-        <ChapterHeading number="04">
-          {COPY[locale].experiences.title}
-        </ChapterHeading>
-
-        {/* Three equal columns. The V1.5 spec proposed a 5:4:3 rhythm; the
-            founder chose equal widths, so the three read as peers and the
-            row is one even measure. The photographs share one height, so
-            the rules, kinds and titles line up across it. */}
-        <div
-          className={cn(
-            OPENING_GAP,
-            "grid gap-14 min-[900px]:grid-cols-3 min-[900px]:gap-8",
-          )}
-        >
-          {(["custom-surf", "foundation", "golden-lines"] as const).map(
-            (slug) => (
-              <PackageCard
-                key={slug}
-                package={packageBySlug(slug, locale)}
-                locale={locale}
-                aspect="row"
-              />
-            ),
-          )}
+      {/* After Eagle's Nest's "all-inclusive" list. From 900px the title
+          pins under the navbar and each row pins under the title, so the
+          next row slides up over the one before it like a card laid on a
+          stack (surf-stack in globals.css). The stack is its own block, so
+          the title and the rows let go together once the last row is in.
+          Below 900px the rows simply follow one another. */}
+      <div className="surf-stack page-wrap">
+        <div className="surf-head bg-background border-house-ink flex items-end justify-center border-b">
+          <h2 className="surf-title font-display text-center tracking-[-0.03em]">
+            {before}
+            <span className="surf-highlight">{word}</span>
+            {after}
+          </h2>
         </div>
+
+        {rows.map((row, index) => (
+          <article
+            key={row.key}
+            className={cn(
+              "surf-row bg-background grid gap-6 py-8 min-[900px]:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] min-[900px]:gap-10 min-[900px]:pt-10 min-[900px]:pb-14",
+              index > 0 && "border-house-ink border-t",
+            )}
+          >
+            <div>
+              <h3 className="font-display text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.05] tracking-[-0.02em] text-balance">
+                {row.title}
+              </h3>
+              {row.meta && <p className="mt-4 text-base">{row.meta}</p>}
+            </div>
+
+            <div className="surf-photo relative aspect-4/5 overflow-hidden rounded-sm">
+              <Image
+                src={row.image.src}
+                alt={row.image.alt}
+                fill
+                sizes="(min-width: 900px) 30vw, 100vw"
+                style={{ objectPosition: row.image.position ?? "50% 50%" }}
+                className="object-cover"
+              />
+            </div>
+
+            <div className="min-[900px]:max-w-[26rem] min-[900px]:justify-self-end">
+              <p className="text-lg leading-relaxed text-pretty">{row.body}</p>
+              <Link href={row.link.href} className={cn(textLink, "mt-6")}>
+                {row.link.label}
+                <ArrowRight aria-hidden className="size-4" />
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* The level question closes the section: once the stack has shown
+          what there is, the reader can say where they are starting. */}
+      <div className="page-wrap border-house-ink border-t pt-10 min-[900px]:grid min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+        <LevelQuestion className="min-[900px]:col-start-2" />
       </div>
     </section>
   );
@@ -397,47 +585,116 @@ export function ExperiencesChapter({ locale }: ChapterProps) {
 export function HouseChapter({ locale }: ChapterProps) {
   const t = COPY[locale].house;
   const stay = packageBySlug("original-stay", locale);
+  const booking = PLATFORMS.find((p) => p.name === "Booking.com");
 
   return (
     <section id="house" className="page-section">
       <div className="page-wrap">
-        <ChapterBand
-          tone="sage"
-          word="HOUSE"
-          number="05"
-          heading={t.band}
-          composition="house"
-        />
+        {/* The first thing after the hero is the House. The title huge and
+            short, the sentence under it large: the two carry the section,
+            so nothing else sits above the photographs. */}
+        <h2 className="font-display text-[clamp(3rem,8vw,6rem)] leading-[0.95] tracking-[-0.03em] text-balance">
+          {t.band}
+        </h2>
+        <p className="mt-4 max-w-[32ch] text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.15] font-medium tracking-[-0.025em] text-pretty min-[900px]:mt-6">
+          {t.lead}
+        </p>
 
-        <EditorialSplit
-          className={OPENING_GAP}
-          image={{ src: stay.image, alt: stay.imageAlt }}
-        >
-          <h2 className={H2}>The Original Stay</h2>
-          <p className={LEAD}>{t.lead}</p>
-          {stay.rates && (
-            <p className="border-house-ink/20 mt-8 border-t pt-5 text-base">
-              <span className="text-xs font-semibold tracking-[0.16em] uppercase">
-                {PACKAGE_UI[locale].from}
-              </span>{" "}
-              <span className="font-display text-3xl">
-                {euros(stay.rates.from, locale)}
-              </span>{" "}
-              <span className="text-house-muted">
-                / {perLabel(stay, locale)}, {t.perPerson}
-              </span>
-            </p>
-          )}
-          <Link
-            href={stay.href}
-            className={cn(
-              buttonVariants({ variant: "clay" }),
-              "mt-6 h-12 px-6 text-xs",
+        {/* Three columns from 900px, 3:6:3 on the page's twelve: a small
+            landscape at the top left, the tall portrait in the middle, and
+            the words at the foot of the right column, level with the
+            portrait's lower edge. Below 900px they stack, portrait first. */}
+        <div className="mt-12 grid gap-8 min-[900px]:mt-16 min-[900px]:grid-cols-12 min-[900px]:gap-6">
+          <div className="parallax-frame relative order-2 aspect-3/2 overflow-hidden rounded-sm max-[899px]:mt-16 min-[900px]:order-none min-[900px]:col-span-3 min-[900px]:self-start">
+            <Image
+              src="/assets/living_room.JPG"
+              alt={t.livingAlt}
+              fill
+              sizes="(min-width: 900px) 25vw, 100vw"
+              className="parallax-img object-cover"
+            />
+          </div>
+
+          <div className="relative order-1 min-[900px]:order-none min-[900px]:col-span-6">
+            <div className="parallax-frame relative aspect-4/5 overflow-hidden rounded-sm">
+              <Image
+                src={stay.image}
+                alt={stay.imageAlt}
+                fill
+                sizes="(min-width: 900px) 50vw, 100vw"
+                className="parallax-img object-cover object-[62%_center]"
+              />
+            </div>
+
+            {/* The guests' own score for where the house stands (30 m from
+                the bay; the theme reviews name most), sitting on
+                the photograph's foot. Linked to the listing it comes from. */}
+            {booking && (
+              <a
+                href={booking.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "bg-house-terracotta text-house-shell absolute bottom-0 left-1/2 flex size-28 -translate-x-1/2 translate-y-1/2 flex-col items-center justify-center rounded-full text-center sm:size-32",
+                  "transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 motion-reduce:transition-none",
+                  "focus-visible:ring-house-ink focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                )}
+              >
+                <span
+                  aria-hidden
+                  className="font-display text-4xl leading-none sm:text-5xl"
+                >
+                  9.4
+                </span>
+                <span
+                  aria-hidden
+                  className="mt-1.5 text-[0.7rem] font-semibold tracking-[0.16em] uppercase"
+                >
+                  {t.location}
+                </span>
+                <span aria-hidden className="text-[0.7rem] opacity-80">
+                  Booking.com
+                </span>
+                <span className="sr-only">{t.locationSr}</span>
+              </a>
             )}
-          >
-            {t.button}
-          </Link>
-        </EditorialSplit>
+          </div>
+
+          {/* The offer starts at the portrait's midpoint and rides down with
+              the scroll, held under the navbar, until it reaches the
+              portrait's foot. The column is as tall as the row and split
+              into two equal rows; the offer sits in the lower one, which is
+              also what stops the sticky. */}
+          <div className="order-3 min-[900px]:order-none min-[900px]:col-span-3 min-[900px]:grid min-[900px]:grid-rows-2">
+            <div className="max-w-[34rem] min-[900px]:sticky min-[900px]:top-28 min-[900px]:row-start-2 min-[900px]:self-start">
+              <h3 className="font-display text-2xl leading-[1.2] sm:text-[1.75rem]">
+                The Original Stay
+              </h3>
+              {stay.rates && (
+                <p className="border-house-ink/20 mt-5 border-t pt-4 text-base">
+                  <span className="text-xs font-semibold tracking-[0.16em] uppercase">
+                    {PACKAGE_UI[locale].from}
+                  </span>{" "}
+                  <span className="font-display text-3xl">
+                    {euros(stay.rates.from, locale)}
+                  </span>{" "}
+                  <span className="text-house-muted">
+                    / {perLabel(stay, locale)}, {t.perPerson}
+                  </span>
+                </p>
+              )}
+              <Link
+                href={stay.href}
+                className={cn(
+                  buttonVariants({ variant: "clay" }),
+                  "mt-6 h-12 px-6 text-xs",
+                )}
+              >
+                {t.button}
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -447,49 +704,124 @@ export function HouseChapter({ locale }: ChapterProps) {
 
 export function HouseLifeChapter({ locale }: ChapterProps) {
   const t = COPY[locale].life;
+  const stay = packageBySlug("original-stay", locale);
 
   return (
     <section id="house-life" className="page-section">
-      <div className="page-wrap">
-        <ChapterHeading number="06">{t.title}</ChapterHeading>
-
-        {/* Two columns, 7:5, top to bottom: the long table with the story
-            of the house's evenings under it, the rooftop with the booked
-            question under it. Each pair shares a column edge, so the words
-            are visibly about the picture above them. */}
-        <div className={cn(OPENING_GAP, SEVEN_FIVE)}>
-          <div>
-            <div className="relative aspect-4/3 overflow-hidden rounded-sm">
+      {/* After Eagle's Nest's Cacao Dance page, as one pinned stage. The
+          house opens full screen under the title; as the title scrolls up
+          and fades, the photograph draws in to a frame in the middle of
+          the screen and stays there, and the moments of the day scroll
+          past it on the left, each wiping its own photograph up into the
+          frame (life-* in globals.css). */}
+      <div className="life-stage text-house-shell">
+        {/* The pinned frame and the note beside it. Desktop only: below
+            900px every moment carries its own photograph instead. */}
+        <div className="life-pin">
+          <div className="life-frame">
+            <div className="life-shot">
               <Image
-                src="/assets/surf_fuel.jpg"
-                alt={t.tableAlt}
+                src="/assets/book-a-stay/7.jpg"
+                alt={t.introAlt}
                 fill
-                sizes="(min-width: 900px) 55vw, 100vw"
+                sizes="100vw"
                 className="object-cover"
               />
             </div>
-            <div className="mt-8 max-w-[34rem]">
-              <p className="text-lg leading-relaxed text-pretty">{t.lead}</p>
-              <h3 className="font-display mt-8 text-2xl">Sunset Tea</h3>
-              <p className="text-house-muted mt-3 text-base leading-relaxed text-pretty">
-                {t.tea}
-              </p>
-            </div>
+            {t.moments.map((moment, index) => (
+              <div
+                key={moment.src}
+                className="life-shot"
+                style={{ zIndex: index + 1 }}
+              >
+                <Image
+                  src={moment.src}
+                  alt={moment.alt}
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
           </div>
 
-          <div className="flex flex-col gap-8">
-            <div className="relative aspect-4/3 overflow-hidden rounded-sm">
-              <Image
-                src="/assets/rooftop.JPG"
-                alt={t.roofAlt}
-                fill
-                sizes="(min-width: 900px) 40vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <BookedQuestion />
+          <div className="life-note">
+            <p className="text-lg leading-snug text-pretty">{t.note}</p>
+            <Link
+              href={stay.href}
+              className={cn(
+                buttonVariants({ variant: "shellOutline" }),
+                "mt-6 h-12 gap-2 border px-6 text-xs",
+              )}
+            >
+              {t.noteLink}
+              <ArrowRight aria-hidden className="size-4" />
+            </Link>
           </div>
         </div>
+
+        <ol className="life-moments">
+          {/* The opening: title and lead over the full-screen house. It
+              scrolls away like any moment and fades as it goes. On a phone
+              it carries its own photograph. */}
+          <li className="life-intro relative isolate">
+            <div className="absolute inset-0 -z-10 min-[900px]:hidden">
+              <Image
+                src="/assets/book-a-stay/7.jpg"
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-house-deep/50" />
+            </div>
+            <div className="life-intro-copy page-wrap grid gap-6 min-[900px]:grid-cols-2 min-[900px]:gap-16">
+              <h2 className="font-display text-[clamp(3rem,7vw,6rem)] leading-[0.95] tracking-[-0.03em] text-balance">
+                {t.title}
+              </h2>
+              <p className="text-[clamp(1.25rem,2.2vw,2rem)] leading-[1.2] font-medium tracking-[-0.02em] text-pretty min-[900px]:pt-3">
+                {t.lead} {t.leadMore}
+              </p>
+            </div>
+          </li>
+          {t.moments.map((moment) => (
+            <li key={moment.src} className="life-moment page-wrap">
+              <div className="relative mb-8 aspect-4/3 overflow-hidden rounded-sm min-[900px]:hidden">
+                <Image
+                  src={moment.src}
+                  alt={moment.alt}
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="life-moment-title font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.03em]">
+                {moment.title}
+              </h3>
+              <p className="mt-6 max-w-[30rem] text-lg leading-relaxed text-pretty min-[900px]:mt-8">
+                {moment.body}
+              </p>
+            </li>
+          ))}
+          <li className="page-wrap pb-16 min-[900px]:hidden">
+            <p className="text-lg leading-snug text-pretty">{t.note}</p>
+            <Link
+              href={stay.href}
+              className={cn(
+                buttonVariants({ variant: "shellOutline" }),
+                "mt-6 h-12 gap-2 border px-6 text-xs",
+              )}
+            >
+              {t.noteLink}
+              <ArrowRight aria-hidden className="size-4" />
+            </Link>
+          </li>
+        </ol>
+      </div>
+
+      {/* The booked question, as before, once the day is over. */}
+      <div className="page-wrap pt-12 min-[900px]:grid min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+        <BookedQuestion className="min-[900px]:col-start-2" />
       </div>
     </section>
   );
@@ -499,106 +831,82 @@ export function HouseLifeChapter({ locale }: ChapterProps) {
 
 export function PeopleChapter({ locale }: ChapterProps) {
   const t = COPY[locale].people;
-  const quotes = [...REVIEWS_ROW_ONE.slice(0, 2), REVIEWS_ROW_TWO[0]];
+  const reviews = [...REVIEWS_ROW_ONE, ...REVIEWS_ROW_TWO];
 
   return (
     <section id="people" className="page-section">
-      <div className="page-wrap">
-        <ChapterHeading number="07">{t.title}</ChapterHeading>
-
-        {/* Two parts, one after the other: what guests said, then what
-            people ask. Each is introduced by a small label on the left
-            column of the 5:7 grid, the content on the right — the same
-            grid as the hero, read the other way. */}
-        <div
-          className={cn(
-            OPENING_GAP,
-            "grid gap-6 min-[900px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[900px]:gap-16",
-          )}
-        >
-          <div>
-            <h3 className="font-display text-2xl">{t.guests}</h3>
-            <p className="text-house-muted mt-3 max-w-[30ch] text-base leading-relaxed text-pretty">
-              {t.guestsNote}
-            </p>
-          </div>
-
-          <div>
-            <ul className="border-house-ink grid border-y sm:grid-cols-3">
-              {PLATFORMS.map((platform) => (
-                <li
-                  key={platform.name}
-                  className="border-house-ink/20 border-b py-5 last:border-b-0 sm:border-r sm:border-b-0 sm:px-5 sm:first:pl-0 sm:last:border-r-0"
-                >
-                  <a
-                    href={platform.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block"
-                  >
-                    <span className="font-display block text-3xl">
-                      {platform.score}
-                    </span>
-                    <span className="text-house-muted mt-1 inline-flex items-center gap-1.5 text-sm group-hover:underline">
-                      {platform.name} · {platform.count}
-                      <ArrowUpRight aria-hidden className="size-3.5" />
-                    </span>
-                    <span className="sr-only"> {t.reviewsSr}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            {/* The quotes stay in the language they were written in — they
-                are verbatim, and a translation would no longer be a quote.
-                `lang` tells a screen reader to switch voice for them. */}
-            <ul className="mt-10 flex flex-col gap-10">
-              {quotes.map((review) => (
-                <li key={review.name + review.quote.slice(0, 12)}>
-                  <figure>
-                    <blockquote
-                      lang="en"
-                      className="font-display text-xl leading-snug text-pretty sm:text-2xl"
-                    >
-                      “{review.quote}”
-                    </blockquote>
-                    <figcaption className="text-house-muted mt-3 text-sm">
-                      {review.name}
-                      {review.origin ? `, ${review.origin}` : ""} ·{" "}
-                      {review.platform} {review.score}/{review.outOf}
-                    </figcaption>
-                  </figure>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="min-[900px]:mt-20">
-            <h3 className="font-display text-2xl">{t.questions}</h3>
-            <p className="text-house-muted mt-3 max-w-[30ch] text-base leading-relaxed text-pretty">
-              {t.questionsNote}
-            </p>
-          </div>
-
-          <div className="border-house-ink border-t min-[900px]:mt-20">
-            {FAQ[locale].map((item) => (
-              <details
-                key={item.question}
-                className="details-reveal group border-house-ink/20 border-b"
+      {/* After Eagle's Nest's "What people say": the title large and to the
+          right, the platforms' own scores opposite it, then every verified
+          quote on one sideways track (ReviewTrack). The questions follow
+          on the page's usual grid. */}
+      <div className="page-wrap grid gap-10 min-[900px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[900px]:items-end min-[900px]:gap-16">
+        <div className="order-2 min-[900px]:order-none">
+          <p className="text-house-muted max-w-[34ch] text-base leading-relaxed text-pretty">
+            {t.guestsNote}
+          </p>
+          <ul className="border-house-ink mt-6 grid grid-cols-3 border-t">
+            {PLATFORMS.map((platform) => (
+              <li
+                key={platform.name}
+                className="border-house-ink/20 border-r py-4 pr-3 not-first:pl-4 last:border-r-0"
               >
-                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 text-lg font-medium [&::-webkit-details-marker]:hidden">
-                  {item.question}
-                  <ChevronDown
-                    aria-hidden
-                    className="size-5 shrink-0 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
-                  />
-                </summary>
-                <p className="text-house-muted max-w-[62ch] pb-6 text-base leading-relaxed text-pretty">
-                  {item.answer}
-                </p>
-              </details>
+                <a
+                  href={platform.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block"
+                >
+                  <span className="font-display block text-2xl sm:text-3xl">
+                    {platform.score}
+                  </span>
+                  <span className="text-house-muted mt-1 flex items-center gap-1 text-xs whitespace-nowrap group-hover:underline sm:text-sm">
+                    {platform.name}
+                    <ArrowUpRight aria-hidden className="size-3.5" />
+                  </span>
+                  <span className="text-house-muted block text-xs tabular-nums sm:text-sm">
+                    {platform.count}
+                  </span>
+                  <span className="sr-only"> {t.reviewsSr}</span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
+        </div>
+        <h2 className="font-display order-1 text-[clamp(3rem,7.5vw,7rem)] leading-[0.92] tracking-[-0.035em] text-balance min-[900px]:order-none min-[900px]:text-right">
+          {t.title}
+        </h2>
+      </div>
+
+      <div className="mt-14 min-[900px]:mt-20">
+        <ReviewTrack reviews={reviews} labels={t.track} />
+      </div>
+
+      <div className="page-wrap mt-20 grid gap-6 min-[900px]:mt-28 min-[900px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[900px]:gap-16">
+        <div>
+          <h3 className="font-display text-2xl">{t.questions}</h3>
+          <p className="text-house-muted mt-3 max-w-[30ch] text-base leading-relaxed text-pretty">
+            {t.questionsNote}
+          </p>
+        </div>
+
+        <div className="border-house-ink border-t">
+          {FAQ[locale].map((item) => (
+            <details
+              key={item.question}
+              className="details-reveal group border-house-ink/20 border-b"
+            >
+              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 text-lg font-medium [&::-webkit-details-marker]:hidden">
+                {item.question}
+                <ChevronDown
+                  aria-hidden
+                  className="size-5 shrink-0 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
+                />
+              </summary>
+              <p className="text-house-muted max-w-[62ch] pb-6 text-base leading-relaxed text-pretty">
+                {item.answer}
+              </p>
+            </details>
+          ))}
         </div>
       </div>
     </section>
@@ -651,9 +959,7 @@ export function FinalChapter({ locale }: ChapterProps) {
                     <Icon aria-hidden className="size-4 shrink-0" />
                     <span className="sr-only">{prefix}: </span>
                     {label}
-                    {external && (
-                      <span className="sr-only"> {t.newTab}</span>
-                    )}
+                    {external && <span className="sr-only"> {t.newTab}</span>}
                   </a>
                 </li>
               ),

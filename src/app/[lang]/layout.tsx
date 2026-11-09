@@ -46,14 +46,22 @@ const manrope = Manrope({
  * template puts the name after each inner page's own subject, where Google
  * truncates last.
  */
+/**
+ * The name in the browser tab and in search-result titles: the logo's word
+ * order. Only the titles use it; the business name in structured data, the
+ * footer and emails stays `SITE.name`, which must match the Google Business
+ * Profile letter for letter.
+ */
+const TAB_NAME = "Imsouane Surf House";
+
 const SITE_COPY = {
   en: {
-    title: `${SITE.name} — Stay and Surf in Imsouane, Morocco`,
+    title: `${TAB_NAME} — Stay and Surf in Imsouane, Morocco`,
     description:
       "A house in Imsouane, Morocco, by the Atlantic. Accommodation and half-board, with surf experiences you can choose from Imsouane Surf Academy.",
   },
   fr: {
-    title: `${SITE.name} — Séjour et surf à Imsouane, Maroc`,
+    title: `${TAB_NAME} — Séjour et surf à Imsouane, Maroc`,
     description:
       "Une maison à Imsouane, au Maroc, au bord de l'Atlantique. L'hébergement et la demi-pension, avec les expériences surf que tu choisis auprès d'Imsouane Surf Academy.",
   },
@@ -76,7 +84,7 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(SITE.url),
-    title: { default: copy.title, template: `%s | ${SITE.name}` },
+    title: { default: copy.title, template: `%s | ${TAB_NAME}` },
     description: copy.description,
     alternates: localeAlternates("/", locale),
     openGraph: {

@@ -9,6 +9,7 @@ import * as React from "react";
 
 import { contactChannels } from "@/components/shared/contact-channels";
 import { BookButton } from "@/features/booking/components/book-button";
+import { HERO_END_ID } from "@/lib/constants/hero";
 import { menuColumns, navLinks } from "@/lib/constants/nav";
 import { SITE } from "@/lib/constants/site";
 import {
@@ -94,8 +95,39 @@ function LanguageSwitch({
   );
 }
 
+/**
+ * True while the home hero is still under the bar: the bar then goes
+ * transparent, in shell, over the footage. Anywhere else, and once the
+ * hero has scrolled away, it is the sand bar.
+ */
+function useOverHero() {
+  const pathname = usePathname() ?? "/";
+  const onHome = stripLocale(pathname) === "/";
+  const [over, setOver] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!onHome) return;
+    // The hero is pinned, so watch the top of the sheet rising over it.
+    const sheet = document.getElementById(HERO_END_ID);
+    const sync = () => {
+      const top = sheet?.getBoundingClientRect().top ?? 0;
+      setOver(top > 80);
+    };
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    return () => {
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+    };
+  }, [onHome]);
+
+  return onHome && over;
+}
+
 export function Navbar({ locale }: { locale: Locale }) {
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const overHero = useOverHero();
   const t = COPY[locale];
   const columns = menuColumns(locale);
 
@@ -105,7 +137,11 @@ export function Navbar({ locale }: { locale: Locale }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 -mb-16 h-16 border-b border-house-ink bg-background sm:-mb-20 sm:h-20",
+        "sticky top-0 z-40 -mb-16 h-16 border-b sm:-mb-20 sm:h-20",
+        "transition-[background-color,border-color,color] duration-300 motion-reduce:transition-none",
+        overHero
+          ? "border-transparent bg-transparent text-house-shell"
+          : "border-house-ink bg-background text-foreground",
       )}
     >
       {/* First thing in the tab order: 3 links plus a CTA is not much to tab
@@ -139,7 +175,10 @@ export function Navbar({ locale }: { locale: Locale }) {
             width={748}
             height={539}
             preload
-            className="h-11 w-auto sm:h-14"
+            className={cn(
+              "h-11 w-auto transition-[filter] duration-300 sm:h-14",
+              overHero && "brightness-0 invert",
+            )}
           />
         </Link>
 
@@ -151,7 +190,7 @@ export function Navbar({ locale }: { locale: Locale }) {
               className={cn(
                 "group relative inline-flex min-h-11 items-center rounded-sm px-4",
                 "text-sm font-semibold tracking-[0.16em] uppercase",
-                "text-foreground transition-colors duration-200 motion-reduce:transition-none",
+                "transition-colors duration-200 motion-reduce:transition-none",
                 focusRing,
               )}
             >
@@ -174,7 +213,10 @@ export function Navbar({ locale }: { locale: Locale }) {
           {/* A real button, not a link: it opens the booking dialog in place
               on whatever page the reader is on. */}
           <LanguageSwitch locale={locale} />
-          <BookButton className="h-11 px-4 text-xs sm:px-5">
+          <BookButton
+            variant={overHero ? "shellOutline" : "clay"}
+            className="h-11 rounded-full border px-4 text-xs sm:px-6"
+          >
             {t.book}
           </BookButton>
 
@@ -186,8 +228,11 @@ export function Navbar({ locale }: { locale: Locale }) {
             <Drawer.Trigger
               aria-label={t.openMenu}
               className={cn(
-                "inline-flex size-11 cursor-pointer items-center justify-center rounded-xl border border-house-ink",
-                "text-foreground transition-colors duration-200 hover:bg-muted motion-reduce:transition-none",
+                "inline-flex size-11 cursor-pointer items-center justify-center rounded-full border",
+                "transition-colors duration-200 motion-reduce:transition-none",
+                overHero
+                  ? "border-house-shell/60 hover:bg-house-shell/12"
+                  : "border-house-ink hover:bg-muted",
                 focusRing,
               )}
             >
@@ -323,10 +368,7 @@ export function Navbar({ locale }: { locale: Locale }) {
                                   <span className="sr-only">{prefix}: </span>
                                   {label}
                                   {external && (
-                                    <span className="sr-only">
-                                      {" "}
-                                      {t.newTab}
-                                    </span>
+                                    <span className="sr-only"> {t.newTab}</span>
                                   )}
                                 </a>
                               </li>

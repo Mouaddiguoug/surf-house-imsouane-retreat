@@ -528,3 +528,452 @@ body {
     }
   }
 }
+
+/*
+ * Home hero wordmark: "Surf House", set in Fraunces at its largest optical
+ * size and stretched edge to edge of the page wrap. The size is in cqi of
+ * the h1 (a container), so it tracks the column, not the window. Line
+ * height is cut to the cap height so the word sits on the foot of the frame.
+ *
+ * On load it rises out of its own clip, once. Readers who ask for less
+ * motion get it already in place.
+ */
+.hero-wordmark-text {
+  font-size: 18.45cqi;
+  font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  line-height: 0.78;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-top: 0.06em;
+  margin-left: -0.03em;
+  text-shadow: 0 2px 40px color-mix(in srgb, var(--color-house-deep) 30%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-wordmark-text {
+    animation: hero-wordmark-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+}
+@keyframes hero-wordmark-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+/*
+ * Home hero departure. The hero is pinned (sticky) and the sand sheet after
+ * it slides up over it, as in activy-landing's StaysUnder. Over that first
+ * screen of scroll the footage pushes in, the frame dims toward Deep Night,
+ * and the titles lift, blur and fade out within the first fifth of a
+ * screen, so only the footage is left for the sheet to cover.
+ *
+ * Driven by the root scroll timeline, with no JavaScript. Browsers without
+ * scroll timelines, and readers who ask for less motion, keep the pin alone.
+ */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-footage,
+    .hero-dusk,
+    .hero-copy {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .hero-footage {
+      animation-name: hero-footage-recede;
+    }
+    .hero-dusk {
+      animation-name: hero-dusk-fall;
+    }
+    /* The titles leave first and fast: gone within the first fifth of a
+       screen of scroll, well before the sheet's edge gets to them. */
+    .hero-copy {
+      animation-name: hero-copy-lift;
+      animation-range: 0 22vh;
+    }
+  }
+}
+@keyframes hero-footage-recede {
+  to {
+    transform: scale(1.08);
+  }
+}
+@keyframes hero-dusk-fall {
+  to {
+    opacity: 0.6;
+  }
+}
+@keyframes hero-copy-lift {
+  to {
+    transform: translateY(-8vh);
+    opacity: 0;
+    filter: blur(10px);
+  }
+}
+
+/*
+ * Photograph parallax: the picture is set a little larger than its frame
+ * and slides through it as the frame crosses the viewport, so the frames
+ * scroll at page speed while what is inside them lags. Tied to each frame's
+ * own view timeline; nothing moves without scroll-timeline support or for
+ * readers who ask for less motion.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .parallax-frame {
+      view-timeline: --frame block;
+    }
+    .parallax-frame .parallax-img {
+      animation: photo-drift linear both;
+      animation-timeline: --frame;
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+@keyframes photo-drift {
+  from {
+    transform: translateY(-6%) scale(1.14);
+  }
+  to {
+    transform: translateY(6%) scale(1.14);
+  }
+}
+
+/*
+ * Imsouane windows, after surfmaroc.com's spot pages. Each panel is a
+ * clipped window (clip-path, not overflow, because only clip-path clips a
+ * fixed descendant) onto a photograph fixed to the viewport. The photograph
+ * never moves; the panel's edges slide over it, and the next panel's
+ * photograph is revealed under the edge of the one before. Done with a
+ * fixed layer instead of background-attachment: fixed, which iOS ignores and
+ * which would cost next/image its sizing. Static by nature, so there is
+ * nothing to switch off for reduced motion.
+ */
+.place-window {
+  position: relative;
+  height: 85svh;
+  min-height: 30rem;
+  clip-path: inset(0);
+}
+.place-window-media {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+.place-window > :not(.place-window-media) {
+  z-index: 1;
+}
+
+/*
+ * Home surf stack, after Eagle's Nest's "all-inclusive" list. From 900px
+ * the title pins under the navbar and every row pins under the title at
+ * the same line, so each row slides up over the one before. The title is
+ * held to one line at a size that is a fraction of the viewport, which is
+ * what lets its height (and so the rows' sticky line) be computed in CSS.
+ * The photographs are sized to the space left under that line, so a row
+ * always fits on screen while it is pinned.
+ *
+ * The highlighted word turns from ocean to terracotta as the stack is
+ * read, tied to the stack's own position in the scroll.
+ */
+.surf-stack {
+  --surf-nav: 5rem;
+  --surf-title: clamp(2.25rem, 9vw, 3rem);
+  --surf-head: calc(3.5rem + 1.1 * var(--surf-title));
+}
+.surf-head {
+  min-height: var(--surf-head);
+  padding-bottom: 1.25rem;
+}
+.surf-title {
+  font-size: var(--surf-title);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+/* Mixed in OKLCH through a registered percentage, so the turn from ocean
+   to terracotta runs through warm hues instead of through grey, which is
+   where a plain colour interpolation between the two passes. */
+@property --surf-mix {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+.surf-highlight {
+  color: color-mix(
+    in oklch,
+    var(--color-house-ocean),
+    var(--color-house-terracotta) var(--surf-mix)
+  );
+}
+@media (width >= 900px) {
+  .surf-stack {
+    --surf-title: clamp(2.5rem, 5.2vw, 4.75rem);
+  }
+  .surf-title {
+    white-space: nowrap;
+  }
+  .surf-head {
+    position: sticky;
+    top: var(--surf-nav);
+    z-index: 2;
+    height: var(--surf-head);
+  }
+  .surf-row {
+    position: sticky;
+    top: calc(var(--surf-nav) + var(--surf-head));
+  }
+  .surf-photo {
+    aspect-ratio: auto;
+    height: min(32rem, calc(100svh - var(--surf-nav) - var(--surf-head) - 6rem));
+    width: auto;
+    aspect-ratio: 4 / 5;
+  }
+}
+@supports (animation-timeline: view()) {
+  .surf-stack {
+    view-timeline: --surf-stack block;
+  }
+  .surf-highlight {
+    animation: surf-highlight linear both;
+    animation-timeline: --surf-stack;
+    animation-range: contain 0% contain 100%;
+  }
+}
+@keyframes surf-highlight {
+  to {
+    --surf-mix: 100%;
+  }
+}
+
+/*
+ * "A little more life together", after Eagle's Nest's Cacao Dance page.
+ *
+ * One stage. A full-screen layer is pinned (sticky) for its whole length:
+ * the frame, and a note at its right. The frame is the whole viewport with
+ * a clip-path; while the intro (title and lead) scrolls up and fades, the
+ * clip draws in from the full screen to a centred 9:5 window, so the
+ * opening photograph of the house becomes the first picture in the frame.
+ * Each moment after it owns a view timeline, and its photograph wipes up
+ * into the frame as the moment rises into the middle of the screen
+ * (timeline-scope lets the frame see the list's timelines).
+ *
+ * Below 900px nothing is pinned: the intro carries its own photograph and
+ * every moment its own picture. Without scroll timelines, or with reduced
+ * motion, the frame sits at its final size from the start and photographs
+ * crossfade (reduced motion) or simply stack.
+ */
+.life-stage {
+  position: relative;
+  background-color: color-mix(in oklch, var(--color-house-sage) 30%, var(--color-house-ink));
+  timeline-scope: --life-intro, --life-0, --life-1, --life-2, --life-3, --life-4;
+}
+.life-pin {
+  display: none;
+}
+.life-intro {
+  display: flex;
+  min-height: 100svh;
+  align-items: flex-start;
+  padding-top: 7rem;
+  padding-bottom: 4rem;
+}
+.life-moment {
+  padding-block: 3.5rem;
+}
+@media (width >= 900px) {
+  .life-pin {
+    /* The frame's final size: as wide as fits beside the words and the
+       note, never taller than the screen allows, and always narrow enough
+       to leave the note an 18rem column (3rem gap included) between the
+       frame's right edge and the page column's. */
+    --life-r: max(var(--gutter), calc((100vw - 1280px) / 2));
+    --life-gap: 3rem;
+    --life-w: min(
+      52vw,
+      calc((100svh - 12rem) * 1.8),
+      calc(100vw - 2 * (var(--life-r) + 18rem))
+    );
+    --life-ix: calc((100vw - var(--life-w)) / 2);
+    --life-iy: calc((100svh - var(--life-w) * 5 / 9) / 2);
+    position: sticky;
+    top: 0;
+    display: block;
+    height: 100svh;
+  }
+  .life-frame {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(var(--life-iy) var(--life-ix) round 0.25rem);
+  }
+  .life-shot {
+    position: absolute;
+    inset: 0;
+  }
+  /* The moments' words cross the frame's left edge, so every photograph
+     is dimmed a little toward Deep Night to keep them legible on sky. The
+     opening one is darker at the top, where the title sits. */
+  .life-shot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--color-house-deep) 22%, transparent);
+  }
+  .life-shot:first-child::after {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-house-deep) 70%, transparent),
+      color-mix(in srgb, var(--color-house-deep) 25%, transparent) 55%,
+      color-mix(in srgb, var(--color-house-deep) 40%, transparent)
+    );
+  }
+  /* The note owns the column right of the frame: it starts a clear gap
+     after the frame's edge and ends on the page column, right-aligned. */
+  .life-note {
+    position: absolute;
+    top: 50%;
+    left: calc(100vw - var(--life-ix) + var(--life-gap));
+    right: var(--life-r);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transform: translateY(-50%);
+    text-align: right;
+  }
+  .life-note > p {
+    max-width: 20rem;
+  }
+  .life-moments {
+    position: relative;
+    z-index: 1;
+    margin-top: -100svh;
+  }
+  .life-intro {
+    padding-top: 9rem;
+    view-timeline: --life-intro block;
+  }
+  .life-moment {
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 0;
+  }
+  .life-moment-title {
+    max-width: 14ch;
+  }
+  .life-moment > :is(h3, p) {
+    text-shadow: 0 1px 18px color-mix(in srgb, var(--color-house-deep) 70%, transparent);
+  }
+  .life-moment:nth-child(2) { view-timeline: --life-0 block; }
+  .life-moment:nth-child(3) { view-timeline: --life-1 block; }
+  .life-moment:nth-child(4) { view-timeline: --life-2 block; }
+  .life-moment:nth-child(5) { view-timeline: --life-3 block; }
+  .life-moment:nth-child(6) { view-timeline: --life-4 block; }
+
+  @supports (animation-timeline: view()) {
+    .life-shot:nth-child(n + 2) {
+      animation: life-wipe linear both;
+      animation-range: entry 30% entry 75%;
+    }
+    .life-shot:nth-child(2) { animation-timeline: --life-0; }
+    .life-shot:nth-child(3) { animation-timeline: --life-1; }
+    .life-shot:nth-child(4) { animation-timeline: --life-2; }
+    .life-shot:nth-child(5) { animation-timeline: --life-3; }
+    .life-shot:nth-child(6) { animation-timeline: --life-4; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      /* Full screen while the intro is up; drawn in as it leaves. */
+      .life-frame {
+        animation: life-draw-in linear both;
+        animation-timeline: --life-intro;
+        animation-range: exit 0% exit 100%;
+      }
+      .life-note {
+        animation: life-note-in linear both;
+        animation-timeline: --life-intro;
+        animation-range: exit 50% exit 100%;
+      }
+      .life-intro-copy {
+        animation: life-intro-out linear both;
+        animation-timeline: --life-intro;
+        animation-range: exit 0% exit 60%;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .life-shot:nth-child(n + 2) {
+        animation-name: life-fade;
+      }
+    }
+  }
+}
+@keyframes life-draw-in {
+  from {
+    clip-path: inset(0 0 round 0);
+  }
+}
+@keyframes life-note-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes life-intro-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12vh);
+  }
+}
+@keyframes life-wipe {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes life-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/*
+ * Review track, after Eagle's Nest's "What people say". Full bleed, with
+ * its first quote starting on the page column's left edge and the rest
+ * running off the right; both edges fade into the page so the track reads
+ * as continuing. Each quote is a fixed measure, wide enough for large type
+ * and narrow enough that two and a bit sit on a desktop screen.
+ *
+ * The track is positioned (`relative` on the element) on purpose: the
+ * screen-reader labels inside its links are absolutely positioned, and an
+ * unpositioned scroller does not contain them, so the off-screen quotes'
+ * labels would widen the whole page and let it scroll sideways.
+ */
+.review-track {
+  --review-start: max(var(--gutter), calc((100% - 1280px) / 2));
+  padding-inline: var(--review-start);
+  scroll-padding-inline: var(--review-start);
+  scrollbar-width: none;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--review-start),
+    #000 calc(100% - var(--review-start)),
+    transparent
+  );
+}
+.review-track::-webkit-scrollbar {
+  display: none;
+}
+.review-item {
+  width: min(85vw, 34rem);
+}
+.review-item:first-child {
+  padding-left: 0;
+}
+@media (width >= 900px) {
+  .review-item {
+    width: min(40vw, 38rem);
+  }
+}
