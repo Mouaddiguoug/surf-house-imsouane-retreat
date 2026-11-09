@@ -81,7 +81,11 @@ export function PackageBooking({
             >
               {entry.bookLabel}
               <ArrowUpRight aria-hidden className="size-4" />
-              <span className="sr-only"> (WhatsApp, opens in a new tab)</span>
+              <span className="sr-only">
+                {locale === "fr"
+                  ? " (WhatsApp, s'ouvre dans un nouvel onglet)"
+                  : " (WhatsApp, opens in a new tab)"}
+              </span>
             </a>
           )}
           <Link

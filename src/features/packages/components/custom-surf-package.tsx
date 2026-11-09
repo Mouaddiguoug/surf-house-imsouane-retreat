@@ -32,7 +32,10 @@ const COPY = {
       ],
       stayTitle: "The stay includes",
       stay: [
-        { term: "Accommodation", detail: "your dormitory bed or room, every night" },
+        {
+          term: "Accommodation",
+          detail: "your dormitory bed or room, every night",
+        },
         { term: "Breakfast", detail: "one per person, per night booked" },
         { term: "Dinner", detail: "one per person, per night booked" },
         {
@@ -129,7 +132,10 @@ const COPY = {
         },
         { term: "Petit-déjeuner", detail: "1 par personne et par nuit" },
         { term: "Dîner", detail: "1 par personne et par nuit" },
-        { term: "Sunset Tea", detail: "thé et petit gâteau offerts chaque jour" },
+        {
+          term: "Sunset Tea",
+          detail: "thé et petit gâteau offerts chaque jour",
+        },
       ],
       surfTitle: "Le surf que tu peux ajouter",
       surf: [
@@ -245,6 +251,7 @@ export function CustomSurfPackage({ locale = "en" }: { locale?: Locale }) {
 
       <PackageDay
         id="how-booking-works"
+        locale={locale}
         heading={t.steps.heading}
         intro={t.steps.intro}
         entries={[...t.steps.entries]}

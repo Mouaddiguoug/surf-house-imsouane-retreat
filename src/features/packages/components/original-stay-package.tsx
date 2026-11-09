@@ -359,6 +359,7 @@ export function OriginalStayPackage({ locale = "en" }: { locale?: Locale }) {
 
       <PackageDay
         id="every-day-has-its-own-story"
+        locale={locale}
         heading={copy.week.heading}
         intro={copy.week.intro}
         entries={[...copy.week.entries]}

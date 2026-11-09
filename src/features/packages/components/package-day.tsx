@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import type { Locale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils/cn";
 
 export type DayEntry = {
@@ -23,8 +24,11 @@ const GROUND = {
 };
 const PORTRAIT = {
   src: "/assets/day_schedule.jpg",
-  alt: "A surfer in a black wetsuit riding down the face of a clean blue wave at Imsouane, the lip curling behind them.",
-};
+  alt: {
+    en: "A surfer in a black wetsuit riding down the face of a clean blue wave at Imsouane, the lip curling behind them.",
+    fr: "Un surfeur en combinaison noire descend la face d'une vague bleue et lisse à Imsouane, la lèvre qui déferle derrière lui.",
+  },
+} as const;
 
 type PackageDayProps = {
   id: string;
@@ -35,6 +39,7 @@ type PackageDayProps = {
   arc?: { label: string; entries: ArcEntry[] };
   /** The caveat under the clock — surf here runs on the tide, not the hour. */
   note?: string;
+  locale?: Locale;
 };
 
 /**
@@ -65,6 +70,7 @@ export function PackageDay({
   entries,
   arc,
   note,
+  locale = "en",
 }: PackageDayProps) {
   return (
     <section
@@ -157,7 +163,7 @@ export function PackageDay({
           <div className="day-reveal shadow-photo relative aspect-4/5 w-full overflow-hidden rounded-3xl lg:aspect-2/3">
             <Image
               src={PORTRAIT.src}
-              alt={PORTRAIT.alt}
+              alt={PORTRAIT.alt[locale]}
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="object-cover"

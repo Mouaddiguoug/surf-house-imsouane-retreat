@@ -6,6 +6,26 @@ import { Map, Marker, NavigationControl } from "react-map-gl/maplibre";
 
 import { MAP_STYLE_URL } from "@/lib/constants/env";
 import { SITE } from "@/lib/constants/site";
+import { useLocale } from "@/lib/i18n/use-locale";
+
+/**
+ * MapLibre's own interface strings, in French. Its defaults are English;
+ * these replace the ones this map can show (the gesture hints, the zoom
+ * buttons and the attribution toggle).
+ */
+const MAP_FR = {
+  "CooperativeGesturesHandler.WindowsHelpText":
+    "Utilise Ctrl + molette pour zoomer sur la carte",
+  "CooperativeGesturesHandler.MacHelpText":
+    "Utilise ⌘ + molette pour zoomer sur la carte",
+  "CooperativeGesturesHandler.MobileHelpText":
+    "Utilise deux doigts pour déplacer la carte",
+  "NavigationControl.ZoomIn": "Zoomer",
+  "NavigationControl.ZoomOut": "Dézoomer",
+  "AttributionControl.ToggleAttribution": "Afficher les crédits",
+  "Map.Title": "Carte",
+  "Marker.Title": "Repère sur la carte",
+};
 
 /**
  * The MapLibre canvas.
@@ -21,6 +41,7 @@ import { SITE } from "@/lib/constants/site";
  */
 export default function MapCanvas() {
   const { latitude, longitude } = SITE.coordinates;
+  const locale = useLocale();
 
   return (
     <Map
@@ -30,6 +51,7 @@ export default function MapCanvas() {
       minZoom={5}
       maxZoom={18}
       attributionControl={{ compact: true }}
+      locale={locale === "fr" ? MAP_FR : undefined}
       style={{ width: "100%", height: "100%" }}
     >
       <NavigationControl position="bottom-right" showCompass={false} />

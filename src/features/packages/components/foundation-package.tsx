@@ -410,6 +410,7 @@ export function FoundationPackage({ locale = "en" }: { locale?: Locale }) {
 
       <PackageDay
         id="the-rhythm-of-the-house"
+        locale={locale}
         heading={copy.rhythm.heading}
         intro={copy.rhythm.intro}
         entries={[...copy.rhythm.entries]}
